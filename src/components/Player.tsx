@@ -1,21 +1,27 @@
 import { useFrame } from '@react-three/fiber'
-import { useController } from '@stores'
+import { useController, useGameStore } from '@stores'
 import { useMemo, useRef } from 'react'
 import { Group } from 'three'
 import { Grid } from '../logic/Grid'
+import { levels } from '../logic/levels'
 import { Player as PlayerLogic } from '../logic/Player'
 import { Controller } from './Controller'
 
 export function Player() {
   const radius = 0.5
   const { up, down, left, right } = useController()
+  const playerColor = useGameStore(state => state.playerColor)
+  const onPlayerMove = useGameStore(state => state.onPlayerMove)
 
   const ref = useRef<Group>(null)
 
   const playerLogic = useMemo(() => {
-    const grid = new Grid()
+    const grid = new Grid(levels[0])
     return new PlayerLogic(grid)
   }, [])
+
+  /* Store previous position to detect changes */
+  const prevPos = useRef({ col: playerLogic.col, row: playerLogic.row })
 
   useFrame((_, delta) => {
     if (!ref.current) return
@@ -35,14 +41,20 @@ export function Player() {
     else if (down) playerLogic.move('down')
     else if (left) playerLogic.move('left')
     else if (right) playerLogic.move('right')
+
+    /* Check for position change to trigger interaction */
+    if (prevPos.current.col !== playerLogic.col || prevPos.current.row !== playerLogic.row) {
+      onPlayerMove(playerLogic.col, playerLogic.row)
+      prevPos.current = { col: playerLogic.col, row: playerLogic.row }
+    }
   })
 
   return (
     <Controller>
       <group ref={ref}>
-        <mesh castShadow position-y={radius + 0.1}>
+        <mesh castShadow position-y={radius}>
           <icosahedronGeometry args={[radius, 3]} />
-          <meshMatcapMaterial color="blue" />
+          <meshMatcapMaterial color={playerColor} />
         </mesh>
 
         {Array.from({ length: 8 }, (_, i) => {
@@ -51,10 +63,10 @@ export function Player() {
             <mesh
               key={`tentacle-${i}`}
               castShadow
-              position={[Math.sin(angle) * radius, 0.25, Math.cos(angle) * radius]}
+              position={[Math.sin(angle) * radius, 0.225, Math.cos(angle) * radius]}
             >
               <icosahedronGeometry args={[radius * 0.45, 3]} />
-              <meshMatcapMaterial color="blue" />
+              <meshMatcapMaterial color={playerColor} />
             </mesh>
           )
         })}

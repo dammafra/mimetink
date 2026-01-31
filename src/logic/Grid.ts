@@ -1,13 +1,23 @@
 import { Vector3 } from 'three'
 
-export const GRID_CONFIG = [
-  [1, 1, 1, 1, 1, 1, 1, 1, 1],
-  [1, 1, 1, 1, 1, 1, 1, 1, 1],
-  [1, 1, 1, 1, 1, 0, 1, 1, 1],
-  [1, 1, 1, 1, 1, 1, 1, 1, 1],
-  [1, 1, 1, 1, 1, 1, 1, 1, 1],
-  [1, 1, 1, 1, 1, 1, 1, 1, 1],
-]
+export const BlockType = {
+  Empty: 0,
+  Sand: 1,
+  Start: 2,
+  End: 3,
+  VitalCoral: 4,
+  DeadCoral: 5,
+} as const
+
+export type BlockType = (typeof BlockType)[keyof typeof BlockType]
+
+export const BLOCK_CONFIG = {
+  [BlockType.Sand]: { color: '#E6D0B3' },
+  [BlockType.Start]: { color: '#E6D0B3' },
+  [BlockType.End]: { color: '#333333' },
+  [BlockType.VitalCoral]: { color: '#FF6F61' },
+  [BlockType.DeadCoral]: { color: '#D3D3D3' },
+} as const
 
 export class Grid {
   rows: number
@@ -15,9 +25,9 @@ export class Grid {
   centerX: number
   centerZ: number
 
-  config: number[][]
+  config: BlockType[][]
 
-  constructor(config: any[][] = GRID_CONFIG) {
+  constructor(config: BlockType[][]) {
     this.config = config
     this.rows = config.length
     this.cols = config[0].length
@@ -26,7 +36,13 @@ export class Grid {
   }
 
   isWalkable(col: number, row: number): boolean {
-    return row >= 0 && row < this.rows && col >= 0 && col < this.cols && this.config[row][col] === 1
+    return (
+      row >= 0 &&
+      row < this.rows &&
+      col >= 0 &&
+      col < this.cols &&
+      this.config[row][col] !== BlockType.Empty
+    )
   }
 
   getWorldPosition(col: number, row: number): Vector3 {
@@ -34,6 +50,13 @@ export class Grid {
   }
 
   getInitialPosition() {
+    for (let row = 0; row < this.rows; row++) {
+      for (let col = 0; col < this.cols; col++) {
+        if (this.config[row][col] === BlockType.Start) {
+          return { col, row }
+        }
+      }
+    }
     return { col: 0, row: 0 }
   }
 }

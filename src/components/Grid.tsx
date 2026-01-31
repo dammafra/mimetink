@@ -1,26 +1,45 @@
-import { Center } from '@react-three/drei'
+import { BlockType } from '../logic/Grid'
+import { useGameStore } from '../stores'
+import { DeadCoralBlock } from './blocks/DeadCoralBlock'
+import { EndBlock } from './blocks/EndBlock'
+import { SandBlock } from './blocks/SandBlock'
+import { StartBlock } from './blocks/StartBlock'
+import { VitalCoralBlock } from './blocks/VitalCoralBlock'
 
-import { GRID_CONFIG } from '@logic'
+import { Dynamic } from './helpers'
 
 export function Grid() {
+  const level = useGameStore(state => state.grid)
+
+  if (!level) return null // Handle potential undefined state
+
+  const rows = level.length
+  const cols = level[0]?.length || 0 // Handle empty grid
+  const centerX = (cols - 1) / 2
+  const centerZ = (rows - 1) / 2
+
+  const componentsMap = {
+    [BlockType.Sand]: SandBlock,
+    [BlockType.Start]: StartBlock,
+    [BlockType.End]: EndBlock,
+    [BlockType.VitalCoral]: VitalCoralBlock,
+    [BlockType.DeadCoral]: DeadCoralBlock,
+  }
+
   return (
-    <Center position-y={-0.4} scale={2}>
-      {GRID_CONFIG.flatMap((cells, row) =>
+    <group position-y={-0.4} scale={2}>
+      {level.flatMap((cells, row) =>
         cells.map(
-          (cell, column) =>
-            cell && (
-              <mesh
-                receiveShadow
+          (blockType, column) =>
+            blockType !== BlockType.Empty && (
+              <Dynamic
+                component={componentsMap[blockType]}
                 key={`cell-${row}-${column}`}
-                position={[column, 0, row]}
-                scale={[0.9, 0.4, 0.9]}
-              >
-                <boxGeometry />
-                <meshMatcapMaterial color={cell === 1 ? 'white' : cell} />
-              </mesh>
+                position={[column - centerX, 0, row - centerZ] as [number, number, number]}
+              />
             ),
         ),
       )}
-    </Center>
+    </group>
   )
 }
