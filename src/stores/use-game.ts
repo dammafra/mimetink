@@ -5,14 +5,20 @@ import { levels } from '../logic/levels'
 interface GameState {
   grid: BlockType[][]
   playerColor: string
+  isLevelCompleted: boolean
 
   setPlayerColor: (color: string) => void
   onPlayerMove: (col: number, row: number) => void
 }
 
+const checkLevelCompletion = (grid: BlockType[][]) => {
+  return !grid.some(row => row.includes(BlockType.DeadCoral))
+}
+
 export const useGameStore = create<GameState>((set, get) => ({
   grid: levels[0], // Initialize with Level 1
   playerColor: 'blue',
+  isLevelCompleted: checkLevelCompletion(levels[0]),
 
   setPlayerColor: color => set({ playerColor: color }),
 
@@ -34,7 +40,10 @@ export const useGameStore = create<GameState>((set, get) => ({
     if (blockType === BlockType.DeadCoral && playerColor === BLOCK_CONFIG[BlockType.VitalCoral].color) {
       const newGrid = grid.map(r => [...r]) // Deep copy rows
       newGrid[row][col] = BlockType.VitalCoral
-      set({ grid: newGrid })
+      set({
+        grid: newGrid,
+        isLevelCompleted: checkLevelCompletion(newGrid),
+      })
     }
   },
 }))

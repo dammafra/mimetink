@@ -12,6 +12,8 @@ export function Player() {
   const { up, down, left, right } = useController()
   const playerColor = useGameStore(state => state.playerColor)
   const onPlayerMove = useGameStore(state => state.onPlayerMove)
+  const isLevelCompleted = useGameStore(state => state.isLevelCompleted)
+  const gridState = useGameStore(state => state.grid)
 
   const ref = useRef<Group>(null)
 
@@ -19,6 +21,11 @@ export function Player() {
     const grid = new Grid(levels[0])
     return new PlayerLogic(grid)
   }, [])
+
+  // Sync logic grid with store grid
+  useMemo(() => {
+    playerLogic.grid.config = gridState
+  }, [gridState, playerLogic])
 
   /* Store previous position to detect changes */
   const prevPos = useRef({ col: playerLogic.col, row: playerLogic.row })
@@ -37,10 +44,10 @@ export function Player() {
 
     position.copy(target)
 
-    if (up) playerLogic.move('up')
-    else if (down) playerLogic.move('down')
-    else if (left) playerLogic.move('left')
-    else if (right) playerLogic.move('right')
+    if (up) playerLogic.move('up', isLevelCompleted)
+    else if (down) playerLogic.move('down', isLevelCompleted)
+    else if (left) playerLogic.move('left', isLevelCompleted)
+    else if (right) playerLogic.move('right', isLevelCompleted)
 
     /* Check for position change to trigger interaction */
     if (prevPos.current.col !== playerLogic.col || prevPos.current.row !== playerLogic.row) {

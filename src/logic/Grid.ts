@@ -35,14 +35,16 @@ export class Grid {
     this.centerZ = (this.rows - 1) / 2
   }
 
-  isWalkable(col: number, row: number): boolean {
-    return (
-      row >= 0 &&
-      row < this.rows &&
-      col >= 0 &&
-      col < this.cols &&
-      this.config[row][col] !== BlockType.Empty
-    )
+  isWalkable(col: number, row: number, isCompleted: boolean = false): boolean {
+    if (row < 0 || row >= this.rows || col < 0 || col >= this.cols) return false
+
+    const blockType = this.config[row][col]
+    if (blockType === BlockType.Empty) return false
+
+    // EndBlock is only walkable if the level is completed
+    if (blockType === BlockType.End && !isCompleted) return false
+
+    return true
   }
 
   getWorldPosition(col: number, row: number): Vector3 {
