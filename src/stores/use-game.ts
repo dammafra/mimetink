@@ -16,9 +16,11 @@ interface GameState {
   playerColor: string
   isLevelCompleted: boolean
   restartKey: number
+  isGridReady: boolean
 
   startGame: () => void
   restartLevel: () => void
+  setGridReady: (ready: boolean) => void
   setPlayerColor: (color: string) => void
   onPlayerMove: (col: number, row: number) => void
 }
@@ -33,8 +35,9 @@ export const useGameStore = create<GameState>((set, get) => ({
   playerColor: 'darkorange',
   isLevelCompleted: checkLevelCompletion(levels[0]),
   restartKey: 0,
+  isGridReady: false,
 
-  startGame: () => set({ status: GameStatus.PLAYING }),
+  startGame: () => set({ status: GameStatus.PLAYING, isGridReady: false }),
 
   restartLevel: () =>
     set({
@@ -42,7 +45,10 @@ export const useGameStore = create<GameState>((set, get) => ({
       isLevelCompleted: checkLevelCompletion(levels[0]),
       restartKey: get().restartKey + 1,
       playerColor: 'darkorange',
+      isGridReady: false,
     }),
+
+  setGridReady: ready => set({ isGridReady: ready }),
 
   setPlayerColor: color => set({ playerColor: color }),
 

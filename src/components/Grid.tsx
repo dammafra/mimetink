@@ -1,3 +1,4 @@
+import { useEffect, useMemo } from 'react'
 import { BlockType } from '../logic/Grid'
 import { useGameStore } from '../stores'
 import { CoralBlock } from './blocks/CoralBlock'
@@ -8,6 +9,8 @@ import { Dynamic } from './helpers'
 
 export function Grid() {
   const level = useGameStore(state => state.grid)
+  const setGridReady = useGameStore(state => state.setGridReady)
+  const restartKey = useGameStore(state => state.restartKey)
 
   if (!level) return null // Handle potential undefined state
 
@@ -25,6 +28,18 @@ export function Grid() {
     [BlockType.ActivatedDeadCoral]: CoralBlock,
   }
 
+  const delays = useMemo(() => {
+    return level.map(row => row.map((_, col) => col * 150))
+  }, [level, restartKey])
+
+  useEffect(() => {
+    const maxDelay = cols * 150
+    const timer = setTimeout(() => {
+      setGridReady(true)
+    }, maxDelay + 600) // Max column delay + spring animation duration
+    return () => clearTimeout(timer)
+  }, [setGridReady, restartKey, cols])
+
   return (
     <group position-y={-0.4} scale={2}>
       {level.flatMap((cells, row) =>
@@ -36,6 +51,7 @@ export function Grid() {
                 blockType={blockType}
                 key={`cell-${row}-${column}`}
                 position={[column - centerX, 0, row - centerZ] as [number, number, number]}
+                delay={delays[row][column]}
               />
             ),
         ),

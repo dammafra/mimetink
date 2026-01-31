@@ -7,14 +7,14 @@ import { BaseBlock } from './BaseBlock'
 
 const sandModules = import.meta.glob('/public/sprites/sand/*.png', { eager: true, as: 'url' })
 
-export function SandBlock(props: JSX.IntrinsicElements['group']) {
+export function SandBlock({ delay, ...props }: JSX.IntrinsicElements['group'] & { delay?: number }) {
   const sprites = useFolderTextures(sandModules)
 
   const sprite = useMemo(() => randomOneOf(sprites), [sprites])
   const rotationZ = useMemo(() => randomOneOf([0, 90, 180, 270]), [])
 
   return (
-    <group {...props}>
+    <BaseBlock color={BLOCK_CONFIG[BlockType.Sand].color} delay={delay} {...props}>
       <mesh
         rotation-x={MathUtils.degToRad(-90)}
         rotation-z={MathUtils.degToRad(rotationZ)}
@@ -24,8 +24,6 @@ export function SandBlock(props: JSX.IntrinsicElements['group']) {
         <planeGeometry />
         <meshBasicMaterial map={sprite} transparent />
       </mesh>
-
-      <BaseBlock color={BLOCK_CONFIG[BlockType.Sand].color} />
-    </group>
+    </BaseBlock>
   )
 }

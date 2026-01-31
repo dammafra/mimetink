@@ -1,3 +1,4 @@
+import { animated, useSpring } from '@react-spring/three'
 import { Billboard } from '@react-three/drei'
 import { useFrame } from '@react-three/fiber'
 import { GameStatus, useController, useGameStore } from '@stores'
@@ -10,13 +11,13 @@ import { Controller } from './Controller'
 import { SpriteAnimator } from './helpers'
 
 export function Player() {
-  const radius = 0.5
   const { up, down, left, right } = useController()
   const playerColor = useGameStore(state => state.playerColor)
   const onPlayerMove = useGameStore(state => state.onPlayerMove)
   const isLevelCompleted = useGameStore(state => state.isLevelCompleted)
   const gridState = useGameStore(state => state.grid)
   const status = useGameStore(state => state.status)
+  const isGridReady = useGameStore(state => state.isGridReady)
   const restartKey = useGameStore(state => state.restartKey)
 
   const ref = useRef<Group>(null)
@@ -25,6 +26,11 @@ export function Player() {
     const grid = new Grid(levels[0])
     return new PlayerLogic(grid)
   }, [])
+
+  const { scale } = useSpring({
+    scale: isGridReady ? 1 : 0,
+    config: { mass: 1, tension: 280, friction: 20 },
+  })
 
   // Handle Level Restart
   useLayoutEffect(() => {
@@ -44,7 +50,7 @@ export function Player() {
   const prevPos = useRef({ col: playerLogic.col, row: playerLogic.row })
 
   useFrame((_, delta) => {
-    if (!ref.current || status !== GameStatus.PLAYING) return
+    if (!ref.current || status !== GameStatus.PLAYING || !isGridReady) return
 
     const position = ref.current.position
 
@@ -69,41 +75,11 @@ export function Player() {
     }
   })
 
+  if (status !== GameStatus.PLAYING) return null
+
   return (
     <Controller>
-      <group ref={ref}>
-        {/* <mesh castShadow position-y={radius}>
-          <icosahedronGeometry args={[radius, 3]} />
-          <meshMatcapMaterial color={playerColor} />
-        </mesh>
-
-        {Array.from({ length: 8 }, (_, i) => {
-          const angle = Math.PI * 2 * (i / 8)
-          return (
-            <mesh
-              key={`tentacle-${i}`}
-              castShadow
-              position={[Math.sin(angle) * radius, 0.225, Math.cos(angle) * radius]}
-            >
-              <icosahedronGeometry args={[radius * 0.45, 3]} />
-              <meshMatcapMaterial color={playerColor} />
-            </mesh>
-          )
-        })}
-
-        {Array.from({ length: 2 }, (_, i) => {
-          return [
-            <mesh key={`eye-${i}`} position={[0.2 * (i ? 1 : -1), 0.8, 0.4]}>
-              <icosahedronGeometry args={[radius * 0.25, 3]} />
-              <meshBasicMaterial color="white" />
-            </mesh>,
-            <mesh key={`pupil-${i}`} position={[0.2 * (i ? 1 : -1), 0.85, 0.45]}>
-              <icosahedronGeometry args={[radius * 0.2, 3]} />
-              <meshBasicMaterial color="black" />
-            </mesh>,
-          ]
-        })} */}
-
+      <animated.group ref={ref} scale={scale}>
         <Billboard position={[-0.1, 1, 0.25]}>
           <SpriteAnimator
             scale={2}
@@ -122,7 +98,7 @@ export function Player() {
             ]}
           />
         </Billboard>
-      </group>
+      </animated.group>
     </Controller>
   )
 }

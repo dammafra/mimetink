@@ -6,21 +6,24 @@ import { BLOCK_CONFIG, BlockType } from '../../logic/Grid'
 import { useGameStore } from '../../stores'
 import { BaseBlock } from './BaseBlock'
 
-export function EndBlock(props: JSX.IntrinsicElements['group']) {
+export function EndBlock({ delay, ...props }: JSX.IntrinsicElements['group'] & { delay?: number }) {
   const isLevelCompleted = useGameStore(state => state.isLevelCompleted)
   const sprite = useTexture('/sprites/cave.png')
 
   const spring = useSpring({ scale: isLevelCompleted ? 1 : 0 })
 
   return (
-    <a.group scale={spring.scale} {...props}>
-      <Billboard position-y={0.5}>
-        <mesh>
-          <planeGeometry />
-          <meshBasicMaterial map={sprite} transparent side={DoubleSide} />
-        </mesh>
-      </Billboard>
-      <BaseBlock color={BLOCK_CONFIG[BlockType.End].color} />
-    </a.group>
+    <group {...props}>
+      <BaseBlock color={BLOCK_CONFIG[BlockType.End].color} delay={delay}>
+        <a.group scale={spring.scale}>
+          <Billboard position-y={0.5}>
+            <mesh>
+              <planeGeometry />
+              <meshBasicMaterial map={sprite} transparent side={DoubleSide} />
+            </mesh>
+          </Billboard>
+        </a.group>
+      </BaseBlock>
+    </group>
   )
 }

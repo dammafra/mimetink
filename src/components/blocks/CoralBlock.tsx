@@ -11,9 +11,10 @@ const sandModules = import.meta.glob('/public/sprites/sand/*.png', { eager: true
 
 export type CoralBlockProps = JSX.IntrinsicElements['group'] & {
   blockType: BlockType
+  delay?: number
 }
 
-export function CoralBlock({ blockType, ...props }: CoralBlockProps) {
+export function CoralBlock({ blockType, delay, ...props }: CoralBlockProps) {
   const coralSprites = useFolderTextures(coralModules)
   const sandSprites = useFolderTextures(sandModules)
 
@@ -24,7 +25,7 @@ export function CoralBlock({ blockType, ...props }: CoralBlockProps) {
   const color = (BLOCK_CONFIG as any)[blockType].color
 
   return (
-    <group {...props}>
+    <BaseBlock color={color} delay={delay} {...props}>
       <Billboard position-y={0.7}>
         <mesh>
           <planeGeometry />
@@ -40,7 +41,6 @@ export function CoralBlock({ blockType, ...props }: CoralBlockProps) {
         <planeGeometry />
         <meshBasicMaterial map={sandSprite} transparent alphaMap={sandSprite} color={color} />
       </mesh>
-      <BaseBlock color={color} />
-    </group>
+    </BaseBlock>
   )
 }

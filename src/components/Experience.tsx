@@ -18,7 +18,6 @@ export function Experience() {
         zoom: 50,
       }}
     >
-      pe
       <CameraControls
         makeDefault
         polarRotateSpeed={debug ? undefined : 0}
