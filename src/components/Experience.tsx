@@ -14,6 +14,8 @@ export function Experience() {
         makeDefault
         polarRotateSpeed={debug ? undefined : 0}
         azimuthRotateSpeed={debug ? undefined : 0}
+        minZoom={5}
+        maxZoom={100}
       />
       <FitCamera />
       <World />

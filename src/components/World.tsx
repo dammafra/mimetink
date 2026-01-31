@@ -5,7 +5,7 @@ import { Player } from './Player'
 export function World() {
   const status = useGameStore(state => state.status)
 
-  if (status !== GameStatus.PLAYING) return null
+  if (status === GameStatus.READY) return null
 
   return (
     <>

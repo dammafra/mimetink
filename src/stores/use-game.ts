@@ -36,6 +36,7 @@ export const useGameStore = create<GameState>((set, get) => ({
   restartLevel: () => {
     const initialGrid = levels[0]
     set({
+      status: GameStatus.PLAYING,
       grid: initialGrid,
       gridDimensions: { rows: initialGrid.length, cols: initialGrid[0]?.length || 0 },
       isLevelCompleted: checkLevelCompletion(initialGrid),
@@ -71,6 +72,11 @@ export const useGameStore = create<GameState>((set, get) => ({
         grid: newGrid,
         isLevelCompleted: checkLevelCompletion(newGrid),
       })
+    }
+
+    // Interaction 3: Reaching the End block
+    if (blockType === BlockType.End && get().isLevelCompleted) {
+      set({ status: GameStatus.COMPLETED })
     }
   },
 }))

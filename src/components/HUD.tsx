@@ -1,150 +1,93 @@
 import { GameStatus, useGameStore } from '@stores'
+import { clsx } from 'clsx'
 
 export function HUD() {
   const status = useGameStore(state => state.status)
   const restartLevel = useGameStore(state => state.restartLevel)
+  const isCoralRestored = useGameStore(state => state.isLevelCompleted)
 
   if (status === GameStatus.READY) return null
 
+  const objectives = [
+    { id: 'coral', label: 'Restore the coral reef', completed: isCoralRestored },
+    { id: 'exit', label: 'Reach the exit', completed: status === GameStatus.COMPLETED },
+  ]
+
   return (
     <>
-      {/* Top Left: Objectives */}
-      <div style={objectivesContainerStyle}>
-        <div style={objectivesHeaderStyle}>OBJECTIVE</div>
-        <div style={objectivesListStyle}>
-          <div style={objectiveItemStyle}>
-            <span style={objectiveBulletStyle}>•</span>
-            <span>Restore the coral reef and reach the exit</span>
-          </div>
+      {/* Top Center: Level Indicator */}
+      <div className="animate-in zoom-in-50 fixed top-6 left-1/2 z-100 -translate-x-1/2 rounded-2xl border border-white/20 bg-white/15 px-6 py-3 text-sm font-bold tracking-widest text-white shadow-2xl backdrop-blur-md pointer-events-none md:top-6">
+        LEVEL 1
+      </div>
+
+      {/* Top Left: Objectives (Below level on mobile) */}
+      <div className="animate-in zoom-in-50 fixed top-22 left-1/2 z-100 w-70 -translate-x-1/2 rounded-2xl border border-white/20 bg-white/15 p-4 text-white shadow-2xl backdrop-blur-md pointer-events-none md:top-6 md:left-6 md:w-auto md:translate-x-0">
+        <div className="mb-2 text-[0.7rem] font-extrabold tracking-[0.15rem] text-[#ffb142] opacity-60">
+          OBJECTIVE
+        </div>
+        <div className="flex flex-col gap-1.5">
+          {objectives.map(obj => (
+            <div
+              key={obj.id}
+              className={clsx(
+                'flex items-center gap-2.5 text-[0.95rem] font-medium transition-all duration-300',
+                obj.completed && 'opacity-50',
+              )}
+            >
+              <span
+                className={clsx(
+                  'text-[1.2rem]',
+                  obj.completed ? 'text-green-400' : 'text-[#ff5252]',
+                )}
+              >
+                {obj.completed ? '✓' : '•'}
+              </span>
+              <span className={clsx(obj.completed && 'line-through')}>{obj.label}</span>
+            </div>
+          ))}
         </div>
       </div>
 
-      {/* Top Center: Level Indicator */}
-      <div style={levelIndicatorStyle}>LEVEL 1</div>
-
       {/* Top Right: Restart Button */}
-      <div style={containerStyle}>
+      <div className="animate-in zoom-in-50 fixed top-6 right-6 z-100">
         <button
           onClick={restartLevel}
-          style={buttonStyle}
-          onMouseEnter={e => {
-            ; (e.currentTarget as HTMLButtonElement).style.backgroundColor = 'rgba(255, 255, 255, 0.2)'
-              ; (e.currentTarget as HTMLButtonElement).style.transform = 'scale(1.1)'
-          }}
-          onMouseLeave={e => {
-            ; (e.currentTarget as HTMLButtonElement).style.backgroundColor = 'rgba(255, 255, 255, 0.1)'
-              ; (e.currentTarget as HTMLButtonElement).style.transform = 'scale(1)'
-          }}
+          className="group flex size-12.5 items-center justify-center rounded-2xl border border-white/20 bg-white/15 text-white shadow-2xl outline-none backdrop-blur-md transition-all duration-200 hover:scale-110 hover:bg-white/30"
         >
-          <RestartIcon />
+          <svg
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="transition-transform duration-500 group-hover:rotate-180"
+          >
+            <path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8" />
+            <polyline points="21 3 21 8 16 8" />
+          </svg>
         </button>
       </div>
+
+      {/* Level Completed Overlay */}
+      {status === GameStatus.COMPLETED && (
+        <div className="fixed inset-0 z-1000 flex items-center justify-center  backdrop-blur-sm transition-all duration-700 animate-in fade-in">
+          <div className="animate-in zoom-in-50 rounded-3xl border border-white/20 bg-white/15 p-12 text-center shadow-2xl backdrop-blur-xl">
+            <h2 className="mb-2 bg-gradient-to-r from-green-400 to-emerald-500 bg-clip-text text-5xl font-black tracking-widest text-transparent">
+              LEVEL COMPLETED
+            </h2>
+            <p className="mb-8 text-lg opacity-80 text-white">The coral reef is thriving again!</p>
+            <button
+              onClick={restartLevel}
+              className="cursor-pointer rounded-2xl bg-white/10 px-8 py-3 text-lg font-bold text-white border border-white/10 hover:bg-white/20 transition-all duration-300 hover:scale-105"
+            >
+              PLAY AGAIN
+            </button>
+          </div>
+        </div>
+      )}
     </>
   )
-}
-
-function RestartIcon() {
-  return (
-    <svg
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8" />
-      <polyline points="21 3 21 8 16 8" />
-    </svg>
-  )
-}
-
-const containerStyle: React.CSSProperties = {
-  position: 'fixed',
-  top: '24px',
-  right: '24px',
-  zIndex: 100,
-}
-
-const objectivesContainerStyle: React.CSSProperties = {
-  position: 'fixed',
-  top: '24px',
-  left: '24px',
-  zIndex: 100,
-  padding: '16px 20px',
-  backgroundColor: 'rgba(0, 0, 0, 0.4)',
-  backdropFilter: 'blur(10px)',
-  border: '1px solid rgba(255, 255, 255, 0.1)',
-  borderRadius: '16px',
-  color: 'white',
-  fontFamily: '"Outfit", sans-serif',
-  boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3)',
-  pointerEvents: 'none',
-}
-
-const objectivesHeaderStyle: React.CSSProperties = {
-  fontSize: '0.7rem',
-  fontWeight: 800,
-  letterSpacing: '0.15rem',
-  marginBottom: '8px',
-  opacity: 0.6,
-  color: '#ffb142',
-}
-
-const objectivesListStyle: React.CSSProperties = {
-  display: 'flex',
-  flexDirection: 'column',
-  gap: '6px',
-}
-
-const objectiveItemStyle: React.CSSProperties = {
-  display: 'flex',
-  alignItems: 'center',
-  fontSize: '0.95rem',
-  fontWeight: 500,
-  gap: '10px',
-}
-
-const objectiveBulletStyle: React.CSSProperties = {
-  color: '#ff5252',
-  fontSize: '1.2rem',
-}
-
-const levelIndicatorStyle: React.CSSProperties = {
-  position: 'fixed',
-  top: '24px',
-  left: '50%',
-  transform: 'translateX(-50%)',
-  zIndex: 100,
-  padding: '12px 24px',
-  backgroundColor: 'rgba(255, 255, 255, 0.1)',
-  backdropFilter: 'blur(10px)',
-  border: '1px solid rgba(255, 255, 255, 0.2)',
-  borderRadius: '50px',
-  color: 'white',
-  fontFamily: '"Outfit", sans-serif',
-  fontSize: '1rem',
-  fontWeight: 700,
-  letterSpacing: '0.1rem',
-  boxShadow: '0 4px 15px rgba(0, 0, 0, 0.2)',
-  pointerEvents: 'none',
-}
-
-const buttonStyle: React.CSSProperties = {
-  width: '50px',
-  height: '50px',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  backgroundColor: 'rgba(255, 255, 255, 0.1)',
-  backdropFilter: 'blur(10px)',
-  border: '1px solid rgba(255, 255, 255, 0.2)',
-  borderRadius: '12px',
-  color: 'white',
-  cursor: 'pointer',
-  transition: 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
-  boxShadow: '0 4px 15px rgba(0, 0, 0, 0.3)',
-  outline: 'none',
 }

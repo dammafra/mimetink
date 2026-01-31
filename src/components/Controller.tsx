@@ -1,9 +1,7 @@
 import { useIsTouch } from '@hooks'
 import { Html, KeyboardControls } from '@react-three/drei'
 import { useController } from '@stores'
-import clsx from 'clsx'
-import { useState, type PropsWithChildren } from 'react'
-import ReactNipple from 'react-nipplejs'
+import { useRef, type PropsWithChildren } from 'react'
 
 export function Controller({ children }: PropsWithChildren) {
   const isTouch = useIsTouch()
@@ -13,7 +11,53 @@ export function Controller({ children }: PropsWithChildren) {
   const setLeft = useController(state => state.setLeft)
   const setRight = useController(state => state.setRight)
 
-  const [nippleHelper, setNippleHelper] = useState(true)
+  const touchStart = useRef<{ x: number; y: number } | null>(null)
+  const SWIPE_THRESHOLD = 30
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStart.current = {
+      x: e.touches[0].clientX,
+      y: e.touches[0].clientY,
+    }
+  }
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    if (!touchStart.current) return
+
+    const touchEnd = {
+      x: e.changedTouches[0].clientX,
+      y: e.changedTouches[0].clientY,
+    }
+
+    const dx = touchEnd.x - touchStart.current.x
+    const dy = touchEnd.y - touchStart.current.y
+    const absX = Math.abs(dx)
+    const absY = Math.abs(dy)
+
+    if (Math.max(absX, absY) > SWIPE_THRESHOLD) {
+      if (absX > absY) {
+        // Horizontal swipe
+        if (dx > 0) {
+          setRight(true)
+          setTimeout(() => setRight(false), 50)
+        } else {
+          setLeft(true)
+          setTimeout(() => setLeft(false), 50)
+        }
+      } else {
+        // Vertical swipe
+        if (dy > 0) {
+          setDown(true)
+          setTimeout(() => setDown(false), 50)
+        } else {
+          setUp(true)
+          setTimeout(() => setUp(false), 50)
+        }
+      }
+    }
+
+    touchStart.current = null
+  }
 
   return (
     <KeyboardControls
@@ -32,46 +76,10 @@ export function Controller({ children }: PropsWithChildren) {
     >
       {isTouch && (
         <Html center wrapperClass="fixed inset-0 -z-0!" className="h-dvh w-screen">
-          <ReactNipple
-            options={{ mode: 'static', size: 120 }}
-            className={clsx('w-30! h-30! absolute! bottom-8 right-8 pointer-events-none', {
-              hidden: !nippleHelper,
-            })}
-          />
-          <ReactNipple
-            className="fixed inset-0 w-full! h-full!"
-            options={{ mode: 'semi', size: 120, catchDistance: 0 }}
-            onMove={(_, data) => {
-              setNippleHelper(false)
-
-              if (data.force < 0.2) return
-
-              const directions = [
-                'right',
-                'top right',
-                'top',
-                'top left',
-                'left',
-                'bottom left',
-                'bottom',
-                'bottom right',
-              ]
-
-              const angle = (data.angle.radian + Math.PI * 2) % (Math.PI * 2)
-              const index = Math.round(angle / (Math.PI / 4)) % 8
-              const direction = directions[index]
-
-              setUp(direction.toLowerCase().includes('top'))
-              setDown(direction.toLowerCase().includes('bottom'))
-              setLeft(direction.toLowerCase().includes('left'))
-              setRight(direction.toLowerCase().includes('right'))
-            }}
-            onEnd={() => {
-              setUp(false)
-              setDown(false)
-              setLeft(false)
-              setRight(false)
-            }}
+          <div
+            className="fixed inset-0 h-dvh w-screen touch-none"
+            onTouchStart={handleTouchStart}
+            onTouchEnd={handleTouchEnd}
           />
         </Html>
       )}

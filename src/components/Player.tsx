@@ -32,11 +32,15 @@ export function Player() {
     return col * 150
   }, [playerLogic])
 
+  const isCompleted = status === GameStatus.COMPLETED
+
   const { scale } = useSpring({
     from: { scale: 0 },
-    to: { scale: 1 },
-    delay: spawnDelay,
-    config: { mass: 1, tension: 280, friction: 20 },
+    to: { scale: isCompleted ? 0 : 1 },
+    delay: isCompleted ? 500 : spawnDelay,
+    config: isCompleted
+      ? { mass: 1, tension: 40, friction: 25 } // Slow scale down
+      : { mass: 1, tension: 280, friction: 20 },
     key: restartKey,
   })
 
@@ -58,7 +62,7 @@ export function Player() {
   const prevPos = useRef({ col: playerLogic.col, row: playerLogic.row })
 
   useFrame((_, delta) => {
-    if (!ref.current || status !== GameStatus.PLAYING || !isGridReady) return
+    if (!ref.current || status === GameStatus.READY || !isGridReady) return
 
     const position = ref.current.position
 
@@ -83,7 +87,7 @@ export function Player() {
     }
   })
 
-  if (status !== GameStatus.PLAYING) return null
+  if (status === GameStatus.READY) return null
 
   return (
     <Controller>

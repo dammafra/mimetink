@@ -1,7 +1,8 @@
 @import 'tailwindcss';
+@plugin "tailwindcss-animate";
 
 html,
 body,
 #root {
-  @apply fixed inset-0 overflow-hidden bg-radial from-sky-600 to-slate-900;
+  @apply fixed inset-0 overflow-hidden bg-radial from-sky-600 to-slate-900 min-w-sm font-[Outfit,sans-serif];
 }
