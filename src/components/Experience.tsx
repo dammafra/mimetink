@@ -14,7 +14,7 @@ export function Experience() {
       shadows={{ type: PCFShadowMap }}
       orthographic
       camera={{
-        position: [-10, 10, 10],
+        position: [-10, 45, 35],
         zoom: 50,
       }}
     >
