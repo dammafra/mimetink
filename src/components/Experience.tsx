@@ -2,23 +2,27 @@ import { CameraControls } from '@react-three/drei'
 import { PCFShadowMap } from 'three'
 
 import { Canvas, Helpers } from '@components/helpers'
+import { useDebug } from '@hooks'
 
-import { Environment } from './Environment'
 import { World } from './World'
 
 export function Experience() {
+  const debug = useDebug()
+
   return (
     <Canvas
       shadows={{ type: PCFShadowMap }}
+      orthographic
       camera={{
-        fov: 45,
-        near: 0.1,
-        far: 100,
-        position: [2, 4, 6],
+        position: [-10, 10, 10],
+        zoom: 50,
       }}
     >
-      <CameraControls makeDefault />
-      <Environment />
+      <CameraControls
+        makeDefault
+        polarRotateSpeed={debug ? undefined : 0}
+        azimuthRotateSpeed={debug ? undefined : 0}
+      />
       <World />
       <Helpers />
     </Canvas>
