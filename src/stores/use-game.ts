@@ -5,6 +5,7 @@ import { levels } from '../logic/levels'
 interface GameState {
   status: GameStatus
   grid: BlockType[][]
+  gridDimensions: { rows: number; cols: number }
   playerColor: string
   isLevelCompleted: boolean
   restartKey: number
@@ -24,6 +25,7 @@ const checkLevelCompletion = (grid: BlockType[][]) => {
 export const useGameStore = create<GameState>((set, get) => ({
   status: GameStatus.READY,
   grid: levels[0], // Initialize with Level 1
+  gridDimensions: { rows: levels[0].length, cols: levels[0][0]?.length || 0 },
   playerColor: 'darkorange',
   isLevelCompleted: checkLevelCompletion(levels[0]),
   restartKey: 0,
@@ -35,6 +37,7 @@ export const useGameStore = create<GameState>((set, get) => ({
     const initialGrid = levels[0]
     set({
       grid: initialGrid,
+      gridDimensions: { rows: initialGrid.length, cols: initialGrid[0]?.length || 0 },
       isLevelCompleted: checkLevelCompletion(initialGrid),
       restartKey: get().restartKey + 1,
       playerColor: 'darkorange',
