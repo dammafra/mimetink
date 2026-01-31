@@ -2,11 +2,21 @@ import { create } from 'zustand'
 import { BLOCK_CONFIG, BlockType } from '../logic/Grid'
 import { levels } from '../logic/levels'
 
+export const GameStatus = {
+  READY: 'READY',
+  PLAYING: 'PLAYING',
+  COMPLETED: 'COMPLETED',
+} as const
+
+export type GameStatus = (typeof GameStatus)[keyof typeof GameStatus]
+
 interface GameState {
+  status: GameStatus
   grid: BlockType[][]
   playerColor: string
   isLevelCompleted: boolean
 
+  startGame: () => void
   setPlayerColor: (color: string) => void
   onPlayerMove: (col: number, row: number) => void
 }
@@ -16,9 +26,12 @@ const checkLevelCompletion = (grid: BlockType[][]) => {
 }
 
 export const useGameStore = create<GameState>((set, get) => ({
+  status: GameStatus.READY,
   grid: levels[0], // Initialize with Level 1
   playerColor: 'darkorange',
   isLevelCompleted: checkLevelCompletion(levels[0]),
+
+  startGame: () => set({ status: GameStatus.PLAYING }),
 
   setPlayerColor: color => set({ playerColor: color }),
 

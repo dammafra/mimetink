@@ -1,4 +1,4 @@
-import { Experience } from '@components'
+import { Experience, StartScreen } from '@components'
 import { DoubleTapPreventer, GUI } from '@components/helpers'
 import { StrictMode } from 'react'
 
@@ -7,6 +7,8 @@ export default function App() {
     <>
       <GUI />
       <DoubleTapPreventer />
+
+      <StartScreen />
 
       <StrictMode>
         <Experience />

@@ -1,6 +1,6 @@
 import { Billboard } from '@react-three/drei'
 import { useFrame } from '@react-three/fiber'
-import { useController, useGameStore } from '@stores'
+import { GameStatus, useController, useGameStore } from '@stores'
 import { useMemo, useRef } from 'react'
 import { Group } from 'three'
 import { Grid } from '../logic/Grid'
@@ -16,6 +16,7 @@ export function Player() {
   const onPlayerMove = useGameStore(state => state.onPlayerMove)
   const isLevelCompleted = useGameStore(state => state.isLevelCompleted)
   const gridState = useGameStore(state => state.grid)
+  const status = useGameStore(state => state.status)
 
   const ref = useRef<Group>(null)
 
@@ -33,7 +34,7 @@ export function Player() {
   const prevPos = useRef({ col: playerLogic.col, row: playerLogic.row })
 
   useFrame((_, delta) => {
-    if (!ref.current) return
+    if (!ref.current || status !== GameStatus.PLAYING) return
 
     const position = ref.current.position
 
