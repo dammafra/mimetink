@@ -26,9 +26,18 @@ export function Player() {
     return new PlayerLogic(grid)
   }, [restartKey]) // Re-init logic on restart
 
+  const spawnDelay = useMemo(() => {
+    // We only care about the INITIAL position's delay
+    const { col } = playerLogic
+    return col * 150
+  }, [playerLogic])
+
   const { scale } = useSpring({
-    scale: isGridReady ? 1 : 0,
+    from: { scale: 0 },
+    to: { scale: 1 },
+    delay: spawnDelay,
     config: { mass: 1, tension: 280, friction: 20 },
+    key: restartKey,
   })
 
   // Handle Level Restart
