@@ -93,7 +93,7 @@ export function Player() {
           ]
         })} */}
 
-        <Billboard position={[0, 1, 0]}>
+        <Billboard position={[-0.1, 1, 0.25]}>
           <SpriteAnimator
             scale={2}
             color={playerColor}

@@ -36,13 +36,13 @@ export const useGameStore = create<GameState>((set, get) => ({
       }
     }
 
-    // Interaction 2: Player (Red) turns DeadCoral into VitalCoral
+    // Interaction 2: Player (Red) turns DeadCoral into ActivatedDeadCoral
     if (
       blockType === BlockType.DeadCoral &&
       playerColor === BLOCK_CONFIG[BlockType.VitalCoral].color
     ) {
       const newGrid = grid.map(r => [...r]) // Deep copy rows
-      newGrid[row][col] = BlockType.VitalCoral
+      newGrid[row][col] = BlockType.ActivatedDeadCoral
       set({
         grid: newGrid,
         isLevelCompleted: checkLevelCompletion(newGrid),

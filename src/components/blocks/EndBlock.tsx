@@ -10,7 +10,7 @@ export function EndBlock(props: JSX.IntrinsicElements['group']) {
   const isLevelCompleted = useGameStore(state => state.isLevelCompleted)
   const sprite = useTexture('/sprites/cave.png')
 
-  const spring = useSpring({ scale: isLevelCompleted ? 1 : 1 })
+  const spring = useSpring({ scale: isLevelCompleted ? 1 : 0 })
 
   return (
     <a.group scale={spring.scale} {...props}>

@@ -23,6 +23,7 @@ export function Grid() {
     [BlockType.End]: EndBlock,
     [BlockType.VitalCoral]: VitalCoralBlock,
     [BlockType.DeadCoral]: DeadCoralBlock,
+    [BlockType.ActivatedDeadCoral]: DeadCoralBlock,
   }
 
   return (
@@ -33,6 +34,7 @@ export function Grid() {
             blockType !== BlockType.Empty && (
               <Dynamic
                 component={componentsMap[blockType]}
+                blockType={blockType}
                 key={`cell-${row}-${column}`}
                 position={[column - centerX, 0, row - centerZ] as [number, number, number]}
               />
