@@ -1,7 +1,7 @@
 import { Billboard } from '@react-three/drei'
 import { useFrame } from '@react-three/fiber'
 import { GameStatus, useController, useGameStore } from '@stores'
-import { useMemo, useRef } from 'react'
+import { useEffect, useLayoutEffect, useMemo, useRef } from 'react'
 import { Group } from 'three'
 import { Grid } from '../logic/Grid'
 import { levels } from '../logic/levels'
@@ -27,15 +27,16 @@ export function Player() {
   }, [])
 
   // Handle Level Restart
-  useMemo(() => {
+  useLayoutEffect(() => {
     playerLogic.reset()
     if (ref.current) {
       ref.current.position.copy(playerLogic.targetPosition)
     }
+    prevPos.current = { col: playerLogic.col, row: playerLogic.row }
   }, [restartKey, playerLogic])
 
   // Sync logic grid with store grid
-  useMemo(() => {
+  useEffect(() => {
     playerLogic.grid.config = gridState
   }, [gridState, playerLogic])
 
