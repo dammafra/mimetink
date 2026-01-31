@@ -1,14 +1,6 @@
 import { create } from 'zustand'
-import { BLOCK_CONFIG, BlockType } from '../logic/Grid'
+import { BLOCK_CONFIG, BlockType, GameStatus } from '../constants/game'
 import { levels } from '../logic/levels'
-
-export const GameStatus = {
-  READY: 'READY',
-  PLAYING: 'PLAYING',
-  COMPLETED: 'COMPLETED',
-} as const
-
-export type GameStatus = (typeof GameStatus)[keyof typeof GameStatus]
 
 interface GameState {
   status: GameStatus
@@ -39,14 +31,16 @@ export const useGameStore = create<GameState>((set, get) => ({
 
   startGame: () => set({ status: GameStatus.PLAYING, isGridReady: false }),
 
-  restartLevel: () =>
+  restartLevel: () => {
+    const initialGrid = levels[0]
     set({
-      grid: levels[0],
-      isLevelCompleted: checkLevelCompletion(levels[0]),
+      grid: initialGrid,
+      isLevelCompleted: checkLevelCompletion(initialGrid),
       restartKey: get().restartKey + 1,
       playerColor: 'darkorange',
       isGridReady: false,
-    }),
+    })
+  },
 
   setGridReady: ready => set({ isGridReady: ready }),
 
@@ -54,9 +48,6 @@ export const useGameStore = create<GameState>((set, get) => ({
 
   onPlayerMove: (col, row) => {
     const { grid, playerColor } = get()
-
-    // Bounds check handled by Player logic
-
     const blockType = grid[row][col]
 
     // Interaction 1: VitalCoral turns player Red

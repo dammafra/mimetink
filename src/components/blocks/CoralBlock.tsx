@@ -2,8 +2,8 @@ import { Billboard } from '@react-three/drei'
 import { randomOneOf } from '@utils'
 import { useMemo, type JSX } from 'react'
 import { MathUtils } from 'three'
+import { BLOCK_CONFIG, BlockType } from '../../constants/game'
 import { useFolderTextures } from '../../hooks'
-import { BLOCK_CONFIG, BlockType } from '../../logic/Grid'
 import { BaseBlock } from './BaseBlock'
 
 const coralModules = import.meta.glob('/public/sprites/corals/*.png', { eager: true, as: 'url' })

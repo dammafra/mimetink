@@ -1,13 +1,16 @@
 import { randomOneOf } from '@utils'
 import { useMemo, type JSX } from 'react'
 import { MathUtils } from 'three'
+import { BLOCK_CONFIG, BlockType } from '../../constants/game'
 import { useFolderTextures } from '../../hooks'
-import { BLOCK_CONFIG, BlockType } from '../../logic/Grid'
 import { BaseBlock } from './BaseBlock'
 
 const sandModules = import.meta.glob('/public/sprites/sand/*.png', { eager: true, as: 'url' })
 
-export function SandBlock({ delay, ...props }: JSX.IntrinsicElements['group'] & { delay?: number }) {
+export function SandBlock({
+  delay,
+  ...props
+}: JSX.IntrinsicElements['group'] & { delay?: number }) {
   const sprites = useFolderTextures(sandModules)
 
   const sprite = useMemo(() => randomOneOf(sprites), [sprites])

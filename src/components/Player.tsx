@@ -5,7 +5,6 @@ import { GameStatus, useController, useGameStore } from '@stores'
 import { useEffect, useLayoutEffect, useMemo, useRef } from 'react'
 import { Group } from 'three'
 import { Grid } from '../logic/Grid'
-import { levels } from '../logic/levels'
 import { Player as PlayerLogic } from '../logic/Player'
 import { Controller } from './Controller'
 import { SpriteAnimator } from './helpers'
@@ -23,9 +22,9 @@ export function Player() {
   const ref = useRef<Group>(null)
 
   const playerLogic = useMemo(() => {
-    const grid = new Grid(levels[0])
+    const grid = new Grid(gridState)
     return new PlayerLogic(grid)
-  }, [])
+  }, [restartKey]) // Re-init logic on restart
 
   const { scale } = useSpring({
     scale: isGridReady ? 1 : 0,

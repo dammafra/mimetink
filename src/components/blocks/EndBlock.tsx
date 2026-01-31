@@ -2,7 +2,7 @@ import { a, useSpring } from '@react-spring/three'
 import { Billboard, useTexture } from '@react-three/drei'
 import type { JSX } from 'react'
 import { DoubleSide } from 'three'
-import { BLOCK_CONFIG, BlockType } from '../../logic/Grid'
+import { BLOCK_CONFIG, BlockType } from '../../constants/game'
 import { useGameStore } from '../../stores'
 import { BaseBlock } from './BaseBlock'
 

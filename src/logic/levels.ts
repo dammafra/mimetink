@@ -1,4 +1,4 @@
-import { BlockType } from './Grid'
+import { BlockType } from '../constants/game'
 
 type LevelConfig = BlockType[][]
 

@@ -1,6 +1,5 @@
 import { useEffect, useMemo } from 'react'
-import { BlockType } from '../logic/Grid'
-import { useGameStore } from '../stores'
+import { BlockType, useGameStore } from '../stores'
 import { CoralBlock } from './blocks/CoralBlock'
 import { EndBlock } from './blocks/EndBlock'
 import { SandBlock } from './blocks/SandBlock'
