@@ -1,3 +1,4 @@
+import { Billboard } from '@react-three/drei'
 import { useFrame } from '@react-three/fiber'
 import { useController, useGameStore } from '@stores'
 import { useMemo, useRef } from 'react'
@@ -6,6 +7,7 @@ import { Grid } from '../logic/Grid'
 import { levels } from '../logic/levels'
 import { Player as PlayerLogic } from '../logic/Player'
 import { Controller } from './Controller'
+import { SpriteAnimator } from './helpers'
 
 export function Player() {
   const radius = 0.5
@@ -59,7 +61,7 @@ export function Player() {
   return (
     <Controller>
       <group ref={ref}>
-        <mesh castShadow position-y={radius}>
+        {/* <mesh castShadow position-y={radius}>
           <icosahedronGeometry args={[radius, 3]} />
           <meshMatcapMaterial color={playerColor} />
         </mesh>
@@ -89,7 +91,26 @@ export function Player() {
               <meshBasicMaterial color="black" />
             </mesh>,
           ]
-        })}
+        })} */}
+
+        <Billboard position={[0, 1, 0]}>
+          <SpriteAnimator
+            scale={2}
+            color={playerColor}
+            paths={[
+              '/sprites/octopus/down/01.png',
+              '/sprites/octopus/down/02.png',
+              '/sprites/octopus/down/03.png',
+              '/sprites/octopus/down/04.png',
+              '/sprites/octopus/down/05.png',
+              '/sprites/octopus/down/06.png',
+              '/sprites/octopus/down/07.png',
+              '/sprites/octopus/down/08.png',
+              '/sprites/octopus/down/09.png',
+              '/sprites/octopus/down/10.png',
+            ]}
+          />
+        </Billboard>
       </group>
     </Controller>
   )

@@ -12,9 +12,9 @@ export const BlockType = {
 export type BlockType = (typeof BlockType)[keyof typeof BlockType]
 
 export const BLOCK_CONFIG = {
-  [BlockType.Sand]: { color: '#E6D0B3' },
-  [BlockType.Start]: { color: '#E6D0B3' },
-  [BlockType.End]: { color: '#333333' },
+  [BlockType.Sand]: { color: '#deaa66' },
+  [BlockType.Start]: { color: '#deaa66' },
+  [BlockType.End]: { color: '#8D8F7F' },
   [BlockType.VitalCoral]: { color: '#FF6F61' },
   [BlockType.DeadCoral]: { color: '#D3D3D3' },
 } as const

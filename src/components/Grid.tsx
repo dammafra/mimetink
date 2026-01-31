@@ -3,7 +3,6 @@ import { useGameStore } from '../stores'
 import { DeadCoralBlock } from './blocks/DeadCoralBlock'
 import { EndBlock } from './blocks/EndBlock'
 import { SandBlock } from './blocks/SandBlock'
-import { StartBlock } from './blocks/StartBlock'
 import { VitalCoralBlock } from './blocks/VitalCoralBlock'
 
 import { Dynamic } from './helpers'
@@ -20,7 +19,7 @@ export function Grid() {
 
   const componentsMap = {
     [BlockType.Sand]: SandBlock,
-    [BlockType.Start]: StartBlock,
+    [BlockType.Start]: SandBlock,
     [BlockType.End]: EndBlock,
     [BlockType.VitalCoral]: VitalCoralBlock,
     [BlockType.DeadCoral]: DeadCoralBlock,

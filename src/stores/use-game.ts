@@ -17,7 +17,7 @@ const checkLevelCompletion = (grid: BlockType[][]) => {
 
 export const useGameStore = create<GameState>((set, get) => ({
   grid: levels[0], // Initialize with Level 1
-  playerColor: 'blue',
+  playerColor: 'darkorange',
   isLevelCompleted: checkLevelCompletion(levels[0]),
 
   setPlayerColor: color => set({ playerColor: color }),
@@ -37,7 +37,10 @@ export const useGameStore = create<GameState>((set, get) => ({
     }
 
     // Interaction 2: Player (Red) turns DeadCoral into VitalCoral
-    if (blockType === BlockType.DeadCoral && playerColor === BLOCK_CONFIG[BlockType.VitalCoral].color) {
+    if (
+      blockType === BlockType.DeadCoral &&
+      playerColor === BLOCK_CONFIG[BlockType.VitalCoral].color
+    ) {
       const newGrid = grid.map(r => [...r]) // Deep copy rows
       newGrid[row][col] = BlockType.VitalCoral
       set({
