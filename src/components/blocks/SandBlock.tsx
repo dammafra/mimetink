@@ -1,19 +1,16 @@
-import { useTexture } from '@react-three/drei'
 import { randomOneOf } from '@utils'
 import { useMemo, type JSX } from 'react'
 import { MathUtils } from 'three'
+import { useFolderTextures } from '../../hooks'
 import { BLOCK_CONFIG, BlockType } from '../../logic/Grid'
 import { BaseBlock } from './BaseBlock'
 
-export function SandBlock(props: JSX.IntrinsicElements['group']) {
-  const sprites = useTexture([
-    '/sprites/sand/01.png',
-    '/sprites/sand/02.png',
-    // '/sprites/sand/03.png',
-    // '/sprites/sand/04.png',
-  ])
+const sandModules = import.meta.glob('/public/sprites/sand/*.png', { eager: true, as: 'url' })
 
-  const sprite = useMemo(() => randomOneOf(sprites), [])
+export function SandBlock(props: JSX.IntrinsicElements['group']) {
+  const sprites = useFolderTextures(sandModules)
+
+  const sprite = useMemo(() => randomOneOf(sprites), [sprites])
   const rotationZ = useMemo(() => randomOneOf([0, 90, 180, 270]), [])
 
   return (

@@ -1,9 +1,8 @@
 import { BlockType } from '../logic/Grid'
 import { useGameStore } from '../stores'
-import { DeadCoralBlock } from './blocks/DeadCoralBlock'
+import { CoralBlock } from './blocks/CoralBlock'
 import { EndBlock } from './blocks/EndBlock'
 import { SandBlock } from './blocks/SandBlock'
-import { VitalCoralBlock } from './blocks/VitalCoralBlock'
 
 import { Dynamic } from './helpers'
 
@@ -21,9 +20,9 @@ export function Grid() {
     [BlockType.Sand]: SandBlock,
     [BlockType.Start]: SandBlock,
     [BlockType.End]: EndBlock,
-    [BlockType.VitalCoral]: VitalCoralBlock,
-    [BlockType.DeadCoral]: DeadCoralBlock,
-    [BlockType.ActivatedDeadCoral]: DeadCoralBlock,
+    [BlockType.VitalCoral]: CoralBlock,
+    [BlockType.DeadCoral]: CoralBlock,
+    [BlockType.ActivatedDeadCoral]: CoralBlock,
   }
 
   return (
