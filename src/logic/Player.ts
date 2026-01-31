@@ -31,4 +31,11 @@ export class Player {
       this.targetPosition.copy(this.grid.getWorldPosition(newCol, newRow))
     }
   }
+
+  reset() {
+    const { col, row } = this.grid.getInitialPosition()
+    this.col = col
+    this.row = row
+    this.targetPosition.copy(this.grid.getWorldPosition(col, row))
+  }
 }

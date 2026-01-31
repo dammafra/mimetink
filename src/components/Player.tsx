@@ -17,6 +17,7 @@ export function Player() {
   const isLevelCompleted = useGameStore(state => state.isLevelCompleted)
   const gridState = useGameStore(state => state.grid)
   const status = useGameStore(state => state.status)
+  const restartKey = useGameStore(state => state.restartKey)
 
   const ref = useRef<Group>(null)
 
@@ -24,6 +25,14 @@ export function Player() {
     const grid = new Grid(levels[0])
     return new PlayerLogic(grid)
   }, [])
+
+  // Handle Level Restart
+  useMemo(() => {
+    playerLogic.reset()
+    if (ref.current) {
+      ref.current.position.copy(playerLogic.targetPosition)
+    }
+  }, [restartKey, playerLogic])
 
   // Sync logic grid with store grid
   useMemo(() => {

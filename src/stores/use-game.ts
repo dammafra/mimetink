@@ -15,8 +15,10 @@ interface GameState {
   grid: BlockType[][]
   playerColor: string
   isLevelCompleted: boolean
+  restartKey: number
 
   startGame: () => void
+  restartLevel: () => void
   setPlayerColor: (color: string) => void
   onPlayerMove: (col: number, row: number) => void
 }
@@ -30,8 +32,17 @@ export const useGameStore = create<GameState>((set, get) => ({
   grid: levels[0], // Initialize with Level 1
   playerColor: 'darkorange',
   isLevelCompleted: checkLevelCompletion(levels[0]),
+  restartKey: 0,
 
   startGame: () => set({ status: GameStatus.PLAYING }),
+
+  restartLevel: () =>
+    set({
+      grid: levels[0],
+      isLevelCompleted: checkLevelCompletion(levels[0]),
+      restartKey: get().restartKey + 1,
+      playerColor: 'darkorange',
+    }),
 
   setPlayerColor: color => set({ playerColor: color }),
 
