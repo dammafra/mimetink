@@ -1,13 +1,9 @@
-import { Billboard } from '@react-three/drei'
+import { Billboard, useTexture } from '@react-three/drei'
 import { randomOneOf } from '@utils'
 import { useMemo, type JSX } from 'react'
 import { MathUtils } from 'three'
 import { BLOCK_CONFIG, BlockType } from '../../constants/game'
-import { useFolderTextures } from '../../hooks'
 import { BaseBlock } from './BaseBlock'
-
-const coralModules = import.meta.glob('/public/sprites/corals/*.png', { eager: true, as: 'url' })
-const sandModules = import.meta.glob('/public/sprites/sand/*.png', { eager: true, as: 'url' })
 
 export type CoralBlockProps = JSX.IntrinsicElements['group'] & {
   blockType: BlockType
@@ -15,8 +11,20 @@ export type CoralBlockProps = JSX.IntrinsicElements['group'] & {
 }
 
 export function CoralBlock({ blockType, delay, ...props }: CoralBlockProps) {
-  const coralSprites = useFolderTextures(coralModules)
-  const sandSprites = useFolderTextures(sandModules)
+  const coralSprites = useTexture([
+    '/sprites/corals/1.png',
+    '/sprites/corals/2.png',
+    '/sprites/corals/3.png',
+    '/sprites/corals/4.png',
+    '/sprites/corals/6.png',
+    '/sprites/corals/7.png',
+    '/sprites/corals/8.png',
+    '/sprites/corals/9.png',
+    '/sprites/corals/10.png',
+    '/sprites/corals/11.png',
+    '/sprites/corals/12.png',
+  ])
+  const sandSprites = useTexture(['/sprites/sand/01.png', '/sprites/sand/02.png'])
 
   const coralSprite = useMemo(() => randomOneOf(coralSprites), [coralSprites])
   const sandSprite = useMemo(() => randomOneOf(sandSprites), [sandSprites])
