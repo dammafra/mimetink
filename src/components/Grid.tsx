@@ -40,18 +40,23 @@ export function Grid() {
   return (
     <group position-y={-0.4} scale={2}>
       {level.flatMap((cells, row) =>
-        cells.map(
-          (blockType, column) =>
-            blockType !== BlockType.Empty && (
+        cells.map((cell, column) => {
+          const type = typeof cell === 'object' ? cell.type : cell
+          const color = typeof cell === 'object' ? cell.color : undefined
+
+          return (
+            type !== BlockType.Empty && (
               <Dynamic
-                component={componentsMap[blockType]}
-                blockType={blockType}
+                component={componentsMap[type]}
+                blockType={type}
+                color={color}
                 key={`cell-${row}-${column}`}
                 position={[column - centerX, 0, row - centerZ] as [number, number, number]}
                 delay={delays[row][column]}
               />
-            ),
-        ),
+            )
+          )
+        }),
       )}
     </group>
   )

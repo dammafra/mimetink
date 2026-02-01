@@ -1,10 +1,11 @@
 import { create } from 'zustand'
 import { BLOCK_CONFIG, BlockType, GameStatus } from '../constants/game'
-import { levels } from '../logic/levels'
+import { levels, type GridCell } from '../logic/levels'
 
 interface GameState {
+  currentLevelIndex: number
   status: GameStatus
-  grid: BlockType[][]
+  grid: GridCell[][]
   gridDimensions: { rows: number; cols: number }
   playerColor: string
   isLevelCompleted: boolean
@@ -16,18 +17,25 @@ interface GameState {
 
   startGame: () => void
   restartLevel: () => void
+  nextLevel: () => void
   setGridReady: (ready: boolean) => void
   setPlayerColor: (color: string) => void
   onPlayerMove: (col: number, row: number) => void
 }
 
-const checkLevelCompletion = (grid: BlockType[][]) => {
-  return !grid.some(row => row.includes(BlockType.DeadCoral))
+const checkLevelCompletion = (grid: GridCell[][]) => {
+  return !grid.some(row =>
+    row.some(cell => {
+      const type = typeof cell === 'object' ? cell.type : cell
+      return type === BlockType.DeadCoral
+    }),
+  )
 }
 
 export const useGameStore = create<GameState>((set, get) => ({
+  currentLevelIndex: 0,
   status: GameStatus.READY,
-  grid: levels[0].grid, // Initialize with Level 1
+  grid: levels[0].grid,
   gridDimensions: { rows: levels[0].grid.length, cols: levels[0].grid[0]?.length || 0 },
   playerColor: 'darkorange',
   isLevelCompleted: checkLevelCompletion(levels[0].grid),
@@ -46,8 +54,29 @@ export const useGameStore = create<GameState>((set, get) => ({
     }),
 
   restartLevel: () => {
-    const level = levels[0]
+    const { currentLevelIndex } = get()
+    const level = levels[currentLevelIndex]
     set({
+      status: GameStatus.PLAYING,
+      grid: level.grid,
+      gridDimensions: { rows: level.grid.length, cols: level.grid[0]?.length || 0 },
+      isLevelCompleted: checkLevelCompletion(level.grid),
+      restartKey: get().restartKey + 1,
+      playerColor: 'darkorange',
+      isGridReady: false,
+      showCompletionOverlay: false,
+      currentMoves: 0,
+      maxMoves: level.maxMoves,
+    })
+  },
+
+  nextLevel: () => {
+    const { currentLevelIndex } = get()
+    const nextIndex = (currentLevelIndex + 1) % levels.length
+    const level = levels[nextIndex]
+
+    set({
+      currentLevelIndex: nextIndex,
       status: GameStatus.PLAYING,
       grid: level.grid,
       gridDimensions: { rows: level.grid.length, cols: level.grid[0]?.length || 0 },
@@ -67,7 +96,8 @@ export const useGameStore = create<GameState>((set, get) => ({
 
   onPlayerMove: (col, row) => {
     const { grid, playerColor, currentMoves } = get()
-    const blockType = grid[row][col]
+    const cell = grid[row][col]
+    const blockType = typeof cell === 'object' ? cell.type : cell
 
     // Increment move counter
     const newMoveCount = currentMoves + 1
@@ -86,7 +116,11 @@ export const useGameStore = create<GameState>((set, get) => ({
       playerColor === BLOCK_CONFIG[BlockType.VitalCoral].color
     ) {
       const newGrid = grid.map(r => [...r]) // Deep copy rows
-      newGrid[row][col] = BlockType.ActivatedDeadCoral
+      if (typeof cell === 'object') {
+        newGrid[row][col] = { ...cell, type: BlockType.ActivatedDeadCoral }
+      } else {
+        newGrid[row][col] = BlockType.ActivatedDeadCoral
+      }
       set({
         grid: newGrid,
         isLevelCompleted: checkLevelCompletion(newGrid),

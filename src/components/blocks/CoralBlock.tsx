@@ -8,9 +8,10 @@ import { BaseBlock } from './BaseBlock'
 export type CoralBlockProps = JSX.IntrinsicElements['group'] & {
   blockType: BlockType
   delay?: number
+  color?: string
 }
 
-export function CoralBlock({ blockType, delay, ...props }: CoralBlockProps) {
+export function CoralBlock({ blockType, delay, color, ...props }: CoralBlockProps) {
   const coralSprites = useTexture([
     '/sprites/corals/1.png',
     '/sprites/corals/2.png',
@@ -30,14 +31,14 @@ export function CoralBlock({ blockType, delay, ...props }: CoralBlockProps) {
   const sandSprite = useMemo(() => randomOneOf(sandSprites), [sandSprites])
   const rotationZ = useMemo(() => randomOneOf([0, 90, 180, 270]), [])
 
-  const color = (BLOCK_CONFIG as any)[blockType].color
+  const finalColor = color || (BLOCK_CONFIG as any)[blockType].color
 
   return (
-    <BaseBlock color={color} delay={delay} {...props}>
+    <BaseBlock color={finalColor} delay={delay} {...props}>
       <Billboard position-y={0.7}>
         <mesh>
           <planeGeometry />
-          <meshBasicMaterial map={coralSprite} transparent color={color} />
+          <meshBasicMaterial map={coralSprite} transparent color={finalColor} />
         </mesh>
       </Billboard>
       <mesh
@@ -47,7 +48,7 @@ export function CoralBlock({ blockType, delay, ...props }: CoralBlockProps) {
         scale={0.75}
       >
         <planeGeometry />
-        <meshBasicMaterial map={sandSprite} transparent alphaMap={sandSprite} color={color} />
+        <meshBasicMaterial map={sandSprite} transparent alphaMap={sandSprite} color={finalColor} />
       </mesh>
     </BaseBlock>
   )

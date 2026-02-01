@@ -6,7 +6,12 @@ import { BLOCK_CONFIG, BlockType } from '../../constants/game'
 import { useGameStore } from '../../stores'
 import { BaseBlock } from './BaseBlock'
 
-export function EndBlock({ delay, ...props }: JSX.IntrinsicElements['group'] & { delay?: number }) {
+export type EndBlockProps = JSX.IntrinsicElements['group'] & {
+  delay?: number
+  color?: string
+}
+
+export function EndBlock({ delay, color, ...props }: EndBlockProps) {
   const isLevelCompleted = useGameStore(state => state.isLevelCompleted)
   const sprite = useTexture('/sprites/cave.png')
 
@@ -17,7 +22,7 @@ export function EndBlock({ delay, ...props }: JSX.IntrinsicElements['group'] & {
 
   return (
     <animated.group {...props} scale={scale}>
-      <BaseBlock color={BLOCK_CONFIG[BlockType.End].color} delay={delay}>
+      <BaseBlock color={color || BLOCK_CONFIG[BlockType.End].color} delay={delay}>
         <Billboard position-y={0.5}>
           <mesh>
             <planeGeometry />
