@@ -10,6 +10,18 @@ import { SandBlock } from './blocks/SandBlock'
 
 import { Dynamic } from './helpers'
 
+const componentsMap = {
+  [BlockType.Sand]: SandBlock,
+  [BlockType.Start]: SandBlock,
+  [BlockType.End]: EndBlock,
+  [BlockType.VitalCoral]: CoralBlock,
+  [BlockType.DeadCoral]: CoralBlock,
+  [BlockType.ActivatedDeadCoral]: CoralBlock,
+  [BlockType.MimeticBlock]: MimeticBlock,
+  [BlockType.EnemyBlock]: EnemyBlock,
+  [BlockType.CollectibleBlock]: CollectibleBlock,
+}
+
 export function Grid() {
   const level = useGameStore(state => state.grid)
   const setGridReady = useGameStore(state => state.setGridReady)
@@ -29,18 +41,6 @@ export function Grid() {
     const step = levelConfig.tutorialSteps?.[currentTutorialStep]
     return step?.visibleBlocks || null
   }, [showTutorial, currentTutorialStep, currentLevelIndex])
-
-  const componentsMap = {
-    [BlockType.Sand]: SandBlock,
-    [BlockType.Start]: SandBlock,
-    [BlockType.End]: EndBlock,
-    [BlockType.VitalCoral]: CoralBlock,
-    [BlockType.DeadCoral]: CoralBlock,
-    [BlockType.ActivatedDeadCoral]: CoralBlock,
-    [BlockType.MimeticBlock]: MimeticBlock,
-    [BlockType.EnemyBlock]: EnemyBlock,
-    [BlockType.CollectibleBlock]: CollectibleBlock,
-  }
 
   const delays = useMemo(() => {
     return level.map(row => row.map((_, col) => col * 150))

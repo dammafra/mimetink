@@ -7,6 +7,20 @@ import { useGameStore } from '../../stores/use-game'
 import { AlgaFloor } from './AlgaFloor'
 import { BaseBlock } from './BaseBlock'
 
+const CORAL_SPRITES = [
+  '/sprites/corals/01.png',
+  '/sprites/corals/02.png',
+  '/sprites/corals/03.png',
+  '/sprites/corals/04.png',
+  '/sprites/corals/05.png',
+  '/sprites/corals/06.png',
+  '/sprites/corals/07.png',
+  '/sprites/corals/08.png',
+  '/sprites/corals/09.png',
+  '/sprites/corals/10.png',
+  '/sprites/corals/11.png',
+]
+
 export type CoralBlockProps = JSX.IntrinsicElements['group'] & {
   blockType: BlockType
   delay?: number
@@ -16,19 +30,7 @@ export type CoralBlockProps = JSX.IntrinsicElements['group'] & {
 
 export function CoralBlock({ blockType, delay, color, moves, ...props }: CoralBlockProps) {
   const vitalMovesLeft = useGameStore(state => state.vitalMovesLeft)
-  const coralSprites = useTexture([
-    '/sprites/corals/01.png',
-    '/sprites/corals/02.png',
-    '/sprites/corals/03.png',
-    '/sprites/corals/04.png',
-    '/sprites/corals/05.png',
-    '/sprites/corals/06.png',
-    '/sprites/corals/07.png',
-    '/sprites/corals/08.png',
-    '/sprites/corals/09.png',
-    '/sprites/corals/10.png',
-    '/sprites/corals/11.png',
-  ])
+  const coralSprites = useTexture(CORAL_SPRITES)
 
   const coralSprite = useMemo(() => randomOneOf(coralSprites), [coralSprites])
 
@@ -39,7 +41,8 @@ export function CoralBlock({ blockType, delay, color, moves, ...props }: CoralBl
     })
   }, [coralSprites])
 
-  const finalColor = color || (BLOCK_CONFIG as any)[blockType].color
+  const config = BLOCK_CONFIG[blockType as keyof typeof BLOCK_CONFIG]
+  const finalColor = color || (config && 'color' in config ? config.color : 'white')
 
   const bubbleSprite = useTexture('/sprites/bubble.png')
 

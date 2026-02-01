@@ -41,7 +41,7 @@ const level1: LevelConfig = {
       visibleBlocks: [{ row: 1, col: 0 }],
     },
     {
-      message: "See that gray coral? It's dead. We need to help it thrive again!",
+      message: "See that gray coral? It's dead and we need to help it thrive again!",
       visibleBlocks: [
         { row: 1, col: 0 },
         { row: 0, col: 3 },
@@ -68,7 +68,7 @@ const level1: LevelConfig = {
       ],
     },
     {
-      message: "Restore this coral, then let's go find more to save",
+      message: "Restore this coral, then let's go find more to save!",
     },
   ],
 }
@@ -105,7 +105,7 @@ const level2: LevelConfig = {
   ],
   tutorialSteps: [
     {
-      message: 'Some corals have limited symbiotic algae. The bubble shows how many moves you get!',
+      message: 'Some corals have limited symbiotic algae. The bubble shows how many moves I get!',
       visibleBlocks: [
         { row: 1, col: 0 },
         { row: 1, col: 1 },
@@ -160,7 +160,7 @@ const level3: LevelConfig = {
     },
     {
       message:
-        'With the right colored symbiotic algae, you can camouflage yourself and pass unnoticed.',
+        'With the right colored symbiotic algae, I can camouflage myself and pass unnoticed.',
       visibleBlocks: [
         { row: 1, col: 0 },
         { row: 2, col: 5 },

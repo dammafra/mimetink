@@ -1,10 +1,10 @@
 import { useTexture } from '@react-three/drei'
-import { useFrame } from '@react-three/fiber' // Importa useFrame
-import { useEffect, useRef } from 'react' // Importa useRef
+import { useFrame } from '@react-three/fiber'; // Importa useFrame
+import { useEffect, useMemo, useRef } from 'react'
 import {
   DoubleSide,
   MathUtils,
-  Mesh, // Importa tipo Mesh
+  Mesh,
   MeshBasicMaterial,
   PlaneGeometry,
   SRGBColorSpace,
@@ -14,6 +14,15 @@ import {
 interface AlgaFloorProps {
   color: ColorRepresentation
 }
+
+// Configurazione dei 5 strati (per pulire il JSX e assegnare le ref facilmente)
+const LAYERS = [
+  { z: -0.3, flipped: false },
+  { z: -0.15, flipped: true },
+  { z: 0, flipped: false },
+  { z: 0.15, flipped: true },
+  { z: 0.3, flipped: false },
+]
 
 export function AlgaFloor({ color }: AlgaFloorProps) {
   const algaSprite = useTexture('/sprites/alga.png')
@@ -26,14 +35,18 @@ export function AlgaFloor({ color }: AlgaFloorProps) {
   // 1. Creiamo un array di riferimenti per accedere alle mesh
   const meshesRef = useRef<Mesh[]>([])
 
-  const geometry = new PlaneGeometry()
-  const material = new MeshBasicMaterial({
-    map: algaSprite,
-    transparent: true,
-    color: color,
-    side: DoubleSide,
-    depthWrite: false,
-  })
+  const geometry = useMemo(() => new PlaneGeometry(), [])
+  const material = useMemo(
+    () =>
+      new MeshBasicMaterial({
+        map: algaSprite,
+        transparent: true,
+        color: color,
+        side: DoubleSide,
+        depthWrite: false,
+      }),
+    [algaSprite, color],
+  )
 
   // 2. Logica di animazione
   useFrame(({ clock }) => {
@@ -54,18 +67,9 @@ export function AlgaFloor({ color }: AlgaFloorProps) {
     })
   })
 
-  // Configurazione dei 5 strati (per pulire il JSX e assegnare le ref facilmente)
-  const layers = [
-    { z: -0.3, flipped: false },
-    { z: -0.15, flipped: true },
-    { z: 0, flipped: false },
-    { z: 0.15, flipped: true },
-    { z: 0.3, flipped: false },
-  ]
-
   return (
     <group scale={[0.9, 0.4, 0.8]} position-y={0.3}>
-      {layers.map((layer, index) => (
+      {LAYERS.map((layer, index) => (
         <mesh
           key={index}
           // 3. Assegna ogni mesh all'array di ref
