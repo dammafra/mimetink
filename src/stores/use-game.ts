@@ -33,18 +33,22 @@ const checkLevelCompletion = (grid: GridCell[][]) => {
   )
 }
 
+const startLevelIndex = 0
 export const useGameStore = create<GameState>((set, get) => ({
-  currentLevelIndex: 0,
+  currentLevelIndex: startLevelIndex,
   status: GameStatus.READY,
-  grid: levels[0].grid,
-  gridDimensions: { rows: levels[0].grid.length, cols: levels[0].grid[0]?.length || 0 },
+  grid: levels[startLevelIndex].grid,
+  gridDimensions: {
+    rows: levels[startLevelIndex].grid.length,
+    cols: levels[startLevelIndex].grid[0]?.length || 0,
+  },
   playerColor: 'darkorange',
-  isLevelCompleted: checkLevelCompletion(levels[0].grid),
+  isLevelCompleted: checkLevelCompletion(levels[startLevelIndex].grid),
   restartKey: 0,
   isGridReady: false,
   showCompletionOverlay: false,
   currentMoves: 0,
-  maxMoves: levels[0].maxMoves,
+  maxMoves: levels[startLevelIndex].maxMoves,
   vitalMovesLeft: 0,
 
   startGame: () =>

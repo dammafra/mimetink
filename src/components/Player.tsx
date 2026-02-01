@@ -1,9 +1,8 @@
 import { animated, useSpring } from '@react-spring/three'
-import { Billboard } from '@react-three/drei'
 import { useFrame } from '@react-three/fiber'
 import { GameStatus, useController, useGameStore } from '@stores'
 import { useEffect, useLayoutEffect, useMemo, useRef } from 'react'
-import { Group } from 'three'
+import { Group, MathUtils } from 'three'
 import { Grid } from '../logic/Grid'
 import { Player as PlayerLogic } from '../logic/Player'
 import { Controller } from './Controller'
@@ -90,24 +89,25 @@ export function Player() {
   return (
     <Controller>
       <animated.group ref={ref} scale={scale}>
-        <Billboard position={[-0.1, 1, 0.25]}>
-          <SpriteAnimator
-            scale={2}
-            color={playerColor}
-            paths={[
-              '/sprites/octopus/01.png',
-              '/sprites/octopus/02.png',
-              '/sprites/octopus/03.png',
-              '/sprites/octopus/04.png',
-              '/sprites/octopus/05.png',
-              '/sprites/octopus/06.png',
-              '/sprites/octopus/07.png',
-              '/sprites/octopus/08.png',
-              '/sprites/octopus/09.png',
-              '/sprites/octopus/10.png',
-            ]}
-          />
-        </Billboard>
+        <SpriteAnimator
+          rotation={[MathUtils.degToRad(-35), 0, 0]}
+          position-y={0.8}
+          position-z={-0.2}
+          scale={2}
+          color={playerColor}
+          paths={[
+            '/sprites/octopus/01.png',
+            '/sprites/octopus/02.png',
+            '/sprites/octopus/03.png',
+            '/sprites/octopus/04.png',
+            '/sprites/octopus/05.png',
+            '/sprites/octopus/06.png',
+            '/sprites/octopus/07.png',
+            '/sprites/octopus/08.png',
+            '/sprites/octopus/09.png',
+            '/sprites/octopus/10.png',
+          ]}
+        />
       </animated.group>
     </Controller>
   )

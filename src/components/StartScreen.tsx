@@ -9,14 +9,19 @@ export function StartScreen() {
   if (status !== GameStatus.READY) return null
 
   return (
-    <div className="fixed inset-0 z-1000 flex flex-col items-center justify-center text-white p-12 text-center transition-all duration-700 animate-in zoom-in-50">
-      <h1 className="mb-2 bg-linear-to-r from-[#ff5252] to-[#ffb142] bg-clip-text text-6xl font-black tracking-widest text-transparent uppercase">
-        MimetInk
-      </h1>
-      <p className="mb-10 text-xl">Navigate the grid. Activate the coral.</p>
+    <div className="fixed inset-0 z-1000 flex flex-col items-center justify-center text-white p-4 text-center transition-all duration-700 animate-in zoom-in-50">
+      <div className="max-w-xl mb-2">
+        <img src="/title.png" />
+      </div>
+
+      <p className="mb-10 text-xl">
+        Navigate the grid. <br />
+        Activate the coral.
+      </p>
+
       <button
         onClick={startGame}
-        className="cursor-pointer tracking-widest rounded-2xl bg-teal-500 px-12 py-4 text-xl font-bold text-white shadow-md transition-all duration-300 hover:scale-105 hover:bg-teal-600 active:scale-105 active:bg-teal-600 outline-none"
+        className="cursor-pointer tracking-widest rounded-3xl bg-teal-500 px-12 py-4 text-xl font-bold text-white shadow-md transition-all duration-300 hover:scale-105 hover:bg-teal-600 active:scale-105 active:bg-teal-600 outline-none"
       >
         START
       </button>

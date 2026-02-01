@@ -8,7 +8,6 @@ interface SpriteAnimatorProps {
   fps?: number
   loop?: boolean
   playing?: boolean
-  onComplete?: () => void
   position?: [number, number, number]
   scale?: number | [number, number, number]
   rotation?: [number, number, number]
@@ -20,7 +19,6 @@ export function SpriteAnimator({
   fps = 10,
   loop = true,
   playing = true,
-  onComplete,
   ...meshProps
 }: SpriteAnimatorProps) {
   const [index, setIndex] = useState(0)
@@ -41,11 +39,7 @@ export function SpriteAnimator({
       const nextIndex = index + 1
 
       if (nextIndex >= textures.length) {
-        if (loop) {
-          setIndex(0)
-        } else {
-          onComplete?.()
-        }
+        if (loop) setIndex(0)
       } else {
         setIndex(nextIndex)
       }
@@ -53,11 +47,10 @@ export function SpriteAnimator({
   })
 
   return (
-    <mesh {...meshProps}>
+    <mesh {...meshProps} renderOrder={1}>
       <planeGeometry />
       <meshBasicMaterial
         map={textures[index]}
-        alphaMap={textures[index]}
         transparent
         side={DoubleSide}
         color={meshProps.color}

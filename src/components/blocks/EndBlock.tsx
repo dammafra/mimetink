@@ -1,7 +1,7 @@
 import { animated, useSpring } from '@react-spring/three'
-import { Billboard, useTexture } from '@react-three/drei'
+import { useTexture } from '@react-three/drei'
 import type { JSX } from 'react'
-import { DoubleSide } from 'three'
+import { DoubleSide, MathUtils } from 'three'
 import { BLOCK_CONFIG, BlockType } from '../../constants/game'
 import { useGameStore } from '../../stores'
 import { BaseBlock } from './BaseBlock'
@@ -23,18 +23,23 @@ export function EndBlock({ delay, color, ...props }: EndBlockProps) {
   return (
     <group {...props}>
       <BaseBlock color={color || BLOCK_CONFIG[BlockType.End].color} delay={delay}>
-        <Billboard position-y={0.5}>
-          <mesh>
-            <planeGeometry />
-            {/* @ts-ignore */}
-            <animated.meshBasicMaterial
-              map={sprite}
-              transparent
-              side={DoubleSide}
-              opacity={opacity}
-            />
-          </mesh>
-        </Billboard>
+        <mesh
+          rotation={[MathUtils.degToRad(-35), 0, MathUtils.degToRad(-10)]}
+          position-y={0.6}
+          position-z={0.1}
+          renderOrder={0}
+        >
+          <planeGeometry />
+          {/* @ts-ignore */}
+          <animated.meshBasicMaterial
+            map={sprite}
+            transparent
+            side={DoubleSide}
+            depthTest={false}
+            depthWrite={false}
+            // opacity={opacity}
+          />
+        </mesh>
       </BaseBlock>
     </group>
   )

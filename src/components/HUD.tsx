@@ -42,12 +42,12 @@ export function HUD() {
   return (
     <>
       {/* Top Center: Level Indicator */}
-      <div className="animate-in zoom-in-50 fixed top-6 left-6 md:left-1/2 z-100 md:-translate-x-1/2 rounded-2xl border border-white/20 bg-white/15 px-6 py-3 text-2xl font-bold tracking-widest text-white shadow-2xl backdrop-blur-md pointer-events-none md:top-6">
+      <div className="animate-in zoom-in-50 fixed top-6 left-6 md:left-1/2 z-100 md:-translate-x-1/2 rounded-3xl border border-white/20 bg-white/15 px-6 py-3 text-2xl font-bold tracking-widest text-white shadow-2xl backdrop-blur-md pointer-events-none md:top-6">
         LEVEL {currentLevelIndex + 1}
       </div>
 
       {/* Top Left: Objectives (Below level on mobile) */}
-      <div className="animate-in zoom-in-50 fixed top-22 left-6 z-100 w-70 rounded-2xl border border-white/20 bg-white/15 p-4 text-white shadow-2xl backdrop-blur-md pointer-events-none md:top-6 md:left-6 md:translate-x-0">
+      <div className="animate-in zoom-in-50 fixed top-22 left-6 z-100 w-70 rounded-3xl border border-white/20 bg-white/15 p-4 text-white shadow-2xl backdrop-blur-md pointer-events-none md:top-6 md:left-6 md:translate-x-0">
         <Objectives objectives={objectives} currentMoves={currentMoves} maxMoves={maxMoves} />
         {!!vitalMovesLeft && (
           <div className="mt-2 flex items-center gap-2 border-t border-white/10 pt-2 animate-in slide-in-from-left-2">
@@ -64,7 +64,7 @@ export function HUD() {
       <div className="animate-in zoom-in-50 fixed top-6 right-6 z-100">
         <button
           onClick={restartLevel}
-          className="cursor-pointer group flex size-12.5 items-center justify-center rounded-2xl border border-white/20 bg-white/15 text-white shadow-2xl outline-none backdrop-blur-md transition-all duration-200 hover:scale-110 hover:bg-white/30 active:scale-110 active:bg-white/30"
+          className="cursor-pointer group flex size-12.5 items-center justify-center rounded-3xl border border-white/20 bg-white/15 text-white shadow-2xl outline-none backdrop-blur-md transition-all duration-200 hover:scale-110 hover:bg-white/30 active:scale-110 active:bg-white/30"
         >
           <svg
             width="24"
@@ -93,20 +93,20 @@ export function HUD() {
             <p className="mb-6 text-lg opacity-80 text-white">The coral reef is thriving again!</p>
 
             {/* Objectives Summary */}
-            <div className="mb-8 mx-auto max-w-md rounded-2xl border border-white/20 bg-white/10 p-4 text-left text-white">
+            <div className="mb-8 mx-auto max-w-md rounded-3xl border border-white/20 bg-white/10 p-4 text-left text-white">
               <Objectives objectives={objectives} currentMoves={currentMoves} maxMoves={maxMoves} />
             </div>
 
             <div className="flex gap-4 justify-center">
               <button
                 onClick={restartLevel}
-                className="cursor-pointer rounded-2xl bg-white/5 px-8 py-3 text-lg font-bold text-white border border-white/10 transition-all duration-300 hover:bg-white/15 hover:scale-105 active:bg-white/15 active:scale-105"
+                className="cursor-pointer rounded-3xl bg-white/5 px-8 py-3 text-lg font-bold text-white border border-white/10 transition-all duration-300 hover:bg-white/15 hover:scale-105 active:bg-white/15 active:scale-105"
               >
                 RETRY
               </button>
               <button
                 onClick={nextLevel}
-                className="cursor-pointer rounded-2xl bg-green-500/20 px-8 py-3 text-lg font-bold text-green-400 border border-green-500/20 transition-all duration-300 hover:bg-green-500/30 hover:scale-105 active:bg-green-500/30 active:scale-105"
+                className="cursor-pointer rounded-3xl bg-green-500/20 px-8 py-3 text-lg font-bold text-green-400 border border-green-500/20 transition-all duration-300 hover:bg-green-500/30 hover:scale-105 active:bg-green-500/30 active:scale-105"
               >
                 NEXT LEVEL
               </button>

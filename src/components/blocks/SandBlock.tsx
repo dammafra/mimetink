@@ -29,6 +29,7 @@ export function SandBlock({
           transparent
           alphaMap={color ? sprite : undefined}
           color={color}
+          toneMapped={false}
         />
       </mesh>
     </BaseBlock>
