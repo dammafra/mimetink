@@ -5,6 +5,7 @@ import { PCFShadowMap } from 'three'
 import { Bubbles } from './Bubbles'
 import { FitCamera } from './FitCamera'
 import { World } from './World'
+import SoundBoard from './helpers/SoundBoard'
 
 export function Experience() {
   const debug = useDebug()
@@ -21,6 +22,8 @@ export function Experience() {
       <FitCamera />
       <World />
       <Helpers />
+
+      <SoundBoard />
 
       <Hud>
         <Bubbles />

@@ -15,22 +15,28 @@ export function EndBlock({ delay, color, ...props }: EndBlockProps) {
   const isLevelCompleted = useGameStore(state => state.isLevelCompleted)
   const sprite = useTexture('/sprites/cave.png')
 
-  const { scale } = useSpring({
-    scale: isLevelCompleted ? 1 : 0,
+  const { opacity } = useSpring({
+    opacity: isLevelCompleted ? 1 : 0.5,
     config: { mass: 1, tension: 280, friction: 20 },
   })
 
   return (
-    <animated.group {...props} scale={scale}>
+    <group {...props}>
       <BaseBlock color={color || BLOCK_CONFIG[BlockType.End].color} delay={delay}>
         <Billboard position-y={0.5}>
           <mesh>
             <planeGeometry />
-            <meshBasicMaterial map={sprite} transparent side={DoubleSide} />
+            {/* @ts-ignore */}
+            <animated.meshBasicMaterial
+              map={sprite}
+              transparent
+              side={DoubleSide}
+              opacity={opacity}
+            />
           </mesh>
         </Billboard>
       </BaseBlock>
-    </animated.group>
+    </group>
   )
 }
 

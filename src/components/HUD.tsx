@@ -64,7 +64,7 @@ export function HUD() {
       <div className="animate-in zoom-in-50 fixed top-6 right-6 z-100">
         <button
           onClick={restartLevel}
-          className="group flex size-12.5 items-center justify-center rounded-2xl border border-white/20 bg-white/15 text-white shadow-2xl outline-none backdrop-blur-md transition-all duration-200 hover:scale-110 hover:bg-white/30"
+          className="cursor-pointer group flex size-12.5 items-center justify-center rounded-2xl border border-white/20 bg-white/15 text-white shadow-2xl outline-none backdrop-blur-md transition-all duration-200 hover:scale-110 hover:bg-white/30 active:scale-110 active:bg-white/30"
         >
           <svg
             width="24"
@@ -75,7 +75,7 @@ export function HUD() {
             strokeWidth="2.5"
             strokeLinecap="round"
             strokeLinejoin="round"
-            className="transition-transform duration-500 group-hover:rotate-180"
+            className="transition-transform duration-500 group-hover:rotate-180 group-active:rotate-180"
           >
             <path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8" />
             <polyline points="21 3 21 8 16 8" />
@@ -100,13 +100,13 @@ export function HUD() {
             <div className="flex gap-4 justify-center">
               <button
                 onClick={restartLevel}
-                className="cursor-pointer rounded-2xl bg-white/5 px-8 py-3 text-lg font-bold text-white border border-white/10 hover:bg-white/15 transition-all duration-300 hover:scale-105"
+                className="cursor-pointer rounded-2xl bg-white/5 px-8 py-3 text-lg font-bold text-white border border-white/10 transition-all duration-300 hover:bg-white/15 hover:scale-105 active:bg-white/15 active:scale-105"
               >
                 RETRY
               </button>
               <button
                 onClick={nextLevel}
-                className="cursor-pointer rounded-2xl bg-green-500/20 px-8 py-3 text-lg font-bold text-green-400 border border-green-500/20 hover:bg-green-500/30 transition-all duration-300 hover:scale-105"
+                className="cursor-pointer rounded-2xl bg-green-500/20 px-8 py-3 text-lg font-bold text-green-400 border border-green-500/20 transition-all duration-300 hover:bg-green-500/30 hover:scale-105 active:bg-green-500/30 active:scale-105"
               >
                 NEXT LEVEL
               </button>
