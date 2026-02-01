@@ -1,10 +1,8 @@
-import { useIsTouch } from '@hooks'
 import { GameStatus, useGameStore } from '@stores'
 
 export function StartScreen() {
   const startGame = useGameStore(state => state.startGame)
   const status = useGameStore(state => state.status)
-  const isTouch = useIsTouch()
 
   if (status !== GameStatus.READY) return null
 
@@ -20,9 +18,6 @@ export function StartScreen() {
       >
         START
       </button>
-      <p className="mt-2 font-bold tracking-widest text-white backdrop-blur-md">
-        🕹️ {isTouch ? 'Swipe to move' : 'Move with Arrow Keys or WASD'}
-      </p>
     </div>
   )
 }
