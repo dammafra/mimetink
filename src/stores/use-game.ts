@@ -11,6 +11,8 @@ interface GameState {
   restartKey: number
   isGridReady: boolean
   showCompletionOverlay: boolean
+  currentMoves: number
+  maxMoves: number
 
   startGame: () => void
   restartLevel: () => void
@@ -25,28 +27,37 @@ const checkLevelCompletion = (grid: BlockType[][]) => {
 
 export const useGameStore = create<GameState>((set, get) => ({
   status: GameStatus.READY,
-  grid: levels[0], // Initialize with Level 1
-  gridDimensions: { rows: levels[0].length, cols: levels[0][0]?.length || 0 },
+  grid: levels[0].grid, // Initialize with Level 1
+  gridDimensions: { rows: levels[0].grid.length, cols: levels[0].grid[0]?.length || 0 },
   playerColor: 'darkorange',
-  isLevelCompleted: checkLevelCompletion(levels[0]),
+  isLevelCompleted: checkLevelCompletion(levels[0].grid),
   restartKey: 0,
   isGridReady: false,
   showCompletionOverlay: false,
+  currentMoves: 0,
+  maxMoves: levels[0].maxMoves,
 
   startGame: () =>
-    set({ status: GameStatus.PLAYING, isGridReady: false, showCompletionOverlay: false }),
-
-  restartLevel: () => {
-    const initialGrid = levels[0]
     set({
       status: GameStatus.PLAYING,
-      grid: initialGrid,
-      gridDimensions: { rows: initialGrid.length, cols: initialGrid[0]?.length || 0 },
-      isLevelCompleted: checkLevelCompletion(initialGrid),
+      isGridReady: false,
+      showCompletionOverlay: false,
+      currentMoves: 0,
+    }),
+
+  restartLevel: () => {
+    const level = levels[0]
+    set({
+      status: GameStatus.PLAYING,
+      grid: level.grid,
+      gridDimensions: { rows: level.grid.length, cols: level.grid[0]?.length || 0 },
+      isLevelCompleted: checkLevelCompletion(level.grid),
       restartKey: get().restartKey + 1,
       playerColor: 'darkorange',
       isGridReady: false,
       showCompletionOverlay: false,
+      currentMoves: 0,
+      maxMoves: level.maxMoves,
     })
   },
 
@@ -55,8 +66,12 @@ export const useGameStore = create<GameState>((set, get) => ({
   setPlayerColor: color => set({ playerColor: color }),
 
   onPlayerMove: (col, row) => {
-    const { grid, playerColor } = get()
+    const { grid, playerColor, currentMoves } = get()
     const blockType = grid[row][col]
+
+    // Increment move counter
+    const newMoveCount = currentMoves + 1
+    set({ currentMoves: newMoveCount })
 
     // Interaction 1: VitalCoral turns player Red
     if (blockType === BlockType.VitalCoral) {
@@ -78,8 +93,8 @@ export const useGameStore = create<GameState>((set, get) => ({
       })
     }
 
-    // Interaction 3: Reaching the End block
-    if (blockType === BlockType.End && get().isLevelCompleted) {
+    // Interaction 3: Reaching the End block (always completes the level)
+    if (blockType === BlockType.End) {
       set({ status: GameStatus.COMPLETED })
       // Delay showing completion overlay to allow player scale-down animation
       setTimeout(() => {

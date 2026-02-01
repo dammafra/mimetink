@@ -8,7 +8,7 @@ import tsconfigPaths from 'vite-tsconfig-paths'
 export default defineConfig({
   plugins: [restart(), react(), tailwindcss(), tsconfigPaths()],
   server: {
-    // host: true,
+    host: true,
   },
   build: {
     emptyOutDir: true,

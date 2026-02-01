@@ -6,44 +6,73 @@ export function HUD() {
   const restartLevel = useGameStore(state => state.restartLevel)
   const isCoralRestored = useGameStore(state => state.isLevelCompleted)
   const showCompletionOverlay = useGameStore(state => state.showCompletionOverlay)
+  const currentMoves = useGameStore(state => state.currentMoves)
+  const maxMoves = useGameStore(state => state.maxMoves)
 
   if (status === GameStatus.READY) return null
 
+  const isMoveLimitExceeded = currentMoves > maxMoves
+  const isExitFailed = isMoveLimitExceeded
+  const isExitCompleted = status === GameStatus.COMPLETED && !isExitFailed
+
   const objectives = [
-    { id: 'coral', label: 'Restore the coral reef', completed: isCoralRestored },
-    { id: 'exit', label: 'Reach the exit', completed: status === GameStatus.COMPLETED },
+    {
+      id: 'coral',
+      label: 'Restore the coral reef',
+      completed: isCoralRestored,
+      failed: false,
+      showMoves: false,
+    },
+    {
+      id: 'exit',
+      label: `Reach the exit in ${maxMoves} moves`,
+      completed: isExitCompleted,
+      failed: isExitFailed,
+      showMoves: true,
+    },
   ]
 
   return (
     <>
       {/* Top Center: Level Indicator */}
-      <div className="animate-in zoom-in-50 fixed top-6 left-1/2 z-100 -translate-x-1/2 rounded-2xl border border-white/20 bg-white/15 px-6 py-3 text-sm font-bold tracking-widest text-white shadow-2xl backdrop-blur-md pointer-events-none md:top-6">
+      <div className="animate-in zoom-in-50 fixed top-6 left-6 md:left-1/2 z-100 md:-translate-x-1/2 rounded-2xl border border-white/20 bg-white/15 px-6 py-3 text-2xl font-bold tracking-widest text-white shadow-2xl backdrop-blur-md pointer-events-none md:top-6">
         LEVEL 1
       </div>
 
       {/* Top Left: Objectives (Below level on mobile) */}
-      <div className="animate-in zoom-in-50 fixed top-22 left-1/2 z-100 w-70 -translate-x-1/2 rounded-2xl border border-white/20 bg-white/15 p-4 text-white shadow-2xl backdrop-blur-md pointer-events-none md:top-6 md:left-6 md:w-auto md:translate-x-0">
-        <div className="mb-2 text-[0.7rem] font-extrabold tracking-[0.15rem] text-[#ffb142] opacity-60">
-          OBJECTIVE
-        </div>
-        <div className="flex flex-col gap-1.5">
+      <div className="animate-in zoom-in-50 fixed top-22 left-6 z-100 w-65 rounded-2xl border border-white/20 bg-white/15 p-4 text-white shadow-2xl backdrop-blur-md pointer-events-none md:top-6 md:left-6 md:translate-x-0">
+        <div className="flex flex-col">
           {objectives.map(obj => (
             <div
               key={obj.id}
               className={clsx(
-                'flex items-center gap-2.5 text-[0.95rem] font-medium transition-all duration-300',
+                'flex items-center gap-0 text-sm font-medium transition-all duration-300',
                 obj.completed && 'opacity-50',
               )}
             >
               <span
                 className={clsx(
-                  'text-[1.2rem]',
-                  obj.completed ? 'text-green-400' : 'text-[#ff5252]',
+                  'text-sm w-5',
+                  obj.completed ? 'text-green-400' : obj.failed ? 'text-red-500' : '',
                 )}
               >
-                {obj.completed ? '✓' : '•'}
+                {obj.completed ? '◉' : obj.failed ? '◉' : '◎'}
               </span>
-              <span className={clsx(obj.completed && 'line-through')}>{obj.label}</span>
+              <span
+                className={clsx(obj.completed && ' text-green-400', obj.failed && 'text-red-400')}
+              >
+                {obj.label}
+              </span>
+              {obj.showMoves && (
+                <span
+                  className={clsx(
+                    'ml-auto text-sm font-bold opacity-80',
+                    obj.failed ? 'text-red-400' : 'text-[#ffb142]',
+                  )}
+                >
+                  ({currentMoves}/{maxMoves})
+                </span>
+              )}
             </div>
           ))}
         </div>

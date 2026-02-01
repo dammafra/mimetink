@@ -13,7 +13,6 @@ export function Player() {
   const { up, down, left, right } = useController()
   const playerColor = useGameStore(state => state.playerColor)
   const onPlayerMove = useGameStore(state => state.onPlayerMove)
-  const isLevelCompleted = useGameStore(state => state.isLevelCompleted)
   const gridState = useGameStore(state => state.grid)
   const status = useGameStore(state => state.status)
   const isGridReady = useGameStore(state => state.isGridReady)
@@ -75,10 +74,10 @@ export function Player() {
 
     position.copy(target)
 
-    if (up) playerLogic.move('up', isLevelCompleted)
-    else if (down) playerLogic.move('down', isLevelCompleted)
-    else if (left) playerLogic.move('left', isLevelCompleted)
-    else if (right) playerLogic.move('right', isLevelCompleted)
+    if (up) playerLogic.move('up')
+    else if (down) playerLogic.move('down')
+    else if (left) playerLogic.move('left')
+    else if (right) playerLogic.move('right')
 
     /* Check for position change to trigger interaction */
     if (prevPos.current.col !== playerLogic.col || prevPos.current.row !== playerLogic.row) {

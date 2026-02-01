@@ -17,14 +17,11 @@ export class Grid {
     this.centerZ = (this.rows - 1) / 2
   }
 
-  isWalkable(col: number, row: number, isCompleted: boolean = false): boolean {
+  isWalkable(col: number, row: number): boolean {
     if (row < 0 || row >= this.rows || col < 0 || col >= this.cols) return false
 
     const blockType = this.config[row][col]
     if (blockType === BlockType.Empty) return false
-
-    // EndBlock is only walkable if the level is completed
-    if (blockType === BlockType.End && !isCompleted) return false
 
     return true
   }
