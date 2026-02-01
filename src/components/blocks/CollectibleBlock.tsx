@@ -1,7 +1,7 @@
 import { Float, useTexture } from '@react-three/drei'
 import { useGameStore } from '@stores'
-import { type JSX } from 'react'
-import { MathUtils } from 'three'
+import { useEffect, type JSX } from 'react'
+import { MathUtils, SRGBColorSpace } from 'three'
 import { BlockType } from '../../constants/game'
 import { SandBlock } from './SandBlock'
 
@@ -10,6 +10,11 @@ export function CollectibleBlock(
 ) {
   const collected = useGameStore(s => s.isCollected)
   const sprite = useTexture('/sprites/clam.png')
+
+  useEffect(() => {
+    sprite.colorSpace = SRGBColorSpace
+    sprite.needsUpdate = true
+  }, [sprite])
 
   return (
     <SandBlock {...props}>

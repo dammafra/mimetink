@@ -1,7 +1,7 @@
 import { useTexture } from '@react-three/drei'
 import { useFrame } from '@react-three/fiber'
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { DoubleSide, type ColorRepresentation } from 'three'
+import { DoubleSide, SRGBColorSpace, type ColorRepresentation } from 'three'
 
 interface SpriteAnimatorProps {
   paths: string[]
@@ -28,7 +28,12 @@ export function SpriteAnimator({
   const result = useTexture(paths)
   const textures = useMemo(() => (Array.isArray(result) ? result : [result]), [result])
 
-  useEffect(() => textures.forEach(texture => (texture.needsUpdate = true)), [textures])
+  useEffect(() => {
+    textures.forEach(texture => {
+      texture.colorSpace = SRGBColorSpace
+      texture.needsUpdate = true
+    })
+  }, [textures])
 
   useFrame((_, delta) => {
     if (!playing || textures.length === 0) return

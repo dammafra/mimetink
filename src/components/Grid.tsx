@@ -1,4 +1,5 @@
 import { useEffect, useMemo } from 'react'
+import { levels } from '../logic/levels'
 import { BlockType, useGameStore } from '../stores'
 import { CollectibleBlock } from './blocks/CollectibleBlock'
 import { CoralBlock } from './blocks/CoralBlock'
@@ -14,11 +15,20 @@ export function Grid() {
   const setGridReady = useGameStore(state => state.setGridReady)
   const restartKey = useGameStore(state => state.restartKey)
   const currentLevelIndex = useGameStore(state => state.currentLevelIndex)
+  const currentTutorialStep = useGameStore(state => state.currentTutorialStep)
+  const showTutorial = useGameStore(state => state.showTutorial)
 
   const rows = level.length
   const cols = level[0]?.length || 0 // Handle empty grid
   const centerX = (cols - 1) / 2
   const centerZ = (rows - 1) / 2
+
+  const visibleBlocks = useMemo(() => {
+    if (!showTutorial || currentTutorialStep === null) return null
+    const levelConfig = levels[currentLevelIndex]
+    const step = levelConfig.tutorialSteps?.[currentTutorialStep]
+    return step?.visibleBlocks || null
+  }, [showTutorial, currentTutorialStep, currentLevelIndex])
 
   const componentsMap = {
     [BlockType.Sand]: SandBlock,
@@ -50,8 +60,12 @@ export function Grid() {
         cells.map((cell, column) => {
           const type = typeof cell === 'object' ? cell.type : cell
 
+          const isVisible =
+            !visibleBlocks || visibleBlocks.some(vb => vb.row === row && vb.col === column)
+
           return (
-            type !== BlockType.Empty && (
+            type !== BlockType.Empty &&
+            isVisible && (
               <Dynamic
                 component={componentsMap[type]}
                 blockType={type}

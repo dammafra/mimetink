@@ -18,9 +18,12 @@ interface GameState {
   vitalMovesLeft: number | null
   hasCollectible: boolean
   isCollected: boolean
+  currentTutorialStep: number | null
+  showTutorial: boolean
 
   startGame: () => void
   finishIntro: () => void
+  nextTutorialStep: () => void
   restartLevel: () => void
   nextLevel: () => void
   setGridReady: (ready: boolean) => void
@@ -57,6 +60,8 @@ export const useGameStore = create<GameState>((set, get) => ({
   hasCollectible: !!levels[startLevelIndex].hasCollectible,
   isCollected: false,
   vitalMovesLeft: 0,
+  currentTutorialStep: levels[startLevelIndex].tutorialSteps ? 0 : null,
+  showTutorial: !!levels[startLevelIndex].tutorialSteps,
 
   startGame: () =>
     set({
@@ -68,10 +73,27 @@ export const useGameStore = create<GameState>((set, get) => ({
       currentMoves: 0,
     }),
 
-  finishIntro: () =>
+  finishIntro: () => {
+    const { currentLevelIndex } = get()
+    const level = levels[currentLevelIndex]
     set({
       status: GameStatus.PLAYING,
-    }),
+      currentTutorialStep: level.tutorialSteps ? 0 : null,
+      showTutorial: !!level.tutorialSteps,
+    })
+  },
+
+  nextTutorialStep: () => {
+    const { currentLevelIndex, currentTutorialStep } = get()
+    const level = levels[currentLevelIndex]
+    if (level.tutorialSteps && currentTutorialStep !== null) {
+      if (currentTutorialStep < level.tutorialSteps.length - 1) {
+        set({ currentTutorialStep: currentTutorialStep + 1 })
+      } else {
+        set({ currentTutorialStep: null, showTutorial: false })
+      }
+    }
+  },
 
   restartLevel: () => {
     const { currentLevelIndex } = get()
@@ -91,6 +113,8 @@ export const useGameStore = create<GameState>((set, get) => ({
       hasCollectible: !!level.hasCollectible,
       isCollected: false,
       vitalMovesLeft: 0,
+      currentTutorialStep: level.tutorialSteps ? 0 : null,
+      showTutorial: !!level.tutorialSteps,
     })
   },
 
@@ -115,6 +139,8 @@ export const useGameStore = create<GameState>((set, get) => ({
       hasCollectible: !!level.hasCollectible,
       isCollected: false,
       vitalMovesLeft: 0,
+      currentTutorialStep: level.tutorialSteps ? 0 : null,
+      showTutorial: !!level.tutorialSteps,
     })
   },
 

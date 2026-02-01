@@ -1,7 +1,7 @@
 import { animated, useSpring } from '@react-spring/three'
 import { useTexture } from '@react-three/drei'
-import type { JSX } from 'react'
-import { DoubleSide, MathUtils } from 'three'
+import { useEffect, type JSX } from 'react'
+import { DoubleSide, MathUtils, SRGBColorSpace } from 'three'
 import { BLOCK_CONFIG, BlockType } from '../../constants/game'
 import { useGameStore } from '../../stores'
 import { BaseBlock } from './BaseBlock'
@@ -14,6 +14,11 @@ export type EndBlockProps = JSX.IntrinsicElements['group'] & {
 export function EndBlock({ delay, color, ...props }: EndBlockProps) {
   const isLevelCompleted = useGameStore(state => state.isLevelCompleted)
   const sprite = useTexture('/sprites/cave.png')
+
+  useEffect(() => {
+    sprite.colorSpace = SRGBColorSpace
+    sprite.needsUpdate = true
+  }, [sprite])
 
   const { opacity } = useSpring({
     opacity: isLevelCompleted ? 1 : 0.5,

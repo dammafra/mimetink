@@ -1,7 +1,7 @@
 import { Sparkles, useTexture } from '@react-three/drei'
 import { randomOneOf } from '@utils'
-import { useMemo, type JSX } from 'react'
-import { MathUtils } from 'three'
+import { useEffect, useMemo, type JSX } from 'react'
+import { MathUtils, SRGBColorSpace } from 'three'
 import { BLOCK_CONFIG, BlockType } from '../../constants/game'
 import { AlgaFloor } from './AlgaFloor'
 import { BaseBlock } from './BaseBlock'
@@ -28,6 +28,13 @@ export function CoralBlock({ blockType, delay, color, ...props }: CoralBlockProp
   ])
 
   const coralSprite = useMemo(() => randomOneOf(coralSprites), [coralSprites])
+
+  useEffect(() => {
+    coralSprites.forEach(texture => {
+      texture.colorSpace = SRGBColorSpace
+      texture.needsUpdate = true
+    })
+  }, [coralSprites])
 
   const finalColor = color || (BLOCK_CONFIG as any)[blockType].color
 

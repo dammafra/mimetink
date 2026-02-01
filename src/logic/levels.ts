@@ -1,13 +1,19 @@
-import { BlockType } from '../constants/game'
+import { BlockType } from '../constants/game';
 
 export type GridCell =
   | BlockType
   | { type: BlockType; color?: string; moves?: number; isMimetic?: boolean }
 
+export type TutorialStep = {
+  message: string
+  visibleBlocks?: { row: number; col: number }[]
+}
+
 export type LevelConfig = {
   grid: GridCell[][]
   maxMoves?: number
   hasCollectible?: boolean
+  tutorialSteps?: TutorialStep[]
 }
 
 const level1: LevelConfig = {
@@ -28,6 +34,42 @@ const level1: LevelConfig = {
       BlockType.Empty,
       BlockType.Empty,
     ],
+  ],
+  tutorialSteps: [
+    {
+      message: "Hi! I'm Vincent van Polp. I'll guide you through the reef!",
+      visibleBlocks: [{ row: 1, col: 0 }],
+    },
+    {
+      message: "See that gray coral? It's dead. We need to help it thrive again!",
+      visibleBlocks: [
+        { row: 1, col: 0 },
+        { row: 0, col: 3 },
+      ],
+    },
+    {
+      message: 'This red one is a living coral. Touch it to collect algal symbionts!',
+      visibleBlocks: [
+        { row: 1, col: 0 },
+        { row: 0, col: 3 },
+        { row: 1, col: 2 },
+      ],
+    },
+    {
+      message:
+        'Once you have the symbionts, bring them to the dead coral to restore the reef life.',
+      visibleBlocks: [
+        { row: 1, col: 0 },
+        { row: 1, col: 1 },
+        { row: 1, col: 2 },
+        { row: 1, col: 3 },
+        { row: 0, col: 3 },
+        { row: 0, col: 4 },
+      ],
+    },
+    {
+      message: "Restore this coral, then let's go find more to save",
+    },
   ],
 }
 

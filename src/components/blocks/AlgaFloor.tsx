@@ -1,12 +1,13 @@
 import { useTexture } from '@react-three/drei'
 import { useFrame } from '@react-three/fiber' // Importa useFrame
-import { useRef } from 'react' // Importa useRef
+import { useEffect, useRef } from 'react' // Importa useRef
 import {
   DoubleSide,
   MathUtils,
   Mesh, // Importa tipo Mesh
   MeshBasicMaterial,
   PlaneGeometry,
+  SRGBColorSpace,
   type ColorRepresentation,
 } from 'three'
 
@@ -16,6 +17,11 @@ interface AlgaFloorProps {
 
 export function AlgaFloor({ color }: AlgaFloorProps) {
   const algaSprite = useTexture('/sprites/alga.png')
+
+  useEffect(() => {
+    algaSprite.colorSpace = SRGBColorSpace
+    algaSprite.needsUpdate = true
+  }, [algaSprite])
 
   // 1. Creiamo un array di riferimenti per accedere alle mesh
   const meshesRef = useRef<Mesh[]>([])

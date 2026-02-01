@@ -14,8 +14,9 @@ export function HUD() {
   const vitalMovesLeft = useGameStore(state => state.vitalMovesLeft)
   const hasCollectible = useGameStore(state => state.hasCollectible)
   const isShellCollected = useGameStore(state => state.isCollected)
+  const showTutorial = useGameStore(state => state.showTutorial)
 
-  if (status === GameStatus.READY || status === GameStatus.INTRO) return null
+  if (status === GameStatus.READY || status === GameStatus.INTRO || showTutorial) return null
 
   const isMoveLimitExceeded = maxMoves !== undefined && currentMoves > maxMoves
   const isExitFailed = isMoveLimitExceeded

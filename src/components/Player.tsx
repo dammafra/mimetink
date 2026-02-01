@@ -17,6 +17,7 @@ export function Player() {
   const status = useGameStore(state => state.status)
   const vitalMovesLeft = useGameStore(state => state.vitalMovesLeft)
   const isGridReady = useGameStore(state => state.isGridReady)
+  const showTutorial = useGameStore(state => state.showTutorial)
   const restartKey = useGameStore(state => state.restartKey)
   const isLevelCompleted = useGameStore(state => state.isLevelCompleted)
 
@@ -63,7 +64,7 @@ export function Player() {
   const prevPos = useRef({ col: playerLogic.col, row: playerLogic.row })
 
   useFrame((_, delta) => {
-    if (!ref.current || status === GameStatus.READY || !isGridReady) return
+    if (!ref.current || status === GameStatus.READY || !isGridReady || showTutorial) return
 
     const position = ref.current.position
 
