@@ -1,4 +1,4 @@
-import { BlockType } from '../constants/game'
+import { BlockType } from '../constants/game';
 
 export type GridCell =
   | BlockType
@@ -369,4 +369,74 @@ const level6: LevelConfig = {
   hasCollectible: true,
 }
 
-export const levels: LevelConfig[] = [level1, level2, level3, level4, level5, level6]
+const level7: LevelConfig = {
+  grid: [
+    [
+      BlockType.Start,
+      BlockType.Sand,
+      BlockType.Sand,
+      BlockType.CollectibleBlock,
+      BlockType.Sand,
+      BlockType.Sand,
+      BlockType.DeadCoral,
+    ],
+    [
+      BlockType.Sand,
+      BlockType.EnemyBlock,
+      BlockType.EnemyBlock,
+      BlockType.MimeticBlock,
+      BlockType.EnemyBlock,
+      BlockType.EnemyBlock,
+      BlockType.Sand,
+    ],
+    [
+      BlockType.Sand,
+      BlockType.EnemyBlock,
+      BlockType.Empty,
+      BlockType.MimeticBlock,
+      BlockType.Empty,
+      BlockType.EnemyBlock,
+      BlockType.Sand,
+    ],
+    [
+      BlockType.Sand,
+      BlockType.Sand,
+      BlockType.Sand,
+      { type: BlockType.VitalCoral, moves: 15 },
+      BlockType.MimeticBlock,
+      BlockType.MimeticBlock,
+      BlockType.DeadCoral,
+    ],
+    [
+      BlockType.Sand,
+      BlockType.EnemyBlock,
+      BlockType.Empty,
+      BlockType.Sand,
+      BlockType.Empty,
+      BlockType.EnemyBlock,
+      BlockType.Sand,
+    ],
+    [
+      BlockType.Sand,
+      BlockType.EnemyBlock,
+      BlockType.EnemyBlock,
+      BlockType.Sand,
+      BlockType.EnemyBlock,
+      BlockType.EnemyBlock,
+      BlockType.Sand,
+    ],
+    [
+      BlockType.DeadCoral,
+      BlockType.Sand,
+      BlockType.Sand,
+      BlockType.DeadCoral,
+      BlockType.Sand,
+      BlockType.Sand,
+      BlockType.End,
+    ],
+  ],
+  maxMoves: 35,
+  hasCollectible: true,
+}
+
+export const levels: LevelConfig[] = [level1, level2, level3, level4, level5, level6, level7]
