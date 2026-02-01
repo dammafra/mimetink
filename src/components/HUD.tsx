@@ -5,6 +5,7 @@ export function HUD() {
   const status = useGameStore(state => state.status)
   const restartLevel = useGameStore(state => state.restartLevel)
   const isCoralRestored = useGameStore(state => state.isLevelCompleted)
+  const showCompletionOverlay = useGameStore(state => state.showCompletionOverlay)
 
   if (status === GameStatus.READY) return null
 
@@ -72,7 +73,7 @@ export function HUD() {
       </div>
 
       {/* Level Completed Overlay */}
-      {status === GameStatus.COMPLETED && (
+      {showCompletionOverlay && (
         <div className="fixed inset-0 z-1000 flex items-center justify-center  backdrop-blur-sm transition-all duration-700 animate-in fade-in">
           <div className="animate-in zoom-in-50 rounded-3xl border border-white/20 bg-white/15 p-12 text-center shadow-2xl backdrop-blur-xl">
             <h2 className="mb-2 bg-gradient-to-r from-green-400 to-emerald-500 bg-clip-text text-5xl font-black tracking-widest text-transparent">

@@ -10,6 +10,7 @@ interface GameState {
   isLevelCompleted: boolean
   restartKey: number
   isGridReady: boolean
+  showCompletionOverlay: boolean
 
   startGame: () => void
   restartLevel: () => void
@@ -30,8 +31,10 @@ export const useGameStore = create<GameState>((set, get) => ({
   isLevelCompleted: checkLevelCompletion(levels[0]),
   restartKey: 0,
   isGridReady: false,
+  showCompletionOverlay: false,
 
-  startGame: () => set({ status: GameStatus.PLAYING, isGridReady: false }),
+  startGame: () =>
+    set({ status: GameStatus.PLAYING, isGridReady: false, showCompletionOverlay: false }),
 
   restartLevel: () => {
     const initialGrid = levels[0]
@@ -43,6 +46,7 @@ export const useGameStore = create<GameState>((set, get) => ({
       restartKey: get().restartKey + 1,
       playerColor: 'darkorange',
       isGridReady: false,
+      showCompletionOverlay: false,
     })
   },
 
@@ -77,6 +81,10 @@ export const useGameStore = create<GameState>((set, get) => ({
     // Interaction 3: Reaching the End block
     if (blockType === BlockType.End && get().isLevelCompleted) {
       set({ status: GameStatus.COMPLETED })
+      // Delay showing completion overlay to allow player scale-down animation
+      setTimeout(() => {
+        set({ showCompletionOverlay: true })
+      }, 1000) // 500ms delay + ~1000ms for animation
     }
   },
 }))
