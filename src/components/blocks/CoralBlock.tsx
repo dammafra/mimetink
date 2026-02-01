@@ -1,4 +1,4 @@
-import { useTexture } from '@react-three/drei'
+import { Sparkles, useTexture } from '@react-three/drei'
 import { randomOneOf } from '@utils'
 import { useMemo, type JSX } from 'react'
 import { MathUtils } from 'three'
@@ -33,6 +33,17 @@ export function CoralBlock({ blockType, delay, color, ...props }: CoralBlockProp
 
   return (
     <BaseBlock color={finalColor} delay={delay} {...props}>
+      {blockType === BlockType.VitalCoral && (
+        <Sparkles
+          color={finalColor}
+          scale={0.8}
+          size={8}
+          count={10}
+          position-y={1}
+          material-depthWrite={false}
+        />
+      )}
+
       <mesh rotation={[MathUtils.degToRad(-35), 0, 0]} position={[0, 0.6, -0.25]}>
         <planeGeometry />
         <meshBasicMaterial map={coralSprite} transparent color={finalColor} alphaTest={0.5} />

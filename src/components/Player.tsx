@@ -1,4 +1,5 @@
 import { animated, useSpring } from '@react-spring/three'
+import { Sparkles } from '@react-three/drei'
 import { useFrame } from '@react-three/fiber'
 import { GameStatus, useController, useGameStore } from '@stores'
 import { useEffect, useLayoutEffect, useMemo, useRef } from 'react'
@@ -14,6 +15,7 @@ export function Player() {
   const onPlayerMove = useGameStore(state => state.onPlayerMove)
   const gridState = useGameStore(state => state.grid)
   const status = useGameStore(state => state.status)
+  const vitalMovesLeft = useGameStore(state => state.vitalMovesLeft)
   const isGridReady = useGameStore(state => state.isGridReady)
   const restartKey = useGameStore(state => state.restartKey)
   const isLevelCompleted = useGameStore(state => state.isLevelCompleted)
@@ -89,6 +91,16 @@ export function Player() {
   return (
     <Controller>
       <animated.group ref={ref} scale={scale}>
+        {vitalMovesLeft !== 0 && (
+          <Sparkles
+            color={playerColor}
+            scale={0.8}
+            size={8}
+            count={10}
+            position-y={1.5}
+            material-depthWrite={false}
+          />
+        )}
         <SpriteAnimator
           rotation={[MathUtils.degToRad(-35), 0, 0]}
           position-y={0.8}
