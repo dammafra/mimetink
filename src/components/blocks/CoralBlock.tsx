@@ -44,7 +44,7 @@ export function CoralBlock({ blockType, delay, color, ...props }: CoralBlockProp
         <Sparkles
           color={finalColor}
           scale={0.8}
-          size={8}
+          size={30}
           count={10}
           position-y={1}
           material-depthWrite={false}

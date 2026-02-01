@@ -93,14 +93,15 @@ export function Player() {
     <Controller>
       <animated.group ref={ref} scale={scale}>
         {vitalMovesLeft !== 0 && (
-          <Sparkles
-            color={playerColor}
-            scale={0.8}
-            size={8}
-            count={10}
-            position-y={1.5}
-            material-depthWrite={false}
-          />
+          <group renderOrder={2}>
+            <Sparkles
+              color={playerColor}
+              size={30}
+              count={10}
+              position-y={1.5}
+              material-depthWrite={false}
+            />
+          </group>
         )}
         <SpriteAnimator
           rotation={[MathUtils.degToRad(-35), 0, 0]}
