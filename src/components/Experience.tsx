@@ -11,22 +11,34 @@ export function Experience() {
   const debug = useDebug()
 
   return (
-    <Canvas shadows={{ type: PCFShadowMap }} orthographic>
+    <Canvas
+      shadows={{ type: PCFShadowMap }}
+      orthographic
+      camera={{ near: 0, far: 100, position: [0, 0, 15] }}
+    >
       <CameraControls
         makeDefault
         polarRotateSpeed={debug ? undefined : 0}
         azimuthRotateSpeed={debug ? undefined : 0}
-        mouseButtons={{
-          wheel: CameraControlsImpl.ACTION.NONE,
-          left: CameraControlsImpl.ACTION.NONE,
-          right: CameraControlsImpl.ACTION.NONE,
-          middle: CameraControlsImpl.ACTION.NONE,
-        }}
-        touches={{
-          one: CameraControlsImpl.ACTION.NONE,
-          two: CameraControlsImpl.ACTION.NONE,
-          three: CameraControlsImpl.ACTION.NONE,
-        }}
+        mouseButtons={
+          debug
+            ? undefined
+            : {
+                wheel: CameraControlsImpl.ACTION.NONE,
+                left: CameraControlsImpl.ACTION.NONE,
+                right: CameraControlsImpl.ACTION.NONE,
+                middle: CameraControlsImpl.ACTION.NONE,
+              }
+        }
+        touches={
+          debug
+            ? undefined
+            : {
+                one: CameraControlsImpl.ACTION.NONE,
+                two: CameraControlsImpl.ACTION.NONE,
+                three: CameraControlsImpl.ACTION.NONE,
+              }
+        }
       />
       <FitCamera />
       <World />

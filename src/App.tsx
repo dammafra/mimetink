@@ -1,4 +1,11 @@
-import { ControlsOverlay, Experience, HUD, IntroVideo, StartScreen, TutorialOverlay } from '@components'
+import {
+  ControlsOverlay,
+  Experience,
+  HUD,
+  IntroVideo,
+  StartScreen,
+  TutorialOverlay,
+} from '@components'
 import { DoubleTapPreventer, GUI } from '@components/helpers'
 import { GameStatus, useGameStore } from '@stores'
 import { StrictMode } from 'react'
