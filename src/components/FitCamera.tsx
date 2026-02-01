@@ -6,6 +6,7 @@ import { useGameStore } from '../stores'
 
 export function FitCamera() {
   const gridDimensions = useGameStore(state => state.gridDimensions)
+  const isGridReady = useGameStore(state => state.isGridReady)
   const { size, viewport, controls } = useThree()
   const lastDimensions = useRef<{ rows: number; cols: number } | null>(null)
 
@@ -36,7 +37,7 @@ export function FitCamera() {
   // Effect for grid changes or window resize
   useEffect(() => {
     fit()
-  }, [controls, gridDimensions, size.width, size.height])
+  }, [controls, gridDimensions, isGridReady, size.width, size.height])
 
   // Periodic check to ensure it's fitted (optional, but good for stability during layout shifts)
   useFrame(() => {
