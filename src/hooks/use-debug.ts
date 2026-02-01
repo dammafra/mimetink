@@ -11,5 +11,5 @@ export function useDebug() {
     return () => window.removeEventListener('hashchange', handler)
   }, [])
 
-  return false
+  return debug
 }

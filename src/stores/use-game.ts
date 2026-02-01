@@ -13,7 +13,8 @@ interface GameState {
   isGridReady: boolean
   showCompletionOverlay: boolean
   currentMoves: number
-  maxMoves: number
+  maxMoves: number | undefined
+  vitalMovesLeft: number | null
 
   startGame: () => void
   restartLevel: () => void
@@ -44,6 +45,7 @@ export const useGameStore = create<GameState>((set, get) => ({
   showCompletionOverlay: false,
   currentMoves: 0,
   maxMoves: levels[0].maxMoves,
+  vitalMovesLeft: 0,
 
   startGame: () =>
     set({
@@ -67,6 +69,7 @@ export const useGameStore = create<GameState>((set, get) => ({
       showCompletionOverlay: false,
       currentMoves: 0,
       maxMoves: level.maxMoves,
+      vitalMovesLeft: 0,
     })
   },
 
@@ -87,6 +90,7 @@ export const useGameStore = create<GameState>((set, get) => ({
       showCompletionOverlay: false,
       currentMoves: 0,
       maxMoves: level.maxMoves,
+      vitalMovesLeft: 0,
     })
   },
 
@@ -95,26 +99,46 @@ export const useGameStore = create<GameState>((set, get) => ({
   setPlayerColor: color => set({ playerColor: color }),
 
   onPlayerMove: (col, row) => {
-    const { grid, playerColor, currentMoves } = get()
+    const { grid, currentMoves, vitalMovesLeft: currentVitalMoves } = get()
     const cell = grid[row][col]
     const blockType = typeof cell === 'object' ? cell.type : cell
 
-    // Increment move counter
-    const newMoveCount = currentMoves + 1
-    set({ currentMoves: newMoveCount })
-
-    // Interaction 1: VitalCoral turns player Red
-    if (blockType === BlockType.VitalCoral) {
-      if (playerColor !== BLOCK_CONFIG[BlockType.VitalCoral].color) {
-        set({ playerColor: BLOCK_CONFIG[BlockType.VitalCoral].color })
-      }
+    // 1. Initial State Check (Start of Move)
+    // If charges were 0 and we are NOT landing on a vital block, lose color
+    if (currentVitalMoves === 0 && blockType !== BlockType.VitalCoral) {
+      set({ playerColor: 'darkorange' })
     }
 
-    // Interaction 2: Player (Red) turns DeadCoral into ActivatedDeadCoral
-    if (
-      blockType === BlockType.DeadCoral &&
-      playerColor === BLOCK_CONFIG[BlockType.VitalCoral].color
-    ) {
+    // 2. Determine Power for THIS move's interaction (based on start-of-move state)
+    const powerAtStart = currentVitalMoves === null || (currentVitalMoves as number) > 0
+
+    // 3. Update Move Counters
+    const newMoveCount = currentMoves + 1
+
+    // 4. Process Interactions
+    if (blockType === BlockType.VitalCoral) {
+      // Gain or refresh power
+      const moves = typeof cell === 'object' ? cell.moves : undefined
+      const vitalMoves = moves !== undefined ? moves : null
+      set({
+        currentMoves: newMoveCount,
+        playerColor: BLOCK_CONFIG[BlockType.VitalCoral].color,
+        vitalMovesLeft: vitalMoves,
+      })
+    } else {
+      // Deplete power if numeric
+      let nextVitalMoves = currentVitalMoves
+      if (typeof currentVitalMoves === 'number') {
+        nextVitalMoves = Math.max(0, currentVitalMoves - 1)
+      }
+      set({
+        currentMoves: newMoveCount,
+        vitalMovesLeft: nextVitalMoves,
+      })
+    }
+
+    // Interaction 2: Activate DeadCoral ONLY if power was active at start of move
+    if (blockType === BlockType.DeadCoral && powerAtStart) {
       const newGrid = grid.map(r => [...r]) // Deep copy rows
       if (typeof cell === 'object') {
         newGrid[row][col] = { ...cell, type: BlockType.ActivatedDeadCoral }
@@ -127,13 +151,12 @@ export const useGameStore = create<GameState>((set, get) => ({
       })
     }
 
-    // Interaction 3: Reaching the End block (always completes the level)
+    // Interaction 3: Reaching the End block
     if (blockType === BlockType.End) {
       set({ status: GameStatus.COMPLETED })
-      // Delay showing completion overlay to allow player scale-down animation
       setTimeout(() => {
         set({ showCompletionOverlay: true })
-      }, 1000) // 500ms delay + ~1000ms for animation
+      }, 1000)
     }
   },
 }))

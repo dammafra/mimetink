@@ -10,6 +10,7 @@ export function Grid() {
   const level = useGameStore(state => state.grid)
   const setGridReady = useGameStore(state => state.setGridReady)
   const restartKey = useGameStore(state => state.restartKey)
+  const currentLevelIndex = useGameStore(state => state.currentLevelIndex)
 
   const rows = level.length
   const cols = level[0]?.length || 0 // Handle empty grid
@@ -50,7 +51,7 @@ export function Grid() {
                 component={componentsMap[type]}
                 blockType={type}
                 color={color}
-                key={`cell-${row}-${column}`}
+                key={`level-${currentLevelIndex}-cell-${row}-${column}`}
                 position={[column - centerX, 0, row - centerZ] as [number, number, number]}
                 delay={delays[row][column]}
               />

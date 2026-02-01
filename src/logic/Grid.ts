@@ -1,5 +1,6 @@
 import { Vector3 } from 'three'
 import { BlockType } from '../constants/game'
+import type { GridCell } from './levels'
 
 export class Grid {
   rows: number
@@ -7,9 +8,9 @@ export class Grid {
   centerX: number
   centerZ: number
 
-  config: BlockType[][]
+  config: GridCell[][]
 
-  constructor(config: BlockType[][]) {
+  constructor(config: GridCell[][]) {
     this.config = config
     this.rows = config.length
     this.cols = config[0].length
@@ -17,11 +18,14 @@ export class Grid {
     this.centerZ = (this.rows - 1) / 2
   }
 
-  isWalkable(col: number, row: number): boolean {
+  isWalkable(col: number, row: number, isLevelCompleted: boolean = true): boolean {
     if (row < 0 || row >= this.rows || col < 0 || col >= this.cols) return false
 
-    const blockType = this.config[row][col]
+    const cell = this.config[row][col]
+    const blockType = typeof cell === 'object' ? cell.type : cell
+
     if (blockType === BlockType.Empty) return false
+    if (blockType === BlockType.End && !isLevelCompleted) return false
 
     return true
   }

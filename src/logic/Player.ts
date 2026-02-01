@@ -16,7 +16,7 @@ export class Player {
     this.targetPosition = grid.getWorldPosition(col, row)
   }
 
-  move(direction: 'up' | 'down' | 'left' | 'right') {
+  move(direction: 'up' | 'down' | 'left' | 'right', isLevelCompleted: boolean) {
     let newCol = this.col
     let newRow = this.row
 
@@ -25,7 +25,7 @@ export class Player {
     if (direction === 'left') newCol -= 1
     if (direction === 'right') newCol += 1
 
-    if (this.grid.isWalkable(newCol, newRow)) {
+    if (this.grid.isWalkable(newCol, newRow, isLevelCompleted)) {
       this.col = newCol
       this.row = newRow
       this.targetPosition.copy(this.grid.getWorldPosition(newCol, newRow))

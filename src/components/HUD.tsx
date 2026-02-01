@@ -10,10 +10,11 @@ export function HUD() {
   const showCompletionOverlay = useGameStore(state => state.showCompletionOverlay)
   const currentMoves = useGameStore(state => state.currentMoves)
   const maxMoves = useGameStore(state => state.maxMoves)
+  const vitalMovesLeft = useGameStore(state => state.vitalMovesLeft)
 
   if (status === GameStatus.READY) return null
 
-  const isMoveLimitExceeded = currentMoves > maxMoves
+  const isMoveLimitExceeded = maxMoves !== undefined && currentMoves > maxMoves
   const isExitFailed = isMoveLimitExceeded
   const isExitCompleted = status === GameStatus.COMPLETED && !isExitFailed
 
@@ -25,13 +26,17 @@ export function HUD() {
       failed: false,
       showMoves: false,
     },
-    {
-      id: 'exit',
-      label: `Reach the exit in ${maxMoves} moves`,
-      completed: isExitCompleted,
-      failed: isExitFailed,
-      showMoves: true,
-    },
+    ...(maxMoves !== undefined
+      ? [
+          {
+            id: 'exit',
+            label: `Reach the exit in ${maxMoves} moves`,
+            completed: isExitCompleted,
+            failed: isExitFailed,
+            showMoves: true,
+          },
+        ]
+      : []),
   ]
 
   return (
@@ -42,8 +47,17 @@ export function HUD() {
       </div>
 
       {/* Top Left: Objectives (Below level on mobile) */}
-      <div className="animate-in zoom-in-50 fixed top-22 left-6 z-100 w-65 rounded-2xl border border-white/20 bg-white/15 p-4 text-white shadow-2xl backdrop-blur-md pointer-events-none md:top-6 md:left-6 md:translate-x-0">
+      <div className="animate-in zoom-in-50 fixed top-22 left-6 z-100 w-70 rounded-2xl border border-white/20 bg-white/15 p-4 text-white shadow-2xl backdrop-blur-md pointer-events-none md:top-6 md:left-6 md:translate-x-0">
         <Objectives objectives={objectives} currentMoves={currentMoves} maxMoves={maxMoves} />
+        {!!vitalMovesLeft && (
+          <div className="mt-2 flex items-center gap-2 border-t border-white/10 pt-2 animate-in slide-in-from-left-2">
+            <span className="flex size-2 animate-pulse rounded-full bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.8)]" />
+            <span className="text-xs font-bold tracking-wider text-red-400 uppercase">
+              {vitalMovesLeft === 1 ? '1 algal symbiont' : `${vitalMovesLeft} algal symbionts`}{' '}
+              remaining
+            </span>
+          </div>
+        )}
       </div>
 
       {/* Top Right: Restart Button */}
