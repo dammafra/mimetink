@@ -1,7 +1,8 @@
 import { Canvas, Helpers } from '@components/helpers'
 import { useDebug } from '@hooks'
-import { CameraControls } from '@react-three/drei'
+import { CameraControls, Hud, PerspectiveCamera } from '@react-three/drei'
 import { PCFShadowMap } from 'three'
+import { Bubbles } from './Bubbles'
 import { FitCamera } from './FitCamera'
 import { World } from './World'
 
@@ -20,6 +21,11 @@ export function Experience() {
       <FitCamera />
       <World />
       <Helpers />
+
+      <Hud>
+        <Bubbles />
+        <PerspectiveCamera makeDefault position={[0, 0, 15]} />
+      </Hud>
     </Canvas>
   )
 }

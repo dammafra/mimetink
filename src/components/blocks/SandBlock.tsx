@@ -28,3 +28,5 @@ export function SandBlock({
     </BaseBlock>
   )
 }
+
+useTexture.preload(['/sprites/sand/01.png', '/sprites/sand/02.png'])

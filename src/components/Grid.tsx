@@ -11,8 +11,6 @@ export function Grid() {
   const setGridReady = useGameStore(state => state.setGridReady)
   const restartKey = useGameStore(state => state.restartKey)
 
-  if (!level) return null // Handle potential undefined state
-
   const rows = level.length
   const cols = level[0]?.length || 0 // Handle empty grid
   const centerX = (cols - 1) / 2

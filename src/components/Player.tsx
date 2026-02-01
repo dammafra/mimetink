@@ -87,8 +87,6 @@ export function Player() {
     }
   })
 
-  if (status === GameStatus.READY) return null
-
   return (
     <Controller>
       <animated.group ref={ref} scale={scale}>

@@ -28,3 +28,5 @@ export function EndBlock({ delay, ...props }: JSX.IntrinsicElements['group'] & {
     </animated.group>
   )
 }
+
+useTexture.preload('/sprites/cave.png')

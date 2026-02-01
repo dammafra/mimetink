@@ -52,3 +52,19 @@ export function CoralBlock({ blockType, delay, ...props }: CoralBlockProps) {
     </BaseBlock>
   )
 }
+
+useTexture.preload([
+  '/sprites/corals/1.png',
+  '/sprites/corals/2.png',
+  '/sprites/corals/3.png',
+  '/sprites/corals/4.png',
+  '/sprites/corals/6.png',
+  '/sprites/corals/7.png',
+  '/sprites/corals/8.png',
+  '/sprites/corals/9.png',
+  '/sprites/corals/10.png',
+  '/sprites/corals/11.png',
+  '/sprites/corals/12.png',
+])
+
+useTexture.preload(['/sprites/sand/01.png', '/sprites/sand/02.png'])
