@@ -1,4 +1,4 @@
-import { BlockType } from '../constants/game'
+import { BlockType } from '../constants/game';
 
 export type GridCell =
   | BlockType
@@ -177,4 +177,67 @@ const level4: LevelConfig = {
   hasCollectible: true,
 }
 
-export const levels: LevelConfig[] = [level1, level2, level3, level4]
+const level5: LevelConfig = {
+  grid: [
+    [
+      BlockType.Empty,
+      BlockType.Empty,
+      BlockType.Empty,
+      BlockType.EnemyBlock,
+      BlockType.Empty,
+      BlockType.Empty,
+    ],
+    [
+      BlockType.Start,
+      BlockType.Sand,
+      BlockType.Sand,
+      BlockType.MimeticBlock,
+      BlockType.Empty,
+      BlockType.Empty,
+    ],
+    [
+      BlockType.Sand,
+      BlockType.Sand,
+      { type: BlockType.VitalCoral, moves: 5 },
+      BlockType.MimeticBlock,
+      BlockType.Sand,
+      BlockType.Sand,
+    ],
+    [
+      BlockType.Sand,
+      BlockType.Empty,
+      BlockType.Empty,
+      BlockType.MimeticBlock,
+      BlockType.Empty,
+      BlockType.DeadCoral,
+    ],
+    [
+      BlockType.Sand,
+      BlockType.EnemyBlock,
+      BlockType.MimeticBlock,
+      BlockType.MimeticBlock,
+      BlockType.MimeticBlock,
+      BlockType.CollectibleBlock,
+    ],
+    [
+      BlockType.Sand,
+      BlockType.Sand,
+      BlockType.Sand,
+      BlockType.DeadCoral,
+      BlockType.Sand,
+      BlockType.Sand,
+    ],
+    [
+      BlockType.Empty,
+      BlockType.Empty,
+      BlockType.Empty,
+      BlockType.Empty,
+      BlockType.Empty,
+      BlockType.End,
+    ],
+  ],
+  maxMoves: 22,
+  hasCollectible: true,
+}
+
+export const levels: LevelConfig[] = [level1, level2, level3, level4, level5]
