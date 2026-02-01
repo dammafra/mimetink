@@ -103,6 +103,16 @@ const level2: LevelConfig = {
       BlockType.End,
     ],
   ],
+  tutorialSteps: [
+    {
+      message: 'Some corals have limited symbiotic algae. The bubble shows how many moves you get!',
+      visibleBlocks: [
+        { row: 1, col: 0 },
+        { row: 1, col: 1 },
+        { row: 1, col: 2 },
+      ],
+    },
+  ],
 }
 
 const level3: LevelConfig = {
@@ -139,6 +149,27 @@ const level3: LevelConfig = {
       BlockType.Empty,
       BlockType.Empty,
     ],
+  ],
+  tutorialSteps: [
+    {
+      message: 'Watch out for crabs! They are dangerous enemies.',
+      visibleBlocks: [
+        { row: 1, col: 0 },
+        { row: 2, col: 5 },
+      ],
+    },
+    {
+      message:
+        'With the right colored symbiotic algae, you can camouflage yourself and pass unnoticed.',
+      visibleBlocks: [
+        { row: 1, col: 0 },
+        { row: 2, col: 5 },
+        { row: 1, col: 4 },
+        { row: 2, col: 2 },
+        { row: 2, col: 3 },
+        { row: 2, col: 4 },
+      ],
+    },
   ],
 }
 

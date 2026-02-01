@@ -40,7 +40,7 @@ const checkLevelCompletion = (grid: GridCell[][]) => {
   )
 }
 
-const startLevelIndex = 1
+const startLevelIndex = 0
 export const useGameStore = create<GameState>((set, get) => ({
   currentLevelIndex: startLevelIndex,
   status: GameStatus.READY,

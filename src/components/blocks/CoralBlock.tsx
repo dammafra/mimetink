@@ -55,7 +55,7 @@ export function CoralBlock({ blockType, delay, color, moves, ...props }: CoralBl
             position-y={1}
             material-depthWrite={false}
           />
-          {!vitalMovesLeft && (
+          {!!moves && !vitalMovesLeft && (
             <Billboard position={[0, 0.5, 0]} scale={0.7}>
               <Float speed={5}>
                 <mesh>

@@ -94,13 +94,7 @@ export function Player() {
       <animated.group ref={ref} scale={scale}>
         {vitalMovesLeft !== 0 && (
           <group renderOrder={2}>
-            <Sparkles
-              color={playerColor}
-              size={30}
-              count={10}
-              position-y={1.5}
-              material-depthWrite={false}
-            />
+            <Sparkles color={playerColor} size={30} count={10} position-y={1} position-x={-0.25} />
           </group>
         )}
         <SpriteAnimator
