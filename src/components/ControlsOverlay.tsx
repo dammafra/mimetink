@@ -14,7 +14,7 @@ export function ControlsOverlay() {
   if (!isVisible) return null
 
   return (
-    <div className="fixed bottom-10 left-1/2 z-100 -translate-x-1/2 animate-in fade-in slide-in-from-bottom-4 duration-700 pb-[env(safe-area-inset-bottom)] pointer-events-none">
+    <div className="text-center whitespace-nowrap fixed bottom-10 left-1/2 z-100 -translate-x-1/2 animate-in fade-in slide-in-from-bottom-4 duration-700 pb-[env(safe-area-inset-bottom)] pointer-events-none">
       <div className="flex items-center gap-3 rounded-full border border-white/20 bg-white/10 px-6 py-3 shadow-2xl backdrop-blur-md">
         <span className="text-sm font-bold tracking-widest text-white/80 uppercase">
           {isTouch ? 'Swipe to move' : 'Use Arrow Keys or WASD to move'}

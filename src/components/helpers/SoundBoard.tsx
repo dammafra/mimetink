@@ -15,6 +15,7 @@ export default function SoundBoard() {
 
   const sounds = {
     loop: parse(useSound('./sounds/loop.wav', { loop: true, volume: 0.2, onload })),
+    move: parse(useSound('./sounds/move.wav', { volume: 0.05, onload })),
   }
 
   const toLoad = Object.keys(sounds).length

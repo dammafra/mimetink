@@ -108,9 +108,9 @@ export function HUD() {
             <p className="mb-6 text-lg opacity-80 text-white">The coral reef is thriving again!</p>
 
             {/* Objectives Summary */}
-            <div className="mb-8 mx-auto max-w-md rounded-3xl border border-white/20 bg-white/10 p-4 text-left text-white">
+            {/* <div className="mb-8 mx-auto max-w-md rounded-3xl border border-white/20 bg-white/10 p-4 text-left text-white">
               <Objectives objectives={objectives} currentMoves={currentMoves} maxMoves={maxMoves} />
-            </div>
+            </div> */}
 
             <div className="flex gap-4 justify-center">
               <button

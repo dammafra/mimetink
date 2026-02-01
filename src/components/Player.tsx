@@ -1,13 +1,39 @@
 import { animated, useSpring } from '@react-spring/three'
 import { Sparkles } from '@react-three/drei'
 import { useFrame } from '@react-three/fiber'
-import { GameStatus, useController, useGameStore } from '@stores'
+import { GameStatus, useController, useGameStore, useSoundBoard } from '@stores'
 import { useEffect, useLayoutEffect, useMemo, useRef } from 'react'
 import { Group, MathUtils } from 'three'
 import { Grid } from '../logic/Grid'
 import { Player as PlayerLogic } from '../logic/Player'
 import { Controller } from './Controller'
 import { SpriteAnimator } from './helpers'
+
+const OCTOPUS_SPRITES = [
+  '/sprites/octopus/01.png',
+  '/sprites/octopus/02.png',
+  '/sprites/octopus/03.png',
+  '/sprites/octopus/04.png',
+  '/sprites/octopus/05.png',
+  '/sprites/octopus/06.png',
+  '/sprites/octopus/07.png',
+  '/sprites/octopus/08.png',
+  '/sprites/octopus/09.png',
+  '/sprites/octopus/10.png',
+]
+
+const EYE_SPRITES = [
+  '/sprites/octopus/eyes/01.png',
+  '/sprites/octopus/eyes/02.png',
+  '/sprites/octopus/eyes/03.png',
+  '/sprites/octopus/eyes/04.png',
+  '/sprites/octopus/eyes/05.png',
+  '/sprites/octopus/eyes/06.png',
+  '/sprites/octopus/eyes/07.png',
+  '/sprites/octopus/eyes/08.png',
+  '/sprites/octopus/eyes/09.png',
+  '/sprites/octopus/eyes/10.png',
+]
 
 export function Player() {
   const { up, down, left, right } = useController()
@@ -20,6 +46,7 @@ export function Player() {
   const showTutorial = useGameStore(state => state.showTutorial)
   const restartKey = useGameStore(state => state.restartKey)
   const isLevelCompleted = useGameStore(state => state.isLevelCompleted)
+  const sounds = useSoundBoard(state => state.sounds)
 
   const ref = useRef<Group>(null)
 
@@ -84,6 +111,7 @@ export function Player() {
 
     /* Check for position change to trigger interaction */
     if (prevPos.current.col !== playerLogic.col || prevPos.current.row !== playerLogic.row) {
+      if (sounds?.move) sounds.move.play()
       onPlayerMove(playerLogic.col, playerLogic.row)
       prevPos.current = { col: playerLogic.col, row: playerLogic.row }
     }
@@ -103,36 +131,14 @@ export function Player() {
           position-z={-0.2}
           scale={2}
           color={playerColor}
-          paths={[
-            '/sprites/octopus/01.png',
-            '/sprites/octopus/02.png',
-            '/sprites/octopus/03.png',
-            '/sprites/octopus/04.png',
-            '/sprites/octopus/05.png',
-            '/sprites/octopus/06.png',
-            '/sprites/octopus/07.png',
-            '/sprites/octopus/08.png',
-            '/sprites/octopus/09.png',
-            '/sprites/octopus/10.png',
-          ]}
+          paths={OCTOPUS_SPRITES}
         />
         <SpriteAnimator
           rotation={[MathUtils.degToRad(-35), 0, 0]}
           position-y={0.8}
           position-z={-0.19}
           scale={2}
-          paths={[
-            '/sprites/octopus/eyes/01.png',
-            '/sprites/octopus/eyes/02.png',
-            '/sprites/octopus/eyes/03.png',
-            '/sprites/octopus/eyes/04.png',
-            '/sprites/octopus/eyes/05.png',
-            '/sprites/octopus/eyes/06.png',
-            '/sprites/octopus/eyes/07.png',
-            '/sprites/octopus/eyes/08.png',
-            '/sprites/octopus/eyes/09.png',
-            '/sprites/octopus/eyes/10.png',
-          ]}
+          paths={EYE_SPRITES}
         />
       </animated.group>
     </Controller>

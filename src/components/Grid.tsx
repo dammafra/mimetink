@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from 'react'
+import { Suspense, useEffect, useMemo } from 'react'
 import { levels } from '../logic/levels'
 import { BlockType, useGameStore } from '../stores'
 import { CollectibleBlock } from './blocks/CollectibleBlock'
@@ -67,14 +67,15 @@ export function Grid() {
           return (
             type !== BlockType.Empty &&
             isVisible && (
-              <Dynamic
-                component={componentsMap[type]}
-                blockType={type}
-                key={`level-${currentLevelIndex}-cell-${row}-${column}`}
-                position={[column - centerX, 0, row - centerZ] as [number, number, number]}
-                delay={delays[row][column]}
-                {...cellProps}
-              />
+              <Suspense key={`level-${currentLevelIndex}-cell-${row}-${column}`}>
+                <Dynamic
+                  component={componentsMap[type]}
+                  blockType={type}
+                  position={[column - centerX, 0, row - centerZ] as [number, number, number]}
+                  delay={delays[row][column]}
+                  {...cellProps}
+                />
+              </Suspense>
             )
           )
         }),
