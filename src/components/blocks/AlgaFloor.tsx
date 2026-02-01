@@ -1,5 +1,5 @@
 import { useTexture } from '@react-three/drei'
-import { useFrame } from '@react-three/fiber'; // Importa useFrame
+import { useFrame } from '@react-three/fiber' // Importa useFrame
 import { useEffect, useMemo, useRef } from 'react'
 import {
   DoubleSide,
@@ -13,6 +13,7 @@ import {
 
 interface AlgaFloorProps {
   color: ColorRepresentation
+  tall?: boolean
 }
 
 // Configurazione dei 5 strati (per pulire il JSX e assegnare le ref facilmente)
@@ -24,7 +25,7 @@ const LAYERS = [
   { z: 0.3, flipped: false },
 ]
 
-export function AlgaFloor({ color }: AlgaFloorProps) {
+export function AlgaFloor({ color, tall }: AlgaFloorProps) {
   const algaSprite = useTexture('/sprites/alga.png')
 
   useEffect(() => {
@@ -68,7 +69,7 @@ export function AlgaFloor({ color }: AlgaFloorProps) {
   })
 
   return (
-    <group scale={[0.9, 0.4, 0.8]} position-y={0.3}>
+    <group scale={[0.9, tall ? 3 : 0.4, 0.8]} position-y={tall ? 1 : 0.3}>
       {LAYERS.map((layer, index) => (
         <mesh
           key={index}

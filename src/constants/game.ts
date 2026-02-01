@@ -9,6 +9,7 @@ export const BlockType = {
   MimeticBlock: 7,
   EnemyBlock: 8,
   CollectibleBlock: 9,
+  DecorativeBlock: 10,
 } as const
 
 export type BlockType = (typeof BlockType)[keyof typeof BlockType]

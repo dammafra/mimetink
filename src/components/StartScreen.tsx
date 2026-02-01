@@ -14,7 +14,7 @@ export function StartScreen() {
 
       <button
         onClick={startGame}
-        className="cursor-pointer tracking-widest rounded-3xl bg-teal-500 px-12 py-4 text-xl font-bold text-white shadow-md transition-all duration-300 hover:scale-105 hover:bg-teal-600 active:scale-105 active:bg-teal-600 outline-none"
+        className="cursor-pointer tracking-widest rounded-2xl bg-teal-500 px-12 py-4 text-xl font-bold text-white shadow-md transition-all duration-300 hover:scale-105 hover:bg-teal-600 active:scale-105 active:bg-teal-600 outline-none"
       >
         START
       </button>

@@ -49,7 +49,7 @@ export const useGameStore = create<GameState>((set, get) => ({
     rows: levels[startLevelIndex].grid.length,
     cols: levels[startLevelIndex].grid[0]?.length || 0,
   },
-  playerColor: 'darkorange',
+  playerColor: 'orange',
   isLevelCompleted: checkLevelCompletion(levels[startLevelIndex].grid),
   restartKey: 0,
   isGridReady: false,
@@ -104,7 +104,7 @@ export const useGameStore = create<GameState>((set, get) => ({
       gridDimensions: { rows: level.grid.length, cols: level.grid[0]?.length || 0 },
       isLevelCompleted: checkLevelCompletion(level.grid),
       restartKey: get().restartKey + 1,
-      playerColor: 'darkorange',
+      playerColor: 'orange',
       isGridReady: false,
       showCompletionOverlay: false,
       showFailureOverlay: false,
@@ -130,7 +130,7 @@ export const useGameStore = create<GameState>((set, get) => ({
       gridDimensions: { rows: level.grid.length, cols: level.grid[0]?.length || 0 },
       isLevelCompleted: checkLevelCompletion(level.grid),
       restartKey: get().restartKey + 1,
-      playerColor: 'darkorange',
+      playerColor: 'orange',
       isGridReady: false,
       showCompletionOverlay: false,
       showFailureOverlay: false,
@@ -158,7 +158,7 @@ export const useGameStore = create<GameState>((set, get) => ({
 
     // Reset color IF starting the move with 0 energy and not landing on VitalCoral
     if (!powerAtStart && blockType !== BlockType.VitalCoral) {
-      set({ playerColor: 'darkorange' })
+      set({ playerColor: 'orange' })
     }
 
     // 3. Update Move Counters

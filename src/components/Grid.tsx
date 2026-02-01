@@ -8,6 +8,7 @@ import { EnemyBlock } from './blocks/EnemyBlock'
 import { MimeticBlock } from './blocks/MimeticBlock'
 import { SandBlock } from './blocks/SandBlock'
 
+import { DecorativeBlock } from './blocks/DecorativeBlock'
 import { Dynamic } from './helpers'
 
 const componentsMap = {
@@ -20,6 +21,7 @@ const componentsMap = {
   [BlockType.MimeticBlock]: MimeticBlock,
   [BlockType.EnemyBlock]: EnemyBlock,
   [BlockType.CollectibleBlock]: CollectibleBlock,
+  [BlockType.DecorativeBlock]: DecorativeBlock,
 }
 
 export function Grid() {

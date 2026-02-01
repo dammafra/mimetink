@@ -20,7 +20,7 @@ export const TutorialOverlay: React.FC = () => {
       onClick={nextTutorialStep}
       className="fixed inset-0 z-[10000] flex flex-col items-center justify-start p-6 cursor-pointer animate-in fade-in duration-500"
     >
-      <div className="w-full max-w-lg rounded-3xl border border-white/20 bg-white/10 p-5 shadow-2xl backdrop-blur-xl transition-all duration-300 hover:bg-white/15">
+      <div className="w-full max-w-lg rounded-2xl border border-white/20 bg-white/15 p-5 shadow-2xl backdrop-blur-xl transition-all duration-300 hover:bg-white/30">
         <div className="mb-2 flex items-center gap-2">
           <div className="flex size-8 items-center justify-center rounded-2xl bg-teal-500 text-xl">
             🐙
