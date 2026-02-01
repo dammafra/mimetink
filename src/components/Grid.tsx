@@ -59,6 +59,7 @@ export function Grid() {
       {level.flatMap((cells, row) =>
         cells.map((cell, column) => {
           const type = typeof cell === 'object' ? cell.type : cell
+          const cellProps = typeof cell === 'object' ? cell : {}
 
           const isVisible =
             !visibleBlocks || visibleBlocks.some(vb => vb.row === row && vb.col === column)
@@ -72,6 +73,7 @@ export function Grid() {
                 key={`level-${currentLevelIndex}-cell-${row}-${column}`}
                 position={[column - centerX, 0, row - centerZ] as [number, number, number]}
                 delay={delays[row][column]}
+                {...cellProps}
               />
             )
           )

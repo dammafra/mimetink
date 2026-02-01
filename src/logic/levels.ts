@@ -435,7 +435,7 @@ const level7: LevelConfig = {
       BlockType.End,
     ],
   ],
-  maxMoves: 35,
+  maxMoves: 30,
   hasCollectible: true,
 }
 

@@ -1,8 +1,9 @@
-import { Sparkles, useTexture } from '@react-three/drei'
+import { Billboard, Float, Sparkles, Text, useTexture } from '@react-three/drei'
 import { randomOneOf } from '@utils'
 import { useEffect, useMemo, type JSX } from 'react'
 import { MathUtils, SRGBColorSpace } from 'three'
 import { BLOCK_CONFIG, BlockType } from '../../constants/game'
+import { useGameStore } from '../../stores/use-game'
 import { AlgaFloor } from './AlgaFloor'
 import { BaseBlock } from './BaseBlock'
 
@@ -10,9 +11,11 @@ export type CoralBlockProps = JSX.IntrinsicElements['group'] & {
   blockType: BlockType
   delay?: number
   color?: string
+  moves?: number
 }
 
-export function CoralBlock({ blockType, delay, color, ...props }: CoralBlockProps) {
+export function CoralBlock({ blockType, delay, color, moves, ...props }: CoralBlockProps) {
+  const vitalMovesLeft = useGameStore(state => state.vitalMovesLeft)
   const coralSprites = useTexture([
     '/sprites/corals/01.png',
     '/sprites/corals/02.png',
@@ -38,17 +41,39 @@ export function CoralBlock({ blockType, delay, color, ...props }: CoralBlockProp
 
   const finalColor = color || (BLOCK_CONFIG as any)[blockType].color
 
+  const bubbleSprite = useTexture('/sprites/bubble.png')
+
   return (
     <BaseBlock color={finalColor} delay={delay} {...props}>
       {blockType === BlockType.VitalCoral && (
-        <Sparkles
-          color={finalColor}
-          scale={0.8}
-          size={30}
-          count={10}
-          position-y={1}
-          material-depthWrite={false}
-        />
+        <>
+          <Sparkles
+            color={finalColor}
+            scale={0.8}
+            size={30}
+            count={10}
+            position-y={1}
+            material-depthWrite={false}
+          />
+          {!vitalMovesLeft && (
+            <Billboard position={[0, 0.5, 0]} scale={0.7}>
+              <Float speed={5}>
+                <mesh>
+                  <planeGeometry />
+                  <meshBasicMaterial
+                    map={bubbleSprite}
+                    alphaMap={bubbleSprite}
+                    transparent
+                    depthWrite={false}
+                  />
+                  <Text scale={0.5} outlineColor="black" outlineWidth={0.08} color={finalColor}>
+                    {moves}
+                  </Text>
+                </mesh>
+              </Float>
+            </Billboard>
+          )}
+        </>
       )}
 
       <mesh rotation={[MathUtils.degToRad(-35), 0, 0]} position={[0, 0.6, -0.25]}>
@@ -73,3 +98,5 @@ useTexture.preload([
   '/sprites/corals/10.png',
   '/sprites/corals/11.png',
 ])
+
+useTexture.preload('/sprites/bubbles.png')
