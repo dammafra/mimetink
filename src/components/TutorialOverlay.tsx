@@ -18,20 +18,20 @@ export const TutorialOverlay: React.FC = () => {
   return (
     <div
       onClick={nextTutorialStep}
-      className="fixed inset-0 z-[10000] flex flex-col items-center justify-start p-10 cursor-pointer animate-in fade-in duration-500"
+      className="fixed inset-0 z-[10000] flex flex-col items-center justify-start p-6 cursor-pointer animate-in fade-in duration-500"
     >
-      <div className="w-full max-w-2xl rounded-3xl border border-white/20 bg-white/10 p-8 shadow-2xl backdrop-blur-xl transition-all duration-300 hover:bg-white/15">
-        <div className="mb-2 flex items-center gap-3">
-          <div className="flex size-10 items-center justify-center rounded-2xl bg-teal-500 text-2xl">
+      <div className="w-full max-w-lg rounded-3xl border border-white/20 bg-white/10 p-5 shadow-2xl backdrop-blur-xl transition-all duration-300 hover:bg-white/15">
+        <div className="mb-2 flex items-center gap-2">
+          <div className="flex size-8 items-center justify-center rounded-2xl bg-teal-500 text-xl">
             🐙
           </div>
-          <span className="text-xl font-black tracking-widest text-white uppercase">
+          <span className="text-lg font-black tracking-widest text-white uppercase">
             Vincent van Polp
           </span>
         </div>
-        <p className="text-2xl font-medium leading-relaxed text-white/90">{step.message}</p>
-        <div className="mt-6 flex justify-end">
-          <span className="animate-bounce text-sm font-bold tracking-widest text-white/40 uppercase">
+        <p className="text-xl font-medium leading-relaxed text-white/90">{step.message}</p>
+        <div className="mt-4 flex justify-end">
+          <span className="animate-bounce text-xs font-bold tracking-widest text-white/40 uppercase">
             Continue
           </span>
         </div>
