@@ -34,7 +34,7 @@ const checkLevelCompletion = (grid: GridCell[][]) => {
   )
 }
 
-const startLevelIndex = 0
+const startLevelIndex = 2
 export const useGameStore = create<GameState>((set, get) => ({
   currentLevelIndex: startLevelIndex,
   status: GameStatus.READY,
@@ -112,14 +112,13 @@ export const useGameStore = create<GameState>((set, get) => ({
     const cell = grid[row][col]
     const blockType = typeof cell === 'object' ? cell.type : cell
 
-    // 1. Initial State Check (Start of Move)
-    // If charges were 0 and we are NOT landing on a vital block, lose color
-    if (currentVitalMoves === 0 && blockType !== BlockType.VitalCoral) {
-      set({ playerColor: 'darkorange' })
-    }
-
     // 2. Determine Power for THIS move's interaction (based on start-of-move state)
     const powerAtStart = currentVitalMoves === null || (currentVitalMoves as number) > 0
+
+    // Reset color IF starting the move with 0 energy and not landing on VitalCoral
+    if (!powerAtStart && blockType !== BlockType.VitalCoral) {
+      set({ playerColor: 'darkorange' })
+    }
 
     // 3. Update Move Counters
     const newMoveCount = currentMoves + 1
@@ -168,15 +167,22 @@ export const useGameStore = create<GameState>((set, get) => ({
       }, 1000)
     }
 
-    // Interaction 4: MimeticBlock/EnemyBlock camouflage check
-    if (blockType === BlockType.MimeticBlock || blockType === BlockType.EnemyBlock) {
-      const mimeticColor = BLOCK_CONFIG[BlockType.MimeticBlock].color
-      if (get().playerColor !== mimeticColor) {
-        set({ status: GameStatus.FAILED })
-        setTimeout(() => {
-          set({ showFailureOverlay: true })
-        }, 500)
+    // Interaction 4: MimeticBlock/DeadCoral camouflage check
+    const isMimeticCell = typeof cell === 'object' && cell.isMimetic
+
+    if (
+      blockType === BlockType.MimeticBlock ||
+      ((blockType === BlockType.DeadCoral || blockType === BlockType.ActivatedDeadCoral) &&
+        isMimeticCell)
+    ) {
+      if (!powerAtStart) {
+        set({ status: GameStatus.FAILED, showFailureOverlay: true })
       }
+    }
+
+    // Interaction 5: EnemyBlock failure (always)
+    if (blockType === BlockType.EnemyBlock) {
+      set({ status: GameStatus.FAILED, showFailureOverlay: true })
     }
   },
 }))

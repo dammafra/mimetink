@@ -35,7 +35,7 @@ export function CoralBlock({ blockType, delay, color, ...props }: CoralBlockProp
     <BaseBlock color={finalColor} delay={delay} {...props}>
       <mesh rotation={[MathUtils.degToRad(-35), 0, 0]} position={[0, 0.6, -0.25]}>
         <planeGeometry />
-        <meshBasicMaterial map={coralSprite} transparent color={finalColor} depthWrite={false} />
+        <meshBasicMaterial map={coralSprite} transparent color={finalColor} alphaTest={0.5} />
       </mesh>
       <AlgaFloor color={finalColor} />
     </BaseBlock>

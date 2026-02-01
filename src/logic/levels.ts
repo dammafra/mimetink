@@ -1,6 +1,8 @@
 import { BlockType } from '../constants/game'
 
-export type GridCell = BlockType | { type: BlockType; color?: string; moves?: number }
+export type GridCell =
+  | BlockType
+  | { type: BlockType; color?: string; moves?: number; isMimetic?: boolean }
 
 export type LevelConfig = {
   grid: GridCell[][]
@@ -82,7 +84,7 @@ const level3: LevelConfig = {
       BlockType.Empty,
       BlockType.Empty,
       BlockType.MimeticBlock,
-      BlockType.DeadCoral,
+      { type: BlockType.DeadCoral, isMimetic: true },
       BlockType.MimeticBlock,
       BlockType.EnemyBlock,
     ],
