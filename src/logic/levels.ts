@@ -7,6 +7,7 @@ export type GridCell =
 export type LevelConfig = {
   grid: GridCell[][]
   maxMoves?: number
+  hasCollectible?: boolean
 }
 
 const level1: LevelConfig = {
@@ -105,7 +106,7 @@ const level4: LevelConfig = {
       BlockType.Empty,
       BlockType.Empty,
       BlockType.DeadCoral,
-      BlockType.Sand,
+      BlockType.CollectibleBlock,
       BlockType.Sand,
       BlockType.Empty,
       BlockType.Empty,
@@ -173,6 +174,7 @@ const level4: LevelConfig = {
     ],
   ],
   maxMoves: 20,
+  hasCollectible: true,
 }
 
 export const levels: LevelConfig[] = [level1, level2, level3, level4]

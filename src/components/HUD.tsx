@@ -12,6 +12,8 @@ export function HUD() {
   const currentMoves = useGameStore(state => state.currentMoves)
   const maxMoves = useGameStore(state => state.maxMoves)
   const vitalMovesLeft = useGameStore(state => state.vitalMovesLeft)
+  const hasCollectible = useGameStore(state => state.hasCollectible)
+  const isShellCollected = useGameStore(state => state.isCollected)
 
   if (status === GameStatus.READY) return null
 
@@ -35,6 +37,17 @@ export function HUD() {
             completed: isExitCompleted,
             failed: isExitFailed,
             showMoves: true,
+          },
+        ]
+      : []),
+    ...(hasCollectible
+      ? [
+          {
+            id: 'shell',
+            label: 'Collect the shell for your garden',
+            completed: isShellCollected,
+            failed: false,
+            showMoves: false,
           },
         ]
       : []),

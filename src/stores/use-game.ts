@@ -16,6 +16,8 @@ interface GameState {
   currentMoves: number
   maxMoves: number | undefined
   vitalMovesLeft: number | null
+  hasCollectible: boolean
+  isCollected: boolean
 
   startGame: () => void
   restartLevel: () => void
@@ -51,6 +53,8 @@ export const useGameStore = create<GameState>((set, get) => ({
   showFailureOverlay: false,
   currentMoves: 0,
   maxMoves: levels[startLevelIndex].maxMoves,
+  hasCollectible: !!levels[startLevelIndex].hasCollectible,
+  isCollected: false,
   vitalMovesLeft: 0,
 
   startGame: () =>
@@ -59,6 +63,7 @@ export const useGameStore = create<GameState>((set, get) => ({
       isGridReady: false,
       showCompletionOverlay: false,
       showFailureOverlay: false,
+      isCollected: false,
       currentMoves: 0,
     }),
 
@@ -77,6 +82,8 @@ export const useGameStore = create<GameState>((set, get) => ({
       showFailureOverlay: false,
       currentMoves: 0,
       maxMoves: level.maxMoves,
+      hasCollectible: !!level.hasCollectible,
+      isCollected: false,
       vitalMovesLeft: 0,
     })
   },
@@ -99,6 +106,8 @@ export const useGameStore = create<GameState>((set, get) => ({
       showFailureOverlay: false,
       currentMoves: 0,
       maxMoves: level.maxMoves,
+      hasCollectible: !!level.hasCollectible,
+      isCollected: false,
       vitalMovesLeft: 0,
     })
   },
@@ -178,6 +187,11 @@ export const useGameStore = create<GameState>((set, get) => ({
       if (!powerAtStart) {
         set({ status: GameStatus.FAILED, showFailureOverlay: true })
       }
+    }
+
+    // Interaction 6: CollectibleBlock
+    if (blockType === BlockType.CollectibleBlock) {
+      set({ isCollected: true })
     }
 
     // Interaction 5: EnemyBlock failure (always)

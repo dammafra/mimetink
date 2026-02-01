@@ -7,6 +7,7 @@ import { BaseBlock } from './BaseBlock'
 
 export function SandBlock({
   delay,
+  children,
   ...props
 }: JSX.IntrinsicElements['group'] & { delay?: number; blockType?: BlockType }) {
   const sprites = useTexture(['/sprites/sand/01.png', '/sprites/sand/02.png'])
@@ -25,6 +26,7 @@ export function SandBlock({
         <planeGeometry />
         <meshBasicMaterial map={sprite} transparent toneMapped={false} />
       </mesh>
+      {children}
     </BaseBlock>
   )
 }
