@@ -40,7 +40,6 @@ export const IntroVideo: React.FC = () => {
                 }}
                 autoPlay
                 playsInline
-                muted
                 onEnded={finishIntro}
             />
 
