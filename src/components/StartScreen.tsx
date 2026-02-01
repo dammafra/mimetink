@@ -10,14 +10,9 @@ export function StartScreen() {
 
   return (
     <div className="fixed inset-0 z-1000 flex flex-col items-center justify-center text-white p-4 text-center">
-      <div className="max-w-xl mb-2">
+      <div className="max-w-xl mb-5">
         <img src="/title.png" />
       </div>
-
-      <p className="mb-10 text-xl">
-        Navigate the grid. <br />
-        Activate the coral.
-      </p>
 
       <button
         onClick={startGame}
