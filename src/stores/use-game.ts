@@ -20,6 +20,7 @@ interface GameState {
   isCollected: boolean
 
   startGame: () => void
+  finishIntro: () => void
   restartLevel: () => void
   nextLevel: () => void
   setGridReady: (ready: boolean) => void
@@ -59,12 +60,17 @@ export const useGameStore = create<GameState>((set, get) => ({
 
   startGame: () =>
     set({
-      status: GameStatus.PLAYING,
+      status: GameStatus.INTRO,
       isGridReady: false,
       showCompletionOverlay: false,
       showFailureOverlay: false,
       isCollected: false,
       currentMoves: 0,
+    }),
+
+  finishIntro: () =>
+    set({
+      status: GameStatus.PLAYING,
     }),
 
   restartLevel: () => {

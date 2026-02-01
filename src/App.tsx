@@ -1,8 +1,11 @@
-import { Experience, HUD, StartScreen } from '@components'
+import { Experience, HUD, IntroVideo, StartScreen } from '@components'
 import { DoubleTapPreventer, GUI } from '@components/helpers'
+import { GameStatus, useGameStore } from '@stores'
 import { StrictMode } from 'react'
 
 export default function App() {
+  const status = useGameStore(state => state.status)
+
   return (
     <>
       <GUI />
@@ -10,10 +13,13 @@ export default function App() {
 
       <HUD />
       <StartScreen />
+      {status === GameStatus.INTRO && <IntroVideo />}
 
-      <StrictMode>
-        <Experience />
-      </StrictMode>
+      {status !== GameStatus.READY && status !== GameStatus.INTRO && (
+        <StrictMode>
+          <Experience />
+        </StrictMode>
+      )}
     </>
   )
 }

@@ -27,6 +27,7 @@ export const BLOCK_CONFIG = {
 
 export const GameStatus = {
   READY: 'READY',
+  INTRO: 'INTRO',
   PLAYING: 'PLAYING',
   COMPLETED: 'COMPLETED',
   FAILED: 'FAILED',
