@@ -37,7 +37,7 @@ export function EndBlock({ delay, color, ...props }: EndBlockProps) {
             side={DoubleSide}
             depthTest={false}
             depthWrite={false}
-            // opacity={opacity}
+            opacity={opacity}
           />
         </mesh>
       </BaseBlock>

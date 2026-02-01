@@ -9,7 +9,7 @@ export function StartScreen() {
   if (status !== GameStatus.READY) return null
 
   return (
-    <div className="fixed inset-0 z-1000 flex flex-col items-center justify-center text-white p-4 text-center transition-all duration-700 animate-in zoom-in-50">
+    <div className="fixed inset-0 z-1000 flex flex-col items-center justify-center text-white p-4 text-center">
       <div className="max-w-xl mb-2">
         <img src="/title.png" />
       </div>

@@ -2,6 +2,7 @@ import { useEffect, useMemo } from 'react'
 import { BlockType, useGameStore } from '../stores'
 import { CoralBlock } from './blocks/CoralBlock'
 import { EndBlock } from './blocks/EndBlock'
+import { MimeticBlock } from './blocks/MimeticBlock'
 import { SandBlock } from './blocks/SandBlock'
 
 import { Dynamic } from './helpers'
@@ -24,6 +25,7 @@ export function Grid() {
     [BlockType.VitalCoral]: CoralBlock,
     [BlockType.DeadCoral]: CoralBlock,
     [BlockType.ActivatedDeadCoral]: CoralBlock,
+    [BlockType.MimeticBlock]: MimeticBlock,
   }
 
   const delays = useMemo(() => {
@@ -43,14 +45,12 @@ export function Grid() {
       {level.flatMap((cells, row) =>
         cells.map((cell, column) => {
           const type = typeof cell === 'object' ? cell.type : cell
-          const color = typeof cell === 'object' ? cell.color : undefined
 
           return (
             type !== BlockType.Empty && (
               <Dynamic
                 component={componentsMap[type]}
                 blockType={type}
-                color={color}
                 key={`level-${currentLevelIndex}-cell-${row}-${column}`}
                 position={[column - centerX, 0, row - centerZ] as [number, number, number]}
                 delay={delays[row][column]}
