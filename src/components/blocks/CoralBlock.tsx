@@ -13,17 +13,17 @@ export type CoralBlockProps = JSX.IntrinsicElements['group'] & {
 
 export function CoralBlock({ blockType, delay, color, ...props }: CoralBlockProps) {
   const coralSprites = useTexture([
-    '/sprites/corals/1.png',
-    '/sprites/corals/2.png',
-    '/sprites/corals/3.png',
-    '/sprites/corals/4.png',
-    '/sprites/corals/6.png',
-    '/sprites/corals/7.png',
-    '/sprites/corals/8.png',
-    '/sprites/corals/9.png',
+    '/sprites/corals/01.png',
+    '/sprites/corals/02.png',
+    '/sprites/corals/03.png',
+    '/sprites/corals/04.png',
+    '/sprites/corals/05.png',
+    '/sprites/corals/06.png',
+    '/sprites/corals/07.png',
+    '/sprites/corals/08.png',
+    '/sprites/corals/09.png',
     '/sprites/corals/10.png',
     '/sprites/corals/11.png',
-    '/sprites/corals/12.png',
   ])
   const sandSprites = useTexture(['/sprites/sand/01.png', '/sprites/sand/02.png'])
 
@@ -55,17 +55,17 @@ export function CoralBlock({ blockType, delay, color, ...props }: CoralBlockProp
 }
 
 useTexture.preload([
-  '/sprites/corals/1.png',
-  '/sprites/corals/2.png',
-  '/sprites/corals/3.png',
-  '/sprites/corals/4.png',
-  '/sprites/corals/6.png',
-  '/sprites/corals/7.png',
-  '/sprites/corals/8.png',
-  '/sprites/corals/9.png',
+  '/sprites/corals/01.png',
+  '/sprites/corals/02.png',
+  '/sprites/corals/03.png',
+  '/sprites/corals/04.png',
+  '/sprites/corals/05.png',
+  '/sprites/corals/06.png',
+  '/sprites/corals/07.png',
+  '/sprites/corals/08.png',
+  '/sprites/corals/09.png',
   '/sprites/corals/10.png',
   '/sprites/corals/11.png',
-  '/sprites/corals/12.png',
 ])
 
 useTexture.preload(['/sprites/sand/01.png', '/sprites/sand/02.png'])

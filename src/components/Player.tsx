@@ -95,16 +95,16 @@ export function Player() {
             scale={2}
             color={playerColor}
             paths={[
-              '/sprites/octopus/down/01.png',
-              '/sprites/octopus/down/02.png',
-              '/sprites/octopus/down/03.png',
-              '/sprites/octopus/down/04.png',
-              '/sprites/octopus/down/05.png',
-              '/sprites/octopus/down/06.png',
-              '/sprites/octopus/down/07.png',
-              '/sprites/octopus/down/08.png',
-              '/sprites/octopus/down/09.png',
-              '/sprites/octopus/down/10.png',
+              '/sprites/octopus/01.png',
+              '/sprites/octopus/02.png',
+              '/sprites/octopus/03.png',
+              '/sprites/octopus/04.png',
+              '/sprites/octopus/05.png',
+              '/sprites/octopus/06.png',
+              '/sprites/octopus/07.png',
+              '/sprites/octopus/08.png',
+              '/sprites/octopus/09.png',
+              '/sprites/octopus/10.png',
             ]}
           />
         </Billboard>
