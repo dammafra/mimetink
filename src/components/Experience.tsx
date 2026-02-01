@@ -1,6 +1,6 @@
 import { Canvas, Helpers } from '@components/helpers'
 import { useDebug } from '@hooks'
-import { CameraControls, Hud, PerspectiveCamera } from '@react-three/drei'
+import { CameraControls, CameraControlsImpl, Hud, PerspectiveCamera } from '@react-three/drei'
 import { PCFShadowMap } from 'three'
 import { Bubbles } from './Bubbles'
 import { FitCamera } from './FitCamera'
@@ -16,8 +16,17 @@ export function Experience() {
         makeDefault
         polarRotateSpeed={debug ? undefined : 0}
         azimuthRotateSpeed={debug ? undefined : 0}
-        minZoom={5}
-        maxZoom={100}
+        mouseButtons={{
+          wheel: CameraControlsImpl.ACTION.NONE,
+          left: CameraControlsImpl.ACTION.NONE,
+          right: CameraControlsImpl.ACTION.NONE,
+          middle: CameraControlsImpl.ACTION.NONE,
+        }}
+        touches={{
+          one: CameraControlsImpl.ACTION.NONE,
+          two: CameraControlsImpl.ACTION.NONE,
+          three: CameraControlsImpl.ACTION.NONE,
+        }}
       />
       <FitCamera />
       <World />

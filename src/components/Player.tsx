@@ -120,6 +120,24 @@ export function Player() {
             '/sprites/octopus/10.png',
           ]}
         />
+        <SpriteAnimator
+          rotation={[MathUtils.degToRad(-35), 0, 0]}
+          position-y={0.8}
+          position-z={-0.19}
+          scale={2}
+          paths={[
+            '/sprites/octopus/eyes/01.png',
+            '/sprites/octopus/eyes/02.png',
+            '/sprites/octopus/eyes/03.png',
+            '/sprites/octopus/eyes/04.png',
+            '/sprites/octopus/eyes/05.png',
+            '/sprites/octopus/eyes/06.png',
+            '/sprites/octopus/eyes/07.png',
+            '/sprites/octopus/eyes/08.png',
+            '/sprites/octopus/eyes/09.png',
+            '/sprites/octopus/eyes/10.png',
+          ]}
+        />
       </animated.group>
     </Controller>
   )

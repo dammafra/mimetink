@@ -23,13 +23,14 @@ export function FitCamera() {
     box.setFromCenterAndSize(new Vector3(0, 0, 0), new Vector3(width, 1, height))
 
     cameraControls.fitToBox(box, true, {
-      paddingBottom: viewport.aspect < 1 ? 0.5 : 3,
-      paddingLeft: viewport.aspect < 1 ? 0.5 : 3,
-      paddingRight: viewport.aspect < 1 ? 0.5 : 3,
-      paddingTop: viewport.aspect < 1 ? 0.5 : 3,
+      paddingTop: viewport.aspect < 1 ? 1 : 3,
+      paddingBottom: viewport.aspect < 1 ? 1 : 3,
+      paddingLeft: viewport.aspect < 1 ? 2 : 3,
+      paddingRight: viewport.aspect < 1 ? 2 : 3,
     })
     cameraControls.rotatePolarTo(MathUtils.degToRad(35))
     cameraControls.rotateAzimuthTo(MathUtils.degToRad(-15))
+    cameraControls.moveTo(0, viewport.aspect < 1 ? 5 : 1, 0, true)
 
     lastDimensions.current = gridDimensions
   }
