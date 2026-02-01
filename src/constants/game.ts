@@ -7,6 +7,7 @@ export const BlockType = {
   DeadCoral: 5,
   ActivatedDeadCoral: 6,
   MimeticBlock: 7,
+  EnemyBlock: 8,
 } as const
 
 export type BlockType = (typeof BlockType)[keyof typeof BlockType]
@@ -19,12 +20,14 @@ export const BLOCK_CONFIG = {
   [BlockType.DeadCoral]: { color: '#D3D3D3' },
   [BlockType.ActivatedDeadCoral]: { color: '#FF6F61' },
   [BlockType.MimeticBlock]: { color: '#FF6F61' },
+  [BlockType.EnemyBlock]: { color: '#FF6F61' },
 } as const
 
 export const GameStatus = {
   READY: 'READY',
   PLAYING: 'PLAYING',
   COMPLETED: 'COMPLETED',
+  FAILED: 'FAILED',
 } as const
 
 export type GameStatus = (typeof GameStatus)[keyof typeof GameStatus]

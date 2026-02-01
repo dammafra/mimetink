@@ -2,6 +2,7 @@ import { useEffect, useMemo } from 'react'
 import { BlockType, useGameStore } from '../stores'
 import { CoralBlock } from './blocks/CoralBlock'
 import { EndBlock } from './blocks/EndBlock'
+import { EnemyBlock } from './blocks/EnemyBlock'
 import { MimeticBlock } from './blocks/MimeticBlock'
 import { SandBlock } from './blocks/SandBlock'
 
@@ -26,6 +27,7 @@ export function Grid() {
     [BlockType.DeadCoral]: CoralBlock,
     [BlockType.ActivatedDeadCoral]: CoralBlock,
     [BlockType.MimeticBlock]: MimeticBlock,
+    [BlockType.EnemyBlock]: EnemyBlock,
   }
 
   const delays = useMemo(() => {

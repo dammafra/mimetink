@@ -12,6 +12,7 @@ interface GameState {
   restartKey: number
   isGridReady: boolean
   showCompletionOverlay: boolean
+  showFailureOverlay: boolean
   currentMoves: number
   maxMoves: number | undefined
   vitalMovesLeft: number | null
@@ -33,7 +34,7 @@ const checkLevelCompletion = (grid: GridCell[][]) => {
   )
 }
 
-const startLevelIndex = 0
+const startLevelIndex = 2
 export const useGameStore = create<GameState>((set, get) => ({
   currentLevelIndex: startLevelIndex,
   status: GameStatus.READY,
@@ -47,6 +48,7 @@ export const useGameStore = create<GameState>((set, get) => ({
   restartKey: 0,
   isGridReady: false,
   showCompletionOverlay: false,
+  showFailureOverlay: false,
   currentMoves: 0,
   maxMoves: levels[startLevelIndex].maxMoves,
   vitalMovesLeft: 0,
@@ -56,6 +58,7 @@ export const useGameStore = create<GameState>((set, get) => ({
       status: GameStatus.PLAYING,
       isGridReady: false,
       showCompletionOverlay: false,
+      showFailureOverlay: false,
       currentMoves: 0,
     }),
 
@@ -71,6 +74,7 @@ export const useGameStore = create<GameState>((set, get) => ({
       playerColor: 'darkorange',
       isGridReady: false,
       showCompletionOverlay: false,
+      showFailureOverlay: false,
       currentMoves: 0,
       maxMoves: level.maxMoves,
       vitalMovesLeft: 0,
@@ -92,6 +96,7 @@ export const useGameStore = create<GameState>((set, get) => ({
       playerColor: 'darkorange',
       isGridReady: false,
       showCompletionOverlay: false,
+      showFailureOverlay: false,
       currentMoves: 0,
       maxMoves: level.maxMoves,
       vitalMovesLeft: 0,
@@ -161,6 +166,17 @@ export const useGameStore = create<GameState>((set, get) => ({
       setTimeout(() => {
         set({ showCompletionOverlay: true })
       }, 1000)
+    }
+
+    // Interaction 4: MimeticBlock/EnemyBlock camouflage check
+    if (blockType === BlockType.MimeticBlock || blockType === BlockType.EnemyBlock) {
+      const mimeticColor = BLOCK_CONFIG[BlockType.MimeticBlock].color
+      if (get().playerColor !== mimeticColor) {
+        set({ status: GameStatus.FAILED })
+        setTimeout(() => {
+          set({ showFailureOverlay: true })
+        }, 500)
+      }
     }
   },
 }))

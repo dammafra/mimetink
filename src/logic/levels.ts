@@ -84,7 +84,7 @@ const level3: LevelConfig = {
       BlockType.MimeticBlock,
       BlockType.DeadCoral,
       BlockType.MimeticBlock,
-      BlockType.MimeticBlock,
+      BlockType.EnemyBlock,
     ],
     [
       BlockType.Empty,
@@ -111,7 +111,7 @@ const level4: LevelConfig = {
     ],
     [
       BlockType.Empty,
-      BlockType.MimeticBlock,
+      BlockType.EnemyBlock,
       BlockType.MimeticBlock,
       BlockType.MimeticBlock,
       BlockType.MimeticBlock,
@@ -164,7 +164,7 @@ const level4: LevelConfig = {
       BlockType.Empty,
       BlockType.Empty,
       BlockType.Empty,
-      BlockType.MimeticBlock,
+      BlockType.EnemyBlock,
       BlockType.Empty,
       BlockType.Empty,
       BlockType.Empty,

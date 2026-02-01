@@ -8,6 +8,7 @@ export function HUD() {
   const nextLevel = useGameStore(state => state.nextLevel)
   const isCoralRestored = useGameStore(state => state.isLevelCompleted)
   const showCompletionOverlay = useGameStore(state => state.showCompletionOverlay)
+  const showFailureOverlay = useGameStore(state => state.showFailureOverlay)
   const currentMoves = useGameStore(state => state.currentMoves)
   const maxMoves = useGameStore(state => state.maxMoves)
   const vitalMovesLeft = useGameStore(state => state.vitalMovesLeft)
@@ -109,6 +110,27 @@ export function HUD() {
                 className="cursor-pointer rounded-3xl bg-green-500/20 px-8 py-3 text-lg font-bold text-green-400 border border-green-500/20 transition-all duration-300 hover:bg-green-500/30 hover:scale-105 active:bg-green-500/30 active:scale-105"
               >
                 NEXT LEVEL
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Level Failed Overlay */}
+      {showFailureOverlay && (
+        <div className="fixed inset-0 z-1000 flex items-center justify-center backdrop-blur-sm transition-all duration-700 animate-in fade-in">
+          <div className="animate-in zoom-in-50 rounded-3xl border border-white/20 bg-white/15 p-12 text-center shadow-2xl backdrop-blur-xl">
+            <h2 className="mb-2 bg-gradient-to-r from-red-400 to-orange-500 bg-clip-text text-5xl font-black tracking-widest text-transparent">
+              LEVEL FAILED
+            </h2>
+            <p className="mb-6 text-lg opacity-80 text-white">You were spotted!</p>
+
+            <div className="flex gap-4 justify-center">
+              <button
+                onClick={restartLevel}
+                className="cursor-pointer rounded-3xl bg-white/5 px-8 py-3 text-lg font-bold text-white border border-white/10 transition-all duration-300 hover:bg-white/15 hover:scale-105 active:bg-white/15 active:scale-105"
+              >
+                RETRY
               </button>
             </div>
           </div>
