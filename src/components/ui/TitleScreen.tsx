@@ -9,8 +9,9 @@ export function TitleScreen() {
 
   return (
     <div className="fixed inset-0 z-1000 flex flex-col items-center justify-center text-white p-4 text-center">
-      <div className="max-w-xl mb-5 animate-in zoom-in-150 duration-700">
+      <div className="relative max-w-xl mb-5 animate-in zoom-in-150 duration-700">
         <img src="/title.png" />
+        <h2 className="absolute bottom-0 right-0">DEMO</h2>
       </div>
 
       <button
