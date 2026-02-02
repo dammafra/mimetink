@@ -28,7 +28,7 @@ export default function App() {
         </>
       )}
 
-      {status !== GameStatus.READY && status !== GameStatus.INTRO && (
+      {status !== GameStatus.INTRO && (
         <StrictMode>
           <Experience />
         </StrictMode>

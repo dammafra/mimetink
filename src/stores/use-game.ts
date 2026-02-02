@@ -92,6 +92,8 @@ export const useGameStore = create<GameState>((set, get) => ({
     if (level.tutorialSteps && currentTutorialStep !== null) {
       if (currentTutorialStep < level.tutorialSteps.length - 1) {
         set({ currentTutorialStep: currentTutorialStep + 1 })
+      } else if (currentLevelIndex === levels.length - 1) {
+        return
       } else {
         set({ currentTutorialStep: null, showTutorial: false })
       }

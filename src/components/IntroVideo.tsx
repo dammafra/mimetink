@@ -16,7 +16,7 @@ export const IntroVideo: React.FC = () => {
   }, [])
 
   return (
-    <div className="fixed top-0 left-0 w-screen h-[100dvh] bg-black z-[9999] flex items-center justify-center">
+    <div className="fixed top-0 left-0 w-screen h-dvh bg-black z-9999 flex items-center justify-center">
       <video
         ref={videoRef}
         src="/intro.mp4"

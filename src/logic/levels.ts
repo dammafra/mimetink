@@ -470,4 +470,23 @@ const level7: LevelConfig = {
   hasCollectible: true,
 }
 
-export const levels: LevelConfig[] = [level1, level2, level3, level4, level5, level6, level7]
+const levelEnd: LevelConfig = {
+  grid: [[BlockType.Empty]],
+  tutorialSteps: [
+    {
+      message:
+        'Thank you for playing MimetInk! More exciting levels are coming soon. Stay tuned for new adventures in the reef!',
+    },
+  ],
+}
+
+export const levels: LevelConfig[] = [
+  level1,
+  level2,
+  level3,
+  level4,
+  level5,
+  level6,
+  level7,
+  levelEnd,
+]

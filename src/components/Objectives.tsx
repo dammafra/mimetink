@@ -28,7 +28,7 @@ export function Objectives({ objectives, currentMoves, maxMoves }: ObjectivesPro
           <span
             className={clsx(
               'text-sm w-5',
-              obj.completed ? 'text-green-400' : obj.failed ? 'text-red-500' : '',
+              obj.completed ? 'text-green-400' : obj.failed ? 'text-red-500' : 'animate-pulse',
             )}
           >
             {obj.completed ? '◉' : obj.failed ? '◉' : '◎'}

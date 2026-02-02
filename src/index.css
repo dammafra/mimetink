@@ -4,5 +4,5 @@
 html,
 body,
 #root {
-  @apply fixed inset-0 overflow-hidden bg-radial from-teal-600 to-slate-900 bg-slate-900 min-w-sm font-[Outfit,sans-serif];
+  @apply fixed inset-0 overflow-hidden bg-radial from-teal-600 to-slate-900 bg-slate-900 min-w-sm font-[Outfit,sans-serif] select-none;
 }

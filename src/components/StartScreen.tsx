@@ -8,15 +8,15 @@ export function StartScreen() {
 
   return (
     <div className="fixed inset-0 z-1000 flex flex-col items-center justify-center text-white p-4 text-center">
-      <div className="max-w-xl mb-5">
+      <div className="max-w-xl mb-5 animate-in zoom-in-150 duration-700">
         <img src="/title.png" />
       </div>
 
       <button
         onClick={startGame}
-        className="cursor-pointer tracking-widest rounded-2xl bg-teal-500 px-12 py-4 text-xl font-bold text-white shadow-md transition-all duration-300 hover:scale-105 hover:bg-teal-600 active:scale-105 active:bg-teal-600 outline-none"
+        className="flex items-center justify-center pt-2 pl-2.5 rounded-full size-25 cursor-pointer border-3 border-white/20 bg-white/15 text-6xl leading-none text-white shadow-md transition-all duration-300 hover:scale-105 hover:bg-teal-600 active:scale-105 active:bg-teal-600 outline-none backdrop-blur-md animate-in zoom-in-0 duration-1000"
       >
-        START
+        ▶︎
       </button>
     </div>
   )

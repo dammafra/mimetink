@@ -1,3 +1,4 @@
+import { useIsTouch } from '@hooks'
 import React from 'react'
 import { levels } from '../logic/levels'
 import { useGameStore } from '../stores'
@@ -7,6 +8,7 @@ export const TutorialOverlay: React.FC = () => {
   const currentTutorialStep = useGameStore(state => state.currentTutorialStep)
   const showTutorial = useGameStore(state => state.showTutorial)
   const nextTutorialStep = useGameStore(state => state.nextTutorialStep)
+  const isTouch = useIsTouch()
 
   if (!showTutorial || currentTutorialStep === null) return null
 
@@ -15,10 +17,12 @@ export const TutorialOverlay: React.FC = () => {
 
   if (!step) return null
 
+  const isLevelEnd = currentLevelIndex === levels.length - 1
+
   return (
     <div
       onClick={nextTutorialStep}
-      className="fixed inset-0 z-[10000] flex flex-col items-center justify-start p-6 cursor-pointer animate-in fade-in duration-500"
+      className="fixed inset-0 z-10000 flex flex-col items-center justify-start p-6 cursor-pointer animate-in fade-in duration-500"
     >
       <div className="w-full max-w-lg rounded-2xl border border-white/20 bg-white/15 p-5 shadow-2xl backdrop-blur-xl transition-all duration-300 hover:bg-white/30">
         <div className="mb-2 flex items-center gap-2">
@@ -30,11 +34,13 @@ export const TutorialOverlay: React.FC = () => {
           </span>
         </div>
         <p className="text-xl font-medium leading-relaxed text-white/90">{step.message}</p>
-        <div className="mt-4 flex justify-end">
-          <span className="animate-bounce text-xs font-bold tracking-widest text-white/40 uppercase">
-            Continue
-          </span>
-        </div>
+        {!isLevelEnd && (
+          <div className="mt-4 flex justify-end">
+            <span className="animate-bounce text-xs font-bold tracking-widest text-white/40 uppercase">
+              {isTouch ? 'Tap' : 'Click'} anywhere to continue
+            </span>
+          </div>
+        )}
       </div>
     </div>
   )
