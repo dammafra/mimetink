@@ -10,7 +10,8 @@ import {
   StartBlock,
 } from '@components/blocks'
 import { Dynamic } from '@components/helpers'
-import { BlockType, levels } from '@config'
+import { ANIMATION_DELAYS, BlockType, levels } from '@config'
+import { getBlockType, getGridDimensions } from '@utils'
 import { useGameStore } from '@stores'
 
 const componentsMap = {
@@ -34,8 +35,7 @@ export function Grid() {
   const currentTutorialStep = useGameStore(state => state.currentTutorialStep)
   const showTutorial = useGameStore(state => state.showTutorial)
 
-  const rows = level.length
-  const cols = level[0]?.length || 0 // Handle empty grid
+  const { rows, cols } = getGridDimensions(level)
   const centerX = (cols - 1) / 2
   const centerZ = (rows - 1) / 2
 
@@ -51,8 +51,7 @@ export function Grid() {
     let pos = { row: 0, col: 0 }
     level.forEach((row, rIndex) => {
       row.forEach((cell, cIndex) => {
-        const type = typeof cell === 'object' ? cell.type : cell
-        if (type === BlockType.End) {
+        if (getBlockType(cell) === BlockType.End) {
           pos = { row: rIndex, col: cIndex }
         }
       })
@@ -64,21 +63,20 @@ export function Grid() {
     if (isExiting) {
       return level.map((row, rIndex) =>
         row.map((_, cIndex) => {
-          // Manhattan distance from End block
           const dist =
             Math.abs(rIndex - endBlockPosition.row) + Math.abs(cIndex - endBlockPosition.col)
-          return dist * 100 // Wave propagation speed
+          return dist * ANIMATION_DELAYS.LEVEL_EXIT_PER_DISTANCE
         }),
       )
     }
-    return level.map(row => row.map((_, col) => col * 150))
+    return level.map(row => row.map((_, col) => col * ANIMATION_DELAYS.BLOCK_SPAWN_PER_COLUMN))
   }, [level, restartKey, isExiting, endBlockPosition])
 
   useEffect(() => {
-    const maxDelay = cols * 150
+    const maxDelay = cols * ANIMATION_DELAYS.BLOCK_SPAWN_PER_COLUMN
     const timer = setTimeout(() => {
       setGridReady(true)
-    }, maxDelay + 600) // Max column delay + spring animation duration
+    }, maxDelay + ANIMATION_DELAYS.GRID_READY_BUFFER)
     return () => clearTimeout(timer)
   }, [setGridReady, restartKey, cols])
 
@@ -86,7 +84,7 @@ export function Grid() {
     <group position-y={-0.4} scale={2}>
       {level.flatMap((cells, row) =>
         cells.map((cell, column) => {
-          const type = typeof cell === 'object' ? cell.type : cell
+          const type = getBlockType(cell)
           const cellProps = typeof cell === 'object' ? cell : {}
 
           const isVisible =

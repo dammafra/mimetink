@@ -1,6 +1,7 @@
 import { Vector3 } from 'three'
 
-import { BlockType, type GridCell } from '@config'
+import { BlockType, GRID_CONFIG, type GridCell } from '@config'
+import { findStartPosition, getBlockType } from '@utils'
 
 export class Grid {
   rows: number
@@ -13,7 +14,7 @@ export class Grid {
   constructor(config: GridCell[][]) {
     this.config = config
     this.rows = config.length
-    this.cols = config[0].length
+    this.cols = config[0]?.length || 0
     this.centerX = (this.cols - 1) / 2
     this.centerZ = (this.rows - 1) / 2
   }
@@ -22,7 +23,7 @@ export class Grid {
     if (row < 0 || row >= this.rows || col < 0 || col >= this.cols) return false
 
     const cell = this.config[row][col]
-    const blockType = typeof cell === 'object' ? cell.type : cell
+    const blockType = getBlockType(cell)
 
     if (blockType === BlockType.Empty) return false
     if (blockType === BlockType.End && !isLevelCompleted) return false
@@ -31,17 +32,14 @@ export class Grid {
   }
 
   getWorldPosition(col: number, row: number): Vector3 {
-    return new Vector3((col - this.centerX) * 2, 0, (row - this.centerZ) * 2)
+    return new Vector3(
+      (col - this.centerX) * GRID_CONFIG.BLOCK_SPACING,
+      0,
+      (row - this.centerZ) * GRID_CONFIG.BLOCK_SPACING,
+    )
   }
 
   getInitialPosition() {
-    for (let row = 0; row < this.rows; row++) {
-      for (let col = 0; col < this.cols; col++) {
-        if (this.config[row][col] === BlockType.Start) {
-          return { col, row }
-        }
-      }
-    }
-    return { col: 0, row: 0 }
+    return findStartPosition(this.config)
   }
 }

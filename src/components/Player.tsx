@@ -4,7 +4,7 @@ import { useEffect, useLayoutEffect, useMemo, useRef } from 'react'
 import { MathUtils, type Group } from 'three'
 
 import { Controller, SpriteAnimator } from '@components/helpers'
-import { GameStatus } from '@config'
+import { ANIMATION_DELAYS, GameStatus, PLAYER_CONFIG } from '@config'
 import { Grid, Player as PlayerLogic } from '@logic'
 import { useController, useGameStore, useSoundBoard } from '@stores'
 
@@ -56,7 +56,7 @@ export function Player() {
   const spawnDelay = useMemo(() => {
     // We only care about the INITIAL position's delay
     const { col } = playerLogic
-    return col * 150
+    return col * ANIMATION_DELAYS.BLOCK_SPAWN_PER_COLUMN
   }, [playerLogic])
 
   const isCompleted = status === GameStatus.COMPLETED
@@ -94,7 +94,7 @@ export function Player() {
     const position = ref.current.position
 
     const target = playerLogic.targetPosition
-    const step = 20 * delta
+    const step = PLAYER_CONFIG.MOVEMENT_SPEED * delta
     if (position.distanceTo(target) > 0.01) {
       position.lerp(target, step)
       return

@@ -31,6 +31,6 @@ export const GameStatus = {
   PLAYING: 'PLAYING',
   COMPLETED: 'COMPLETED',
   FAILED: 'FAILED',
-} as const
+}
 
 export type GameStatus = (typeof GameStatus)[keyof typeof GameStatus]
