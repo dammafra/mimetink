@@ -1,3 +1,4 @@
+import { useSpring } from '@react-spring/three'
 import { useTexture } from '@react-three/drei'
 import { useFrame } from '@react-three/fiber'
 import { useRef } from 'react'
@@ -15,6 +16,13 @@ export function Caustics() {
   const meshRef2 = useRef<Mesh>(null)
   const causticsTexture = useTexture('/sprites/caustics.png')
 
+  // Spring animation for fade in
+  const { opacity } = useSpring({
+    from: { opacity: 0 },
+    to: { opacity: 0.08 },
+    config: { duration: 3000 },
+  })
+
   // Configure base texture
   causticsTexture.wrapS = RepeatWrapping
   causticsTexture.wrapT = RepeatWrapping
@@ -30,6 +38,7 @@ export function Caustics() {
 
   useFrame(({ clock }) => {
     const time = clock.getElapsedTime()
+    const currentOpacity = opacity.get()
 
     // Layer 1: movimento ondulatorio più lento
     if (meshRef1.current) {
@@ -44,6 +53,7 @@ export function Caustics() {
       if (material1.map) {
         material1.map.offset.set(offsetX1, offsetY1)
       }
+      material1.opacity = currentOpacity
     }
 
     // Layer 2: movimento in direzione leggermente diversa
@@ -59,6 +69,7 @@ export function Caustics() {
       if (material2.map) {
         material2.map.offset.set(offsetX2, offsetY2)
       }
+      material2.opacity = currentOpacity
     }
   })
 
@@ -70,7 +81,7 @@ export function Caustics() {
         <meshBasicMaterial
           map={causticsTexture}
           transparent
-          opacity={0.08} // Molto più sottile
+          opacity={0} // Will be animated by spring
           side={DoubleSide}
           depthWrite={false}
           blending={NormalBlending}
@@ -86,7 +97,7 @@ export function Caustics() {
         <meshBasicMaterial
           map={causticsTexture2}
           transparent
-          opacity={0.08} // Molto più sottile
+          opacity={0} // Will be animated by spring
           side={DoubleSide}
           depthWrite={false}
           blending={NormalBlending}
