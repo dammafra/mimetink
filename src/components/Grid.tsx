@@ -8,12 +8,12 @@ import { EnemyBlock } from './blocks/EnemyBlock'
 import { MimeticBlock } from './blocks/MimeticBlock'
 import { SandBlock } from './blocks/SandBlock'
 
-import { DecorativeBlock } from './blocks/DecorativeBlock'
+import { StartBlock } from './blocks/StartBlock'
 import { Dynamic } from './helpers'
 
 const componentsMap = {
   [BlockType.Sand]: SandBlock,
-  [BlockType.Start]: SandBlock,
+  [BlockType.Start]: StartBlock,
   [BlockType.End]: EndBlock,
   [BlockType.VitalCoral]: CoralBlock,
   [BlockType.DeadCoral]: CoralBlock,
@@ -21,7 +21,6 @@ const componentsMap = {
   [BlockType.MimeticBlock]: MimeticBlock,
   [BlockType.EnemyBlock]: EnemyBlock,
   [BlockType.CollectibleBlock]: CollectibleBlock,
-  [BlockType.DecorativeBlock]: DecorativeBlock,
 }
 
 export function Grid() {

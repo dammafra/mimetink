@@ -6,12 +6,11 @@ import { BLOCK_CONFIG, BlockType } from '../../constants/game'
 import { useGameStore } from '../../stores'
 import { BaseBlock } from './BaseBlock'
 
-export type EndBlockProps = JSX.IntrinsicElements['group'] & {
+type EndBlockProps = JSX.IntrinsicElements['group'] & {
   delay?: number
-  color?: string
 }
 
-export function EndBlock({ delay, color, ...props }: EndBlockProps) {
+export function EndBlock({ delay, ...props }: EndBlockProps) {
   const isLevelCompleted = useGameStore(state => state.isLevelCompleted)
   const sprite = useTexture('/sprites/cave.png')
 
@@ -27,7 +26,7 @@ export function EndBlock({ delay, color, ...props }: EndBlockProps) {
 
   return (
     <group {...props}>
-      <BaseBlock color={color || BLOCK_CONFIG[BlockType.End].color} delay={delay}>
+      <BaseBlock color={BLOCK_CONFIG[BlockType.End].color} delay={delay}>
         <mesh
           rotation={[MathUtils.degToRad(-35), 0, MathUtils.degToRad(-10)]}
           position-y={0.6}

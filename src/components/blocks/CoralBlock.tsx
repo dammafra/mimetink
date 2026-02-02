@@ -1,3 +1,4 @@
+import { animated, config as springConfig, useSpring } from '@react-spring/three'
 import { Billboard, Float, Sparkles, Text, useTexture } from '@react-three/drei'
 import { randomOneOf } from '@utils'
 import { useEffect, useMemo, type JSX } from 'react'
@@ -46,6 +47,11 @@ export function CoralBlock({ blockType, delay, color, moves, ...props }: CoralBl
 
   const bubbleSprite = useTexture('/sprites/bubble.png')
 
+  const { scale } = useSpring({
+    scale: !vitalMovesLeft ? 0.7 : 0,
+    config: springConfig.wobbly,
+  })
+
   return (
     <BaseBlock color={finalColor} delay={delay} {...props}>
       {blockType === BlockType.VitalCoral && (
@@ -58,23 +64,25 @@ export function CoralBlock({ blockType, delay, color, moves, ...props }: CoralBl
             position-y={1}
             material-depthWrite={false}
           />
-          {!!moves && !vitalMovesLeft && (
-            <Billboard position={[0, 0.5, 0]} scale={0.7}>
-              <Float speed={5}>
-                <mesh>
-                  <planeGeometry />
-                  <meshBasicMaterial
-                    map={bubbleSprite}
-                    alphaMap={bubbleSprite}
-                    transparent
-                    depthWrite={false}
-                  />
-                  <Text scale={0.5} outlineColor="black" outlineWidth={0.08} color={finalColor}>
-                    {moves}
-                  </Text>
-                </mesh>
-              </Float>
-            </Billboard>
+          {!!moves && (
+            <animated.group position={[0, 0.5, 0]} scale={scale}>
+              <Billboard>
+                <Float speed={5}>
+                  <mesh>
+                    <planeGeometry />
+                    <meshBasicMaterial
+                      map={bubbleSprite}
+                      alphaMap={bubbleSprite}
+                      transparent
+                      depthWrite={false}
+                    />
+                    <Text scale={0.5} outlineColor="black" outlineWidth={0.2} color={finalColor}>
+                      {moves}
+                    </Text>
+                  </mesh>
+                </Float>
+              </Billboard>
+            </animated.group>
           )}
         </>
       )}

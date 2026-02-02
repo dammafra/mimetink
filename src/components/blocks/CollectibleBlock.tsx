@@ -22,7 +22,7 @@ export function CollectibleBlock(
         <Float rotationIntensity={0} speed={10}>
           <mesh rotation-x={MathUtils.degToRad(-35)} position-y={0.4} scale={0.5}>
             <planeGeometry />
-            <meshBasicMaterial map={sprite} transparent depthTest={false} depthWrite={false} />
+            <meshMatcapMaterial map={sprite} transparent depthTest={false} depthWrite={false} />
           </mesh>
         </Float>
       )}
