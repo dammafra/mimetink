@@ -13,7 +13,7 @@ import {
 
 interface AlgaFloorProps {
   color: ColorRepresentation
-  tall?: boolean
+  animate?: boolean
 }
 
 // Configurazione dei 5 strati (per pulire il JSX e assegnare le ref facilmente)
@@ -25,7 +25,7 @@ const LAYERS = [
   { z: 0.3, flipped: false },
 ]
 
-export function AlgaFloor({ color, tall }: AlgaFloorProps) {
+export function AlgaFloor({ color, animate = true }: AlgaFloorProps) {
   const algaSprite = useTexture('/sprites/alga.png')
 
   useEffect(() => {
@@ -51,6 +51,8 @@ export function AlgaFloor({ color, tall }: AlgaFloorProps) {
 
   // 2. Logica di animazione
   useFrame(({ clock }) => {
+    if (!animate) return
+
     const time = clock.getElapsedTime()
 
     meshesRef.current.forEach((mesh, i) => {
@@ -69,7 +71,7 @@ export function AlgaFloor({ color, tall }: AlgaFloorProps) {
   })
 
   return (
-    <group scale={[0.9, tall ? 3 : 0.4, 0.8]} position-y={tall ? 1 : 0.3}>
+    <group scale={[0.9, 0.4, 0.8]} position-y={0.3}>
       {LAYERS.map((layer, index) => (
         <mesh
           key={index}

@@ -100,12 +100,17 @@ export function CoralBlock({
   })
 
   const config = BLOCK_CONFIG[blockType as keyof typeof BLOCK_CONFIG]
-  const finalColor = color || (config && 'color' in config ? config.color : 'white')
+  const finalColor = config && 'color' in config ? config.color : 'white'
 
   const bubbleSprite = useTexture('/sprites/bubble.png')
 
-  const { scale } = useSpring({
-    scale: !vitalMovesLeft ? 0.7 : 0,
+  const { coralScale } = useSpring({
+    coralScale: blockType !== BlockType.DeadCoral ? 1 : 0,
+    config: springConfig.slow,
+  })
+
+  const { bubbleScale } = useSpring({
+    bubbleScale: !vitalMovesLeft ? 0.7 : 0,
     config: springConfig.wobbly,
   })
 
@@ -130,7 +135,7 @@ export function CoralBlock({
           </animated.group>
         )}
         {blockType === BlockType.VitalCoral && !!moves && (
-          <animated.group position={[0, 0.5, 0]} scale={scale}>
+          <animated.group position={[0, 0.5, 0]} scale={bubbleScale}>
             <Billboard>
               <Float speed={5}>
                 <mesh>
@@ -156,11 +161,13 @@ export function CoralBlock({
           </animated.group>
         )}
 
-        <mesh rotation={[MathUtils.degToRad(-35), 0, 0]} position={[0, 0.6, -0.25]}>
-          <planeGeometry />
-          <meshBasicMaterial map={coralSprite} transparent color={finalColor} alphaTest={0.5} />
-        </mesh>
-        <AlgaFloor color={finalColor} />
+        <animated.group scale-z={blockType !== BlockType.DeadCoral ? 1 : 0} scale-y={coralScale}>
+          <mesh rotation={[MathUtils.degToRad(-35), 0, 0]} position={[0, 0.6, -0.25]}>
+            <planeGeometry />
+            <meshBasicMaterial map={coralSprite} transparent color={finalColor} alphaTest={0.5} />
+          </mesh>
+        </animated.group>
+        <AlgaFloor color={finalColor} animate={blockType !== BlockType.DeadCoral} />
       </group>
     </BaseBlock>
   )
