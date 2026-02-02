@@ -33,9 +33,11 @@ export const TutorialOverlay: React.FC = () => {
           <span className="text-lg tracking-widest text-white uppercase">Vincent van Polp</span>
         </div>
         <p className="text-xl leading-relaxed text-white/90">{step.message}</p>
-        {!isLevelEnd && (
+        {isLevelEnd && (
           <p className="font-bold mt-4 flex justify-end animate-bounce text-xs tracking-widest text-white/40 uppercase">
-            {isTouch ? 'Tap' : 'Click'} anywhere to continue
+            {isLevelEnd
+              ? 'Return to title screen'
+              : `${isTouch ? 'Tap' : 'Click'}anywhere to continue`}
           </p>
         )}
       </div>

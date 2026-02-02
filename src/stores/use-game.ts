@@ -127,13 +127,13 @@ export const useGameStore = create<GameState>((set, get) => ({
   },
 
   nextTutorialStep: () => {
-    const { currentLevelIndex, currentTutorialStep } = get()
+    const { currentLevelIndex, currentTutorialStep, restartKey } = get()
     const level = levels[currentLevelIndex]
     if (level.tutorialSteps && currentTutorialStep !== null) {
       if (currentTutorialStep < level.tutorialSteps.length - 1) {
         set({ currentTutorialStep: currentTutorialStep + 1 })
       } else if (currentLevelIndex === levels.length - 1) {
-        return
+        set({ ...createLevelState(0, restartKey), status: GameStatus.READY })
       } else {
         set({ currentTutorialStep: null, showTutorial: false })
       }
