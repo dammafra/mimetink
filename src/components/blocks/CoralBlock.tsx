@@ -2,7 +2,7 @@ import { animated, config as springConfig, useSpring } from '@react-spring/three
 import { Billboard, Float, Sparkles, Text, useTexture } from '@react-three/drei'
 import { useFrame } from '@react-three/fiber'
 import { useEffect, useMemo, useRef, useState, type JSX } from 'react'
-import { Group, MathUtils, SRGBColorSpace } from 'three'
+import { Color, Group, MathUtils, SRGBColorSpace } from 'three'
 
 import { BLOCK_CONFIG, BlockType } from '@config'
 import { useGameStore } from '@stores'
@@ -84,7 +84,13 @@ export function CoralBlock({ blockType, delay, color, moves, ...props }: CoralBl
                     transparent
                     depthWrite={false}
                   />
-                  <Text scale={0.5} outlineColor="black" outlineWidth={0.2} color={finalColor}>
+                  <Text
+                    font="/fonts/coiny.ttf"
+                    scale={0.5}
+                    outlineColor={new Color(finalColor).multiply(new Color('#666666'))}
+                    outlineWidth={0.2}
+                    color={finalColor}
+                  >
                     {moves}
                   </Text>
                 </mesh>

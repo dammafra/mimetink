@@ -28,7 +28,7 @@ export const IntroVideo: React.FC = () => {
 
       <button
         onClick={finishIntro}
-        className="absolute left-1/2 -translate-x-1/2 cursor-pointer rounded-2xl border border-white/20 bg-white/15 px-8 py-3 text-sm font-bold tracking-widest text-white backdrop-blur-md transition-all duration-300 hover:bg-white/30 hover:scale-105 active:scale-95 outline-none bottom-[calc(3rem+env(safe-area-inset-bottom))]"
+        className="text-xl absolute left-1/2 -translate-x-1/2 cursor-pointer rounded-2xl border border-white/20 bg-white/15 px-8 py-3 tracking-widest text-white backdrop-blur-md transition-all duration-300 hover:bg-white/30 hover:scale-105 active:scale-95 outline-none bottom-[calc(3rem+env(safe-area-inset-bottom))]"
       >
         SKIP
       </button>

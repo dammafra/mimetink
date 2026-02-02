@@ -74,8 +74,9 @@ export function Caustics() {
   })
 
   return (
-    <Hud>
+    <Hud renderPriority={2}>
       <PerspectiveCamera makeDefault position={[0, 0, 15]} />
+
       <group>
         {/* Primo layer */}
         <mesh ref={meshRef1} position={[0, 5, 0]} scale={[50, 50, 1]}>

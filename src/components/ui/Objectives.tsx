@@ -21,7 +21,7 @@ export function Objectives({ objectives, currentMoves, maxMoves }: ObjectivesPro
         <div
           key={obj.id}
           className={clsx(
-            'flex items-center gap-0 text-sm font-medium transition-all duration-300',
+            'flex items-center gap-0 text-sm transition-all duration-300',
             obj.completed && 'opacity-50',
           )}
         >
@@ -39,7 +39,7 @@ export function Objectives({ objectives, currentMoves, maxMoves }: ObjectivesPro
           {obj.showMoves && currentMoves !== undefined && maxMoves !== undefined && (
             <span
               className={clsx(
-                'ml-auto text-sm font-bold opacity-80',
+                'ml-2 text-sm opacity-80',
                 obj.failed ? 'text-red-400' : 'text-[#ffb142]',
               )}
             >

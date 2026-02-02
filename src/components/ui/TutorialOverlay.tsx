@@ -30,14 +30,12 @@ export const TutorialOverlay: React.FC = () => {
           <div className="flex size-8 items-center justify-center rounded-2xl bg-teal-500 text-xl">
             🐙
           </div>
-          <span className="text-lg font-black tracking-widest text-white uppercase">
-            Vincent van Polp
-          </span>
+          <span className="text-lg tracking-widest text-white uppercase">Vincent van Polp</span>
         </div>
-        <p className="text-xl font-medium leading-relaxed text-white/90">{step.message}</p>
+        <p className="text-xl leading-relaxed text-white/90">{step.message}</p>
         {!isLevelEnd && (
           <div className="mt-4 flex justify-end">
-            <span className="animate-bounce text-xs font-bold tracking-widest text-white/40 uppercase">
+            <span className="animate-bounce text-xs tracking-widest text-white/40 uppercase">
               {isTouch ? 'Tap' : 'Click'} anywhere to continue
             </span>
           </div>

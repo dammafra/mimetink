@@ -25,8 +25,8 @@ export function TitleScreen() {
         href="https://globalgamejam.org/games/2026/mimetink-0"
         target="_blank"
       >
-        <div className="text-3xl border border-white/20 bg-white/15 rounded-full size-10 transition-all duration-300 group-hover:scale-105 group-hover:bg-teal-600 group-active:scale-105 group-active:bg-teal-600 outline-none backdrop-blur-md ">
-          ℹ
+        <div className="flex items-center justify-center text-2xl border border-white/20 bg-white/15 rounded-full size-10 transition-all duration-300 group-hover:scale-105 group-hover:bg-teal-600 group-active:scale-105 group-active:bg-teal-600 outline-none backdrop-blur-md ">
+          i
         </div>
         <p className="tracking-widest uppercase">credits</p>
       </a>
