@@ -2,7 +2,7 @@ import { Canvas, Helpers } from '@components/helpers'
 import { useDebug } from '@hooks'
 import { CameraControls, CameraControlsImpl, Hud, PerspectiveCamera } from '@react-three/drei'
 import { PCFShadowMap } from 'three'
-import { Bubbles } from './Bubbles'
+import { Caustics } from './Caustics'
 import { FitCamera } from './FitCamera'
 import { World } from './World'
 import SoundBoard from './helpers/SoundBoard'
@@ -47,7 +47,8 @@ export function Experience() {
       <SoundBoard />
 
       <Hud>
-        <Bubbles />
+        <Caustics />
+        {/* <Bubbles /> */}
         <PerspectiveCamera makeDefault position={[0, 0, 15]} />
       </Hud>
     </Canvas>
