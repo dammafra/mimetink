@@ -2,7 +2,7 @@ import { animated, useSpring } from '@react-spring/three'
 import { Sparkles } from '@react-three/drei'
 import { useFrame } from '@react-three/fiber'
 import { GameStatus, useController, useGameStore, useSoundBoard } from '@stores'
-import { useEffect, useLayoutEffect, useMemo, useRef } from 'react'
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import { Group, MathUtils } from 'three'
 import { Grid } from '../logic/Grid'
 import { Player as PlayerLogic } from '../logic/Player'
@@ -73,6 +73,9 @@ export function Player() {
     key: restartKey,
   })
 
+  // Track scale value to hide sparkles during animation
+  const [isScaledIn, setIsScaledIn] = useState(false)
+
   // Handle Level Restart
   useLayoutEffect(() => {
     playerLogic.reset()
@@ -80,6 +83,7 @@ export function Player() {
       ref.current.position.copy(playerLogic.targetPosition)
     }
     prevPos.current = { col: playerLogic.col, row: playerLogic.row }
+    setIsScaledIn(false) // Reset when restarting
   }, [restartKey, playerLogic])
 
   // Sync logic grid with store grid
@@ -91,6 +95,12 @@ export function Player() {
   const prevPos = useRef({ col: playerLogic.col, row: playerLogic.row })
 
   useFrame((_, delta) => {
+    // Track scale to hide sparkles during animation
+    if (ref.current) {
+      const currentScale = ref.current.scale.x
+      setIsScaledIn(currentScale > 0.95)
+    }
+
     if (
       !ref.current ||
       status === GameStatus.READY ||
@@ -127,7 +137,7 @@ export function Player() {
   return (
     <Controller>
       <animated.group ref={ref} scale={scale}>
-        {vitalMovesLeft !== 0 && (
+        {vitalMovesLeft !== 0 && isScaledIn && (
           <group renderOrder={2}>
             <Sparkles color={playerColor} size={30} count={10} position-y={1} position-x={-0.25} />
           </group>

@@ -1,8 +1,9 @@
 import { animated, config as springConfig, useSpring } from '@react-spring/three'
 import { Billboard, Float, Sparkles, Text, useTexture } from '@react-three/drei'
+import { useFrame } from '@react-three/fiber'
 import { randomOneOf } from '@utils'
-import { useEffect, useMemo, type JSX } from 'react'
-import { MathUtils, SRGBColorSpace } from 'three'
+import { useEffect, useMemo, useRef, useState, type JSX } from 'react'
+import { Group, MathUtils, SRGBColorSpace } from 'three'
 import { BLOCK_CONFIG, BlockType } from '../../constants/game'
 import { useGameStore } from '../../stores/use-game'
 import { AlgaFloor } from './AlgaFloor'
@@ -32,6 +33,8 @@ export type CoralBlockProps = JSX.IntrinsicElements['group'] & {
 export function CoralBlock({ blockType, delay, color, moves, ...props }: CoralBlockProps) {
   const vitalMovesLeft = useGameStore(state => state.vitalMovesLeft)
   const coralSprites = useTexture(CORAL_SPRITES)
+  const groupRef = useRef<Group>(null)
+  const [isScaledIn, setIsScaledIn] = useState(false)
 
   const coralSprite = useMemo(() => randomOneOf(coralSprites), [coralSprites])
 
@@ -41,6 +44,15 @@ export function CoralBlock({ blockType, delay, color, moves, ...props }: CoralBl
       texture.needsUpdate = true
     })
   }, [coralSprites])
+
+  // Track scale to hide sparkles during animation
+  useFrame(() => {
+    if (groupRef.current?.parent) {
+      const parent = groupRef.current.parent as Group
+      const currentScale = parent.scale.x
+      setIsScaledIn(currentScale > 0.95)
+    }
+  })
 
   const config = BLOCK_CONFIG[blockType as keyof typeof BLOCK_CONFIG]
   const finalColor = color || (config && 'color' in config ? config.color : 'white')
@@ -54,37 +66,37 @@ export function CoralBlock({ blockType, delay, color, moves, ...props }: CoralBl
 
   return (
     <BaseBlock color={finalColor} delay={delay} {...props}>
-      {blockType === BlockType.VitalCoral && (
-        <>
+      <group ref={groupRef}>
+        {blockType === BlockType.VitalCoral && isScaledIn && (
           <Sparkles color={finalColor} scale={1} size={20} />
-          {!!moves && (
-            <animated.group position={[0, 0.5, 0]} scale={scale}>
-              <Billboard>
-                <Float speed={5}>
-                  <mesh>
-                    <planeGeometry />
-                    <meshBasicMaterial
-                      map={bubbleSprite}
-                      alphaMap={bubbleSprite}
-                      transparent
-                      depthWrite={false}
-                    />
-                    <Text scale={0.5} outlineColor="black" outlineWidth={0.2} color={finalColor}>
-                      {moves}
-                    </Text>
-                  </mesh>
-                </Float>
-              </Billboard>
-            </animated.group>
-          )}
-        </>
-      )}
+        )}
+        {blockType === BlockType.VitalCoral && !!moves && (
+          <animated.group position={[0, 0.5, 0]} scale={scale}>
+            <Billboard>
+              <Float speed={5}>
+                <mesh>
+                  <planeGeometry />
+                  <meshBasicMaterial
+                    map={bubbleSprite}
+                    alphaMap={bubbleSprite}
+                    transparent
+                    depthWrite={false}
+                  />
+                  <Text scale={0.5} outlineColor="black" outlineWidth={0.2} color={finalColor}>
+                    {moves}
+                  </Text>
+                </mesh>
+              </Float>
+            </Billboard>
+          </animated.group>
+        )}
 
-      <mesh rotation={[MathUtils.degToRad(-35), 0, 0]} position={[0, 0.6, -0.25]}>
-        <planeGeometry />
-        <meshBasicMaterial map={coralSprite} transparent color={finalColor} alphaTest={0.5} />
-      </mesh>
-      <AlgaFloor color={finalColor} />
+        <mesh rotation={[MathUtils.degToRad(-35), 0, 0]} position={[0, 0.6, -0.25]}>
+          <planeGeometry />
+          <meshBasicMaterial map={coralSprite} transparent color={finalColor} alphaTest={0.5} />
+        </mesh>
+        <AlgaFloor color={finalColor} />
+      </group>
     </BaseBlock>
   )
 }
