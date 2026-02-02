@@ -65,7 +65,12 @@ export function HUD() {
 
       {/* Top Left: Objectives (Below level on mobile) */}
       <div className="animate-in zoom-in-50 fixed min-w-80 z-100 rounded-2xl border border-white/20 bg-white/15 p-4 text-white shadow-2xl backdrop-blur-md pointer-events-none top-6 left-1/2 max-md:-translate-x-1/2 md:left-6">
-        <Objectives objectives={objectives} currentMoves={currentMoves} maxMoves={maxMoves} />
+        <Objectives
+          key={`${currentLevelIndex}-objectives`}
+          objectives={objectives}
+          currentMoves={currentMoves}
+          maxMoves={maxMoves}
+        />
         {!!vitalMovesLeft && (
           <div className="mt-2 flex items-center gap-2 border-t border-white/10 pt-2 animate-in slide-in-from-left-2">
             <span className="flex size-3 animate-pulse rounded-full bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.8)]" />
