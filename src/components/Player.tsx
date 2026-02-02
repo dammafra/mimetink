@@ -101,14 +101,7 @@ export function Player() {
       setIsScaledIn(currentScale > 0.95)
     }
 
-    if (
-      !ref.current ||
-      status === GameStatus.READY ||
-      status === GameStatus.FAILED ||
-      !isGridReady ||
-      showTutorial
-    )
-      return
+    if (!ref.current || status === GameStatus.READY || !isGridReady || showTutorial) return
 
     const position = ref.current.position
 
@@ -121,10 +114,14 @@ export function Player() {
 
     position.copy(target)
 
-    if (up) playerLogic.move('up', isLevelCompleted)
-    else if (down) playerLogic.move('down', isLevelCompleted)
-    else if (left) playerLogic.move('left', isLevelCompleted)
-    else if (right) playerLogic.move('right', isLevelCompleted)
+    const canMove = status === GameStatus.PLAYING
+
+    if (canMove) {
+      if (up) playerLogic.move('up', isLevelCompleted)
+      else if (down) playerLogic.move('down', isLevelCompleted)
+      else if (left) playerLogic.move('left', isLevelCompleted)
+      else if (right) playerLogic.move('right', isLevelCompleted)
+    }
 
     /* Check for position change to trigger interaction */
     if (prevPos.current.col !== playerLogic.col || prevPos.current.row !== playerLogic.row) {
