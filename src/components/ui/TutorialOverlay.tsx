@@ -27,8 +27,8 @@ export const TutorialOverlay: React.FC = () => {
     >
       <div className="w-full max-w-lg rounded-2xl border border-white/20 bg-white/15 p-5 shadow-2xl backdrop-blur-xl transition-all duration-300 hover:bg-white/30">
         <div className="mb-2 flex items-center gap-2 font-bold">
-          <div className="flex size-8 items-center justify-center rounded-2xl bg-teal-500 text-xl">
-            🐙
+          <div className="flex size-8 items-center justify-center rounded-full overflow-hidden bg-teal-500 text-xl">
+            <img src="/favicon/favicon-96x96.png" />
           </div>
           <span className="text-lg tracking-widest text-white uppercase">Vincent van Polp</span>
         </div>
