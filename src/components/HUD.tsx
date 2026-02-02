@@ -76,7 +76,7 @@ export function HUD() {
       </div>
 
       {/* Top Right: Restart Button */}
-      <div className="animate-in zoom-in-50 fixed bottom-6 right-6 md:top-6 z-100">
+      <div className="animate-in zoom-in-50 fixed max-md:bottom-6 right-6 md:top-6 z-100">
         <button
           onClick={restartLevel}
           className="cursor-pointer group flex size-12.5 items-center justify-center rounded-2xl border border-white/20 bg-white/15 text-white shadow-2xl outline-none backdrop-blur-md transition-all duration-200 hover:scale-110 hover:bg-white/30 active:scale-110 active:bg-white/30"
