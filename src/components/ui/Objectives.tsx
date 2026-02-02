@@ -20,10 +20,7 @@ export function Objectives({ objectives, currentMoves, maxMoves }: ObjectivesPro
       {objectives.map(obj => (
         <div
           key={obj.id}
-          className={clsx(
-            'flex items-center gap-0 text-sm transition-all duration-300',
-            obj.completed && 'opacity-50',
-          )}
+          className={clsx('flex items-center gap-0 text-sm transition-all duration-300')}
         >
           <span
             className={clsx(
@@ -37,12 +34,7 @@ export function Objectives({ objectives, currentMoves, maxMoves }: ObjectivesPro
             {obj.label}
           </span>
           {obj.showMoves && currentMoves !== undefined && maxMoves !== undefined && (
-            <span
-              className={clsx(
-                'ml-2 text-sm opacity-80',
-                obj.failed ? 'text-red-400' : 'text-[#ffb142]',
-              )}
-            >
+            <span className={clsx('ml-2 text-sm', obj.failed ? 'text-red-400' : 'text-[#ffb142]')}>
               ({currentMoves}/{maxMoves})
             </span>
           )}

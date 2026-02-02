@@ -1,11 +1,13 @@
-import type { CameraControlsImpl } from '@react-three/drei'
+import { CameraControls, CameraControlsImpl } from '@react-three/drei'
 import { useFrame, useThree } from '@react-three/fiber'
 import { useEffect, useRef } from 'react'
 import { Box3, MathUtils, Vector3 } from 'three'
 
+import { useDebug } from '@hooks'
 import { useGameStore } from '@stores'
 
 export function CameraRig() {
+  const debug = useDebug()
   const gridDimensions = useGameStore(state => state.gridDimensions)
   const isGridReady = useGameStore(state => state.isGridReady)
   const { size, viewport, controls } = useThree()
@@ -24,14 +26,14 @@ export function CameraRig() {
     box.setFromCenterAndSize(new Vector3(0, 0, 0), new Vector3(width, 1, height))
 
     cameraControls.fitToBox(box, true, {
-      paddingTop: viewport.aspect < 1 ? 1 : 3,
-      paddingBottom: viewport.aspect < 1 ? 1 : 3,
-      paddingLeft: viewport.aspect < 1 ? 2 : 3,
-      paddingRight: viewport.aspect < 1 ? 2 : 3,
+      paddingTop: 1,
+      paddingBottom: 1,
+      paddingLeft: 1,
+      paddingRight: 1,
     })
     cameraControls.rotatePolarTo(MathUtils.degToRad(35))
     cameraControls.rotateAzimuthTo(MathUtils.degToRad(-15))
-    cameraControls.moveTo(0, viewport.aspect < 1 ? 3 : 1, 0, true)
+    cameraControls.truck(0, -1, true)
 
     lastDimensions.current = gridDimensions
   }
@@ -48,5 +50,30 @@ export function CameraRig() {
     }
   })
 
-  return null
+  return (
+    <CameraControls
+      makeDefault
+      polarRotateSpeed={debug ? undefined : 0}
+      azimuthRotateSpeed={debug ? undefined : 0}
+      mouseButtons={
+        debug
+          ? undefined
+          : {
+              wheel: CameraControlsImpl.ACTION.NONE,
+              left: CameraControlsImpl.ACTION.NONE,
+              right: CameraControlsImpl.ACTION.NONE,
+              middle: CameraControlsImpl.ACTION.NONE,
+            }
+      }
+      touches={
+        debug
+          ? undefined
+          : {
+              one: CameraControlsImpl.ACTION.NONE,
+              two: CameraControlsImpl.ACTION.NONE,
+              three: CameraControlsImpl.ACTION.NONE,
+            }
+      }
+    />
+  )
 }

@@ -1,7 +1,6 @@
 import { animated, useSpring } from '@react-spring/three'
-import { Sparkles } from '@react-three/drei'
 import { useFrame } from '@react-three/fiber'
-import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useLayoutEffect, useMemo, useRef } from 'react'
 import { MathUtils, type Group } from 'three'
 
 import { Controller, SpriteAnimator } from '@components/helpers'
@@ -41,7 +40,6 @@ export function Player() {
   const onPlayerMove = useGameStore(state => state.onPlayerMove)
   const gridState = useGameStore(state => state.grid)
   const status = useGameStore(state => state.status)
-  const vitalMovesLeft = useGameStore(state => state.vitalMovesLeft)
   const isGridReady = useGameStore(state => state.isGridReady)
   const showTutorial = useGameStore(state => state.showTutorial)
   const restartKey = useGameStore(state => state.restartKey)
@@ -73,9 +71,6 @@ export function Player() {
     key: restartKey,
   })
 
-  // Track scale value to hide sparkles during animation
-  const [isScaledIn, setIsScaledIn] = useState(false)
-
   // Handle Level Restart
   useLayoutEffect(() => {
     playerLogic.reset()
@@ -83,7 +78,6 @@ export function Player() {
       ref.current.position.copy(playerLogic.targetPosition)
     }
     prevPos.current = { col: playerLogic.col, row: playerLogic.row }
-    setIsScaledIn(false) // Reset when restarting
   }, [restartKey, playerLogic])
 
   // Sync logic grid with store grid
@@ -95,12 +89,6 @@ export function Player() {
   const prevPos = useRef({ col: playerLogic.col, row: playerLogic.row })
 
   useFrame((_, delta) => {
-    // Track scale to hide sparkles during animation
-    if (ref.current) {
-      const currentScale = ref.current.scale.x
-      setIsScaledIn(currentScale > 0.95)
-    }
-
     if (!ref.current || status === GameStatus.READY || !isGridReady || showTutorial) return
 
     const position = ref.current.position
@@ -134,11 +122,6 @@ export function Player() {
   return (
     <Controller>
       <animated.group ref={ref} scale={scale}>
-        {vitalMovesLeft !== 0 && isScaledIn && (
-          <group renderOrder={2}>
-            <Sparkles color={playerColor} size={30} count={10} position-y={1} position-x={-0.25} />
-          </group>
-        )}
         <SpriteAnimator
           rotation={[MathUtils.degToRad(-35), 0, 0]}
           position-y={0.8}

@@ -56,11 +56,12 @@ export function SpriteAnimator({
   return (
     <mesh {...meshProps} renderOrder={1}>
       <planeGeometry />
-      <meshMatcapMaterial
+      <meshBasicMaterial
         map={textures[index]}
         transparent
         side={DoubleSide}
         color={meshProps.color}
+        alphaTest={0.5}
       />
     </mesh>
   )
