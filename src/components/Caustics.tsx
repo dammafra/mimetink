@@ -74,7 +74,7 @@ export function Caustics() {
   })
 
   return (
-    <Hud renderPriority={2}>
+    <Hud>
       <PerspectiveCamera makeDefault position={[0, 0, 15]} />
 
       <group>
