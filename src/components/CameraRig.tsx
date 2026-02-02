@@ -4,6 +4,7 @@ import { useEffect, useRef } from 'react'
 import { Box3, MathUtils, Vector3 } from 'three'
 
 import { useDebug } from '@hooks'
+
 import { useGameStore } from '@stores'
 
 export function CameraRig() {
@@ -26,8 +27,8 @@ export function CameraRig() {
     box.setFromCenterAndSize(new Vector3(0, 0, 0), new Vector3(width, 1, height))
 
     cameraControls.fitToBox(box, true, {
-      paddingLeft: viewport.aspect < 1 ? 1 : 5,
-      paddingRight: viewport.aspect < 1 ? 1 : 5,
+      paddingLeft: viewport.aspect < 1 ? 2 : 5,
+      paddingRight: viewport.aspect < 1 ? 2 : 5,
     })
     cameraControls.rotatePolarTo(MathUtils.degToRad(35))
     cameraControls.rotateAzimuthTo(MathUtils.degToRad(-15))
