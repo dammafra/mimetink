@@ -135,7 +135,7 @@ export function HUD() {
       {/* Level Failed Overlay */}
       {showFailureOverlay && (
         <div className="fixed flex-col inset-0 z-1000 flex items-center justify-center backdrop-blur-sm transition-all duration-700 animate-in fade-in bg-black/60">
-          <h2 className="mb-2 bg-linear-to-r from-red-400 to-orange-500 bg-clip-text text-5xl tracking-widest text-transparent">
+          <h2 className="text-center mb-2 bg-linear-to-r from-red-400 to-orange-500 bg-clip-text text-5xl tracking-widest text-transparent">
             LEVEL FAILED
           </h2>
           <p className="mb-6 text-lg opacity-80 text-white">You were spotted!</p>
