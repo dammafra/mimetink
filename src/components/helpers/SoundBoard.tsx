@@ -1,18 +1,22 @@
 import { Howler } from 'howler'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import useSound from 'use-sound'
 
-import { useSoundBoard, type ReturnedValue } from '@stores'
+import { GameStatus } from '@config'
+import { useGameStore, useSoundBoard, type ReturnedValue } from '@stores'
 
 const parse = ([play, data]: ReturnedValue) => ({ play, ...data })
 
 export function SoundBoard() {
+  const status = useGameStore(state => state.status)
   const setContext = useSoundBoard(state => state.setContext)
   const setSounds = useSoundBoard(state => state.setSounds)
   const muted = useSoundBoard(state => state.muted)
 
   const [loaded, setLoaded] = useState(0)
   const onload = () => setLoaded(loaded => loaded + 1)
+
+  const hasStartedLoop = useRef(false)
 
   const sounds = {
     loop: parse(useSound('./sounds/loop.wav', { loop: true, volume: 0.2, onload })),
@@ -26,10 +30,18 @@ export function SoundBoard() {
 
     setContext(Howler.ctx)
     setSounds(sounds)
-    sounds.loop.play()
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loaded, toLoad])
+
+  useEffect(() => {
+    if (loaded < toLoad) return
+    if (status !== GameStatus.PLAYING) return
+    if (hasStartedLoop.current) return
+
+    sounds.loop.play()
+    hasStartedLoop.current = true
+  }, [loaded, toLoad, status, sounds])
 
   useEffect(() => {
     Howler.volume(muted ? 0 : 1)
