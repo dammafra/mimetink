@@ -85,7 +85,7 @@ export function CoralBlock({ blockType, delay, color, moves, ...props }: CoralBl
                     depthWrite={false}
                   />
                   <Text
-                    font="/fonts/coiny.ttf"
+                    font="/fonts/dyna-puff.ttf"
                     scale={0.5}
                     outlineColor={new Color(finalColor).multiply(new Color('#666666'))}
                     outlineWidth={0.2}

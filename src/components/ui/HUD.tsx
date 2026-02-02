@@ -59,7 +59,7 @@ export function HUD() {
   return (
     <>
       {/* Top Center: Level Indicator */}
-      <div className="animate-in zoom-in-50 fixed max-md:bottom-6 md:top-6 max-md:left-6 md:right-1/2 z-100 md:translate-x-1/2 rounded-2xl border border-white/20 bg-white/15 px-6 py-3 text-xl tracking-widest text-white shadow-2xl backdrop-blur-md pointer-events-none">
+      <div className="font-bold animate-in zoom-in-50 fixed max-md:bottom-6 md:top-6 max-md:left-6 md:right-1/2 z-100 md:translate-x-1/2 rounded-2xl border border-white/20 bg-white/15 px-6 py-3 text-xl tracking-widest text-white shadow-2xl backdrop-blur-md pointer-events-none">
         LEVEL {currentLevelIndex + 1}
       </div>
 
@@ -68,10 +68,10 @@ export function HUD() {
         <Objectives objectives={objectives} currentMoves={currentMoves} maxMoves={maxMoves} />
         {!!vitalMovesLeft && (
           <div className="mt-2 flex items-center gap-2 border-t border-white/10 pt-2 animate-in slide-in-from-left-2">
-            <span className="flex size-2 animate-pulse rounded-full bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.8)]" />
-            <span className="text-xs text-red-400 uppercase">
-              {vitalMovesLeft === 1 ? '1 algal symbiont' : `${vitalMovesLeft} algal symbionts`}{' '}
-              remaining
+            <span className="flex size-3 animate-pulse rounded-full bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.8)]" />
+            <span className="text-sm text-red-400">
+              {vitalMovesLeft === 1 ? '1 Algal Symbiont' : `${vitalMovesLeft} Algal Symbionts`}{' '}
+              Remaining
             </span>
           </div>
         )}
@@ -134,16 +134,15 @@ export function HUD() {
 
       {/* Level Failed Overlay */}
       {showFailureOverlay && (
-        <div className="fixed flex-col inset-0 z-1000 flex items-center justify-center backdrop-blur-sm transition-all duration-700 animate-in fade-in bg-black/60">
-          <h2 className="text-center mb-2 bg-linear-to-r from-red-400 to-orange-500 bg-clip-text text-5xl tracking-widest text-transparent">
+        <div className="font-bold fixed flex-col inset-0 z-1000 flex items-center justify-center gap-5 backdrop-blur-sm transition-all duration-700 animate-in fade-in bg-black/60">
+          <h2 className="px-4 text-center mb-2 bg-linear-to-r from-red-400 to-orange-500 bg-clip-text text-5xl tracking-widest text-transparent">
             LEVEL FAILED
           </h2>
-          <p className="mb-6 text-lg opacity-80 text-white">You were spotted!</p>
 
           <div className="flex gap-4 justify-center">
             <button
               onClick={restartLevel}
-              className="cursor-pointer rounded-2xl bg-white/15 px-8 py-3 text-lg text-white border border-white/20 transition-all duration-300 hover:bg-white/30 hover:scale-105 active:bg-white/30 active:scale-105"
+              className="cursor-pointer rounded-2xl bg-white/15 px-8 py-3 text-xl text-white border border-white/20 transition-all duration-300 hover:bg-white/30 hover:scale-105 active:bg-white/30 active:scale-105"
             >
               RETRY
             </button>
