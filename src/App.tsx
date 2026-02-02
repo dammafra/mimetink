@@ -10,8 +10,8 @@ export default function App() {
       <DoubleTapPreventer />
 
       <StrictMode>
-        <UI />
         <Experience />
+        <UI />
       </StrictMode>
     </>
   )
