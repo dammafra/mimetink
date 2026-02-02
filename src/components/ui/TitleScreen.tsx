@@ -19,6 +19,17 @@ export function TitleScreen() {
       >
         ▶︎
       </button>
+
+      <a
+        className="fixed bottom-10 flex items-center gap-2 cursor-pointer group animate-in fade-in slide-in-from-bottom-4 duration-1000"
+        href="https://globalgamejam.org/games/2026/mimetink-0"
+        target="_blank"
+      >
+        <div className="text-3xl border border-white/20 bg-white/15 rounded-full size-10 transition-all duration-300 group-hover:scale-105 group-hover:bg-teal-600 group-active:scale-105 group-active:bg-teal-600 outline-none backdrop-blur-md ">
+          ℹ
+        </div>
+        <p className="tracking-widest uppercase">credits</p>
+      </a>
     </div>
   )
 }
