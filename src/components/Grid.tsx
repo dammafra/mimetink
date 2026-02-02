@@ -1,15 +1,17 @@
 import { Suspense, useEffect, useMemo } from 'react'
-import { levels } from '../logic/levels'
-import { BlockType, useGameStore } from '../stores'
-import { CollectibleBlock } from './blocks/CollectibleBlock'
-import { CoralBlock } from './blocks/CoralBlock'
-import { EndBlock } from './blocks/EndBlock'
-import { EnemyBlock } from './blocks/EnemyBlock'
-import { MimeticBlock } from './blocks/MimeticBlock'
-import { SandBlock } from './blocks/SandBlock'
 
-import { StartBlock } from './blocks/StartBlock'
-import { Dynamic } from './helpers'
+import {
+  CollectibleBlock,
+  CoralBlock,
+  EndBlock,
+  EnemyBlock,
+  MimeticBlock,
+  SandBlock,
+  StartBlock,
+} from '@components/blocks'
+import { Dynamic } from '@components/helpers'
+import { BlockType, levels } from '@config'
+import { useGameStore } from '@stores'
 
 const componentsMap = {
   [BlockType.Sand]: SandBlock,

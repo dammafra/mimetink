@@ -2,9 +2,10 @@ import type { CameraControlsImpl } from '@react-three/drei'
 import { useFrame, useThree } from '@react-three/fiber'
 import { useEffect, useRef } from 'react'
 import { Box3, MathUtils, Vector3 } from 'three'
-import { useGameStore } from '../stores'
 
-export function FitCamera() {
+import { useGameStore } from '@stores'
+
+export function CameraRig() {
   const gridDimensions = useGameStore(state => state.gridDimensions)
   const isGridReady = useGameStore(state => state.isGridReady)
   const { size, viewport, controls } = useThree()
@@ -30,7 +31,7 @@ export function FitCamera() {
     })
     cameraControls.rotatePolarTo(MathUtils.degToRad(35))
     cameraControls.rotateAzimuthTo(MathUtils.degToRad(-15))
-    cameraControls.moveTo(0, viewport.aspect < 1 ? 5 : 1, 0, true)
+    cameraControls.moveTo(0, viewport.aspect < 1 ? 3 : 1, 0, true)
 
     lastDimensions.current = gridDimensions
   }

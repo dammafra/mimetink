@@ -1,5 +1,5 @@
+import { useGameStore } from '@stores'
 import React, { useEffect, useRef } from 'react'
-import { useGameStore } from '../stores/use-game'
 
 export const IntroVideo: React.FC = () => {
   const videoRef = useRef<HTMLVideoElement>(null)

@@ -1,9 +1,11 @@
 import { animated, useSpring } from '@react-spring/three'
 import { useTexture } from '@react-three/drei'
-import { useEffect, type JSX } from 'react'
+import { type JSX, useEffect } from 'react'
 import { DoubleSide, MathUtils, SRGBColorSpace } from 'three'
-import { BLOCK_CONFIG, BlockType } from '../../constants/game'
-import { useGameStore } from '../../stores'
+
+import { BLOCK_CONFIG, BlockType } from '@config'
+import { useGameStore } from '@stores'
+
 import { BaseBlock } from './BaseBlock'
 
 type EndBlockProps = JSX.IntrinsicElements['group'] & {

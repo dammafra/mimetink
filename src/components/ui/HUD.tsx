@@ -1,5 +1,7 @@
-import { GameStatus, useGameStore } from '@stores'
-import { Objectives, type Objective } from './Objectives'
+import { GameStatus } from '@config'
+import { useGameStore } from '@stores'
+
+import { type Objective, Objectives } from './Objectives'
 
 export function HUD() {
   const status = useGameStore(state => state.status)

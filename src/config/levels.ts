@@ -1,4 +1,4 @@
-import { BlockType } from '../constants/game'
+import { BlockType } from './game'
 
 export type GridCell =
   | BlockType

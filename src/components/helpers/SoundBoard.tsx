@@ -1,11 +1,12 @@
-import { useSoundBoard, type ReturnedValue } from '@stores'
 import { Howler } from 'howler'
 import { useEffect, useState } from 'react'
 import useSound from 'use-sound'
 
+import { useSoundBoard, type ReturnedValue } from '@stores'
+
 const parse = ([play, data]: ReturnedValue) => ({ play, ...data })
 
-export default function SoundBoard() {
+export function SoundBoard() {
   const setContext = useSoundBoard(state => state.setContext)
   const setSounds = useSoundBoard(state => state.setSounds)
   const muted = useSoundBoard(state => state.muted)

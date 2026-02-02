@@ -1,14 +1,20 @@
-import { Canvas, Helpers } from '@components/helpers'
-import { useDebug } from '@hooks'
-import { CameraControls, CameraControlsImpl, Hud, PerspectiveCamera } from '@react-three/drei'
+import { CameraControls, CameraControlsImpl } from '@react-three/drei'
 import { PCFShadowMap } from 'three'
+
+import { Canvas, Helpers, SoundBoard } from '@components/helpers'
+import { GameStatus } from '@config'
+import { useDebug } from '@hooks'
+import { useGameStore } from '@stores'
+
+import { CameraRig } from './CameraRig'
 import { Caustics } from './Caustics'
-import { FitCamera } from './FitCamera'
 import { World } from './World'
-import SoundBoard from './helpers/SoundBoard'
 
 export function Experience() {
   const debug = useDebug()
+  const status = useGameStore(state => state.status)
+
+  if (status === GameStatus.INTRO) return null
 
   return (
     <Canvas
@@ -40,17 +46,13 @@ export function Experience() {
               }
         }
       />
-      <FitCamera />
+
+      <CameraRig />
+      <Caustics />
       <World />
-      <Helpers />
 
       <SoundBoard />
-
-      <Hud>
-        <Caustics />
-        {/* <Bubbles /> */}
-        <PerspectiveCamera makeDefault position={[0, 0, 15]} />
-      </Hud>
+      <Helpers />
     </Canvas>
   )
 }

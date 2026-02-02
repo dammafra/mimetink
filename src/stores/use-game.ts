@@ -1,6 +1,6 @@
 import { create } from 'zustand'
-import { BLOCK_CONFIG, BlockType, GameStatus } from '../constants/game'
-import { levels, type GridCell } from '../logic/levels'
+
+import { BLOCK_CONFIG, BlockType, GameStatus, levels, type GridCell } from '@config'
 
 interface GameState {
   currentLevelIndex: number

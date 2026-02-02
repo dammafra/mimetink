@@ -1,7 +1,8 @@
 import { useIsTouch } from '@hooks'
 import { Html, KeyboardControls } from '@react-three/drei'
-import { useController } from '@stores'
 import { useRef, type PropsWithChildren } from 'react'
+
+import { useController } from '@stores'
 
 export function Controller({ children }: PropsWithChildren) {
   const isTouch = useIsTouch()

@@ -1,4 +1,6 @@
-import { GameStatus, useGameStore } from '@stores'
+import { GameStatus } from '@config'
+import { useGameStore } from '@stores'
+
 import { Grid } from './Grid'
 import { Player } from './Player'
 

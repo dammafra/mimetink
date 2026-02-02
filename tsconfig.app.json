@@ -27,6 +27,7 @@
     "paths": {
       "@components": ["./src/components/index.ts"],
       "@components/*": ["./src/components/*"],
+      "@config": ["./src/config/index.ts"],
       "@hooks": ["./src/hooks/index.ts"],
       "@logic": ["./src/logic/index.ts"],
       "@stores": ["./src/stores/index.ts"],

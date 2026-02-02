@@ -1,5 +1,6 @@
+import { GameStatus } from '@config'
 import { useIsTouch } from '@hooks'
-import { GameStatus, useGameStore } from '@stores'
+import { useGameStore } from '@stores'
 
 export function ControlsOverlay() {
   const isTouch = useIsTouch()

@@ -1,5 +1,7 @@
 import { type JSX } from 'react'
-import { BLOCK_CONFIG, BlockType } from '../../constants/game'
+
+import { BLOCK_CONFIG, BlockType } from '@config'
+
 import { AlgaFloor } from './AlgaFloor'
 import { BaseBlock } from './BaseBlock'
 

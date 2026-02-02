@@ -1,5 +1,5 @@
 import { useSpring } from '@react-spring/three'
-import { useTexture } from '@react-three/drei'
+import { Hud, PerspectiveCamera, useTexture } from '@react-three/drei'
 import { useFrame } from '@react-three/fiber'
 import { useRef } from 'react'
 import {
@@ -74,36 +74,39 @@ export function Caustics() {
   })
 
   return (
-    <group>
-      {/* Primo layer */}
-      <mesh ref={meshRef1} position={[0, 5, 0]} scale={[50, 50, 1]}>
-        <planeGeometry />
-        <meshBasicMaterial
-          map={causticsTexture}
-          transparent
-          opacity={0} // Will be animated by spring
-          side={DoubleSide}
-          depthWrite={false}
-          blending={NormalBlending}
-        />
-      </mesh>
-      {/* Secondo layer con leggero offset per il drift */}
-      <mesh
-        ref={meshRef2}
-        position={[0, 5.01, 0]} // Leggerissimo offset verticale
-        scale={[50, 50, 1]}
-      >
-        <planeGeometry />
-        <meshBasicMaterial
-          map={causticsTexture2}
-          transparent
-          opacity={0} // Will be animated by spring
-          side={DoubleSide}
-          depthWrite={false}
-          blending={NormalBlending}
-        />
-      </mesh>
-    </group>
+    <Hud>
+      <PerspectiveCamera makeDefault position={[0, 0, 15]} />
+      <group>
+        {/* Primo layer */}
+        <mesh ref={meshRef1} position={[0, 5, 0]} scale={[50, 50, 1]}>
+          <planeGeometry />
+          <meshBasicMaterial
+            map={causticsTexture}
+            transparent
+            opacity={0} // Will be animated by spring
+            side={DoubleSide}
+            depthWrite={false}
+            blending={NormalBlending}
+          />
+        </mesh>
+        {/* Secondo layer con leggero offset per il drift */}
+        <mesh
+          ref={meshRef2}
+          position={[0, 5.01, 0]} // Leggerissimo offset verticale
+          scale={[50, 50, 1]}
+        >
+          <planeGeometry />
+          <meshBasicMaterial
+            map={causticsTexture2}
+            transparent
+            opacity={0} // Will be animated by spring
+            side={DoubleSide}
+            depthWrite={false}
+            blending={NormalBlending}
+          />
+        </mesh>
+      </group>
+    </Hud>
   )
 }
 

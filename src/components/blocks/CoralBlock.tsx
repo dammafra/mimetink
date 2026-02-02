@@ -1,11 +1,13 @@
 import { animated, config as springConfig, useSpring } from '@react-spring/three'
 import { Billboard, Float, Sparkles, Text, useTexture } from '@react-three/drei'
 import { useFrame } from '@react-three/fiber'
-import { randomOneOf } from '@utils'
 import { useEffect, useMemo, useRef, useState, type JSX } from 'react'
 import { Group, MathUtils, SRGBColorSpace } from 'three'
-import { BLOCK_CONFIG, BlockType } from '../../constants/game'
-import { useGameStore } from '../../stores/use-game'
+
+import { BLOCK_CONFIG, BlockType } from '@config'
+import { useGameStore } from '@stores'
+import { randomOneOf } from '@utils'
+
 import { AlgaFloor } from './AlgaFloor'
 import { BaseBlock } from './BaseBlock'
 
@@ -68,7 +70,7 @@ export function CoralBlock({ blockType, delay, color, moves, ...props }: CoralBl
     <BaseBlock color={finalColor} delay={delay} {...props}>
       <group ref={groupRef}>
         {blockType === BlockType.VitalCoral && isScaledIn && (
-          <Sparkles color={finalColor} scale={1} size={20} />
+          <Sparkles color={finalColor} scale={1} size={20} position-y={0.25} />
         )}
         {blockType === BlockType.VitalCoral && !!moves && (
           <animated.group position={[0, 0.5, 0]} scale={scale}>

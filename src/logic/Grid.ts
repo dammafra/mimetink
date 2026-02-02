@@ -1,6 +1,6 @@
 import { Vector3 } from 'three'
-import { BlockType } from '../constants/game'
-import type { GridCell } from './levels'
+
+import { BlockType, type GridCell } from '@config'
 
 export class Grid {
   rows: number

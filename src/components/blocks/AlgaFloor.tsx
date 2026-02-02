@@ -1,5 +1,5 @@
 import { useTexture } from '@react-three/drei'
-import { useFrame } from '@react-three/fiber' // Importa useFrame
+import { useFrame } from '@react-three/fiber'
 import { useEffect, useMemo, useRef } from 'react'
 import {
   DoubleSide,

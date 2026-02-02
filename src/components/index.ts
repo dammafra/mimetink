@@ -1,7 +1,1 @@
-export * from './ControlsOverlay'
 export * from './Experience'
-export * from './HUD'
-export * from './IntroVideo'
-export * from './Objectives'
-export * from './StartScreen'
-export * from './TutorialOverlay'

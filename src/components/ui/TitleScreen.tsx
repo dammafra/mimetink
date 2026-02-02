@@ -1,6 +1,7 @@
-import { GameStatus, useGameStore } from '@stores'
+import { GameStatus } from '@config'
+import { useGameStore } from '@stores'
 
-export function StartScreen() {
+export function TitleScreen() {
   const startGame = useGameStore(state => state.startGame)
   const status = useGameStore(state => state.status)
 

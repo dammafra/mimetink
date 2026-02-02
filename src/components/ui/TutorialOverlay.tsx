@@ -1,7 +1,8 @@
-import { useIsTouch } from '@hooks'
 import React from 'react'
-import { levels } from '../logic/levels'
-import { useGameStore } from '../stores'
+
+import { levels } from '@config'
+import { useIsTouch } from '@hooks'
+import { useGameStore } from '@stores'
 
 export const TutorialOverlay: React.FC = () => {
   const currentLevelIndex = useGameStore(state => state.currentLevelIndex)

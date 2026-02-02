@@ -1,4 +1,5 @@
 import { Vector3 } from 'three'
+
 import { Grid } from './Grid'
 
 export class Player {

@@ -1,13 +1,13 @@
 import { animated, useSpring } from '@react-spring/three'
 import { Sparkles } from '@react-three/drei'
 import { useFrame } from '@react-three/fiber'
-import { GameStatus, useController, useGameStore, useSoundBoard } from '@stores'
 import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
-import { Group, MathUtils } from 'three'
-import { Grid } from '../logic/Grid'
-import { Player as PlayerLogic } from '../logic/Player'
-import { Controller } from './Controller'
-import { SpriteAnimator } from './helpers'
+import { MathUtils, type Group } from 'three'
+
+import { Controller, SpriteAnimator } from '@components/helpers'
+import { GameStatus } from '@config'
+import { Grid, Player as PlayerLogic } from '@logic'
+import { useController, useGameStore, useSoundBoard } from '@stores'
 
 const OCTOPUS_SPRITES = [
   '/sprites/octopus/01.png',

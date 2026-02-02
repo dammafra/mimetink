@@ -1,8 +1,10 @@
 import { useTexture } from '@react-three/drei'
-import { randomOneOf } from '@utils'
-import { useEffect, useMemo, type JSX } from 'react'
+import { type JSX, useEffect, useMemo } from 'react'
 import { MathUtils, SRGBColorSpace } from 'three'
-import { BLOCK_CONFIG, BlockType } from '../../constants/game'
+
+import { BLOCK_CONFIG, BlockType } from '@config'
+import { randomOneOf } from '@utils'
+
 import { BaseBlock } from './BaseBlock'
 
 export function SandBlock({

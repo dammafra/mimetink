@@ -1,8 +1,10 @@
-import { SpriteAnimator } from '@components/helpers'
-import { randomInt } from '@utils'
 import { type JSX } from 'react'
 import { MathUtils } from 'three'
-import { BLOCK_CONFIG, BlockType } from '../../constants/game'
+
+import { SpriteAnimator } from '@components/helpers'
+import { BLOCK_CONFIG, BlockType } from '@config'
+import { randomInt } from '@utils'
+
 import { AlgaFloor } from './AlgaFloor'
 import { BaseBlock } from './BaseBlock'
 
