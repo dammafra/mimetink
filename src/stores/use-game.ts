@@ -8,6 +8,8 @@ interface GameState {
   grid: GridCell[][]
   gridDimensions: { rows: number; cols: number }
   playerColor: string
+  playerCol: number
+  playerRow: number
   isLevelCompleted: boolean
   restartKey: number
   isGridReady: boolean
@@ -21,6 +23,7 @@ interface GameState {
   isCollected: boolean
   currentTutorialStep: number | null
   showTutorial: boolean
+  lastVitalCoralWithOriginalColor: { col: number; row: number } | null
 
   startGame: () => void
   finishIntro: () => void
@@ -41,17 +44,35 @@ const checkLevelCompletion = (grid: GridCell[][]) => {
   )
 }
 
+const getInitialPlayerPosition = (grid: GridCell[][]) => {
+  for (let row = 0; row < grid.length; row++) {
+    for (let col = 0; col < grid[row].length; col++) {
+      const cell = grid[row][col]
+      const type = typeof cell === 'object' ? cell.type : cell
+      if (type === BlockType.Start) {
+        return { col, row }
+      }
+    }
+  }
+  return { col: 0, row: 0 }
+}
+
 const startLevelIndex = 0
+const initialLevel = levels[startLevelIndex]
+const initialPos = getInitialPlayerPosition(initialLevel.grid)
+
 export const useGameStore = create<GameState>((set, get) => ({
   currentLevelIndex: startLevelIndex,
   status: GameStatus.READY,
-  grid: levels[startLevelIndex].grid,
+  grid: initialLevel.grid,
   gridDimensions: {
-    rows: levels[startLevelIndex].grid.length,
-    cols: levels[startLevelIndex].grid[0]?.length || 0,
+    rows: initialLevel.grid.length,
+    cols: initialLevel.grid[0]?.length || 0,
   },
-  playerColor: 'orange',
-  isLevelCompleted: checkLevelCompletion(levels[startLevelIndex].grid),
+  playerColor: '#FB732A',
+  playerCol: initialPos.col,
+  playerRow: initialPos.row,
+  isLevelCompleted: checkLevelCompletion(initialLevel.grid),
   restartKey: 0,
   isGridReady: false,
   isExiting: false,
@@ -64,6 +85,7 @@ export const useGameStore = create<GameState>((set, get) => ({
   vitalMovesLeft: 0,
   currentTutorialStep: levels[startLevelIndex].tutorialSteps ? 0 : null,
   showTutorial: !!levels[startLevelIndex].tutorialSteps,
+  lastVitalCoralWithOriginalColor: null,
 
   startGame: () =>
     set({
@@ -103,13 +125,16 @@ export const useGameStore = create<GameState>((set, get) => ({
   restartLevel: () => {
     const { currentLevelIndex } = get()
     const level = levels[currentLevelIndex]
+    const initialPos = getInitialPlayerPosition(level.grid)
     set({
       status: GameStatus.PLAYING,
       grid: level.grid,
       gridDimensions: { rows: level.grid.length, cols: level.grid[0]?.length || 0 },
       isLevelCompleted: checkLevelCompletion(level.grid),
       restartKey: get().restartKey + 1,
-      playerColor: 'orange',
+      playerColor: '#FB732A',
+      playerCol: initialPos.col,
+      playerRow: initialPos.row,
       isGridReady: false,
       isExiting: false,
       showCompletionOverlay: false,
@@ -121,6 +146,7 @@ export const useGameStore = create<GameState>((set, get) => ({
       vitalMovesLeft: 0,
       currentTutorialStep: level.tutorialSteps ? 0 : null,
       showTutorial: !!level.tutorialSteps,
+      lastVitalCoralWithOriginalColor: null,
     })
   },
 
@@ -128,6 +154,7 @@ export const useGameStore = create<GameState>((set, get) => ({
     const { currentLevelIndex } = get()
     const nextIndex = (currentLevelIndex + 1) % levels.length
     const level = levels[nextIndex]
+    const initialPos = getInitialPlayerPosition(level.grid)
 
     set({
       currentLevelIndex: nextIndex,
@@ -136,7 +163,9 @@ export const useGameStore = create<GameState>((set, get) => ({
       gridDimensions: { rows: level.grid.length, cols: level.grid[0]?.length || 0 },
       isLevelCompleted: checkLevelCompletion(level.grid),
       restartKey: get().restartKey + 1,
-      playerColor: 'orange',
+      playerColor: '#FB732A',
+      playerCol: initialPos.col,
+      playerRow: initialPos.row,
       isGridReady: false,
       isExiting: false,
       showCompletionOverlay: false,
@@ -148,6 +177,7 @@ export const useGameStore = create<GameState>((set, get) => ({
       vitalMovesLeft: 0,
       currentTutorialStep: level.tutorialSteps ? 0 : null,
       showTutorial: !!level.tutorialSteps,
+      lastVitalCoralWithOriginalColor: null,
     })
   },
 
@@ -156,7 +186,12 @@ export const useGameStore = create<GameState>((set, get) => ({
   setPlayerColor: color => set({ playerColor: color }),
 
   onPlayerMove: (col, row) => {
-    const { grid, currentMoves, vitalMovesLeft: currentVitalMoves } = get()
+    const {
+      grid,
+      currentMoves,
+      vitalMovesLeft: currentVitalMoves,
+      playerColor: currentPlayerColor,
+    } = get()
     const cell = grid[row][col]
     const blockType = typeof cell === 'object' ? cell.type : cell
 
@@ -165,7 +200,7 @@ export const useGameStore = create<GameState>((set, get) => ({
 
     // Reset color IF starting the move with 0 energy and not landing on VitalCoral
     if (!powerAtStart && blockType !== BlockType.VitalCoral) {
-      set({ playerColor: 'orange' })
+      set({ playerColor: '#FB732A', playerCol: col, playerRow: row })
     }
 
     // 3. Update Move Counters
@@ -176,10 +211,16 @@ export const useGameStore = create<GameState>((set, get) => ({
       // Gain or refresh power
       const moves = typeof cell === 'object' ? cell.moves : undefined
       const vitalMoves = moves !== undefined ? moves : null
+      // Check if player entered with original color
+      const enteredWithOriginalColor = currentPlayerColor === '#FB732A'
       set({
         currentMoves: newMoveCount,
         playerColor: BLOCK_CONFIG[BlockType.VitalCoral].color,
         vitalMovesLeft: vitalMoves,
+        playerCol: col,
+        playerRow: row,
+        // Store this info for sparkles animation
+        lastVitalCoralWithOriginalColor: enteredWithOriginalColor ? { col, row } : null,
       })
     } else {
       // Deplete power if numeric
@@ -190,6 +231,8 @@ export const useGameStore = create<GameState>((set, get) => ({
       set({
         currentMoves: newMoveCount,
         vitalMovesLeft: nextVitalMoves,
+        playerCol: col,
+        playerRow: row,
       })
     }
 

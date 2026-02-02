@@ -30,15 +30,51 @@ export type CoralBlockProps = JSX.IntrinsicElements['group'] & {
   delay?: number
   color?: string
   moves?: number
+  col?: number
+  row?: number
 }
 
-export function CoralBlock({ blockType, delay, color, moves, ...props }: CoralBlockProps) {
+export function CoralBlock({
+  blockType,
+  delay,
+  color,
+  moves,
+  col,
+  row,
+  ...props
+}: CoralBlockProps) {
   const vitalMovesLeft = useGameStore(state => state.vitalMovesLeft)
+  const playerCol = useGameStore(state => state.playerCol)
+  const playerRow = useGameStore(state => state.playerRow)
   const coralSprites = useTexture(CORAL_SPRITES)
   const groupRef = useRef<Group>(null)
   const [isScaledIn, setIsScaledIn] = useState(false)
 
+  const sparklesRef = useRef<Group>(null)
+  const [sparklesRotation, setSparklesRotation] = useState(0)
+  const rotationStartTime = useRef<number | null>(null)
+
   const coralSprite = useMemo(() => randomOneOf(coralSprites), [coralSprites])
+
+  // Check if player is on this block
+  const isPlayerOnThisBlock =
+    blockType === BlockType.VitalCoral &&
+    col !== undefined &&
+    row !== undefined &&
+    playerCol === col &&
+    playerRow === row
+
+  // Start rotation when player enters, reset when exits
+  useEffect(() => {
+    if (isPlayerOnThisBlock) {
+      if (rotationStartTime.current === null) {
+        rotationStartTime.current = Date.now()
+      }
+    } else {
+      rotationStartTime.current = null
+      setSparklesRotation(0)
+    }
+  }, [isPlayerOnThisBlock])
 
   useEffect(() => {
     coralSprites.forEach(texture => {
@@ -54,6 +90,13 @@ export function CoralBlock({ blockType, delay, color, moves, ...props }: CoralBl
       const currentScale = parent.scale.x
       setIsScaledIn(currentScale > 0.95)
     }
+
+    // Animate sparkles: rotation while player is on this block
+    if (isPlayerOnThisBlock && sparklesRef.current && rotationStartTime.current !== null) {
+      const elapsed = (Date.now() - rotationStartTime.current) / 1000 // seconds
+      const rotationSpeed = 0.01 // rotations per second (slower)
+      setSparklesRotation(elapsed * rotationSpeed * Math.PI * 2)
+    }
   })
 
   const config = BLOCK_CONFIG[blockType as keyof typeof BLOCK_CONFIG]
@@ -66,11 +109,25 @@ export function CoralBlock({ blockType, delay, color, moves, ...props }: CoralBl
     config: springConfig.wobbly,
   })
 
+  // Spring animation for sparkles: Y position (rise when player is on block)
+  const { sparklesY, sparklesScale } = useSpring({
+    sparklesY: isPlayerOnThisBlock ? 0.8 : 0.25,
+    sparklesScale: isPlayerOnThisBlock ? 0.8 : 1,
+    config: { mass: 1, tension: 100, friction: 15 }, // Smooth transition
+  })
+
   return (
     <BaseBlock color={finalColor} delay={delay} {...props}>
       <group ref={groupRef}>
         {blockType === BlockType.VitalCoral && isScaledIn && (
-          <Sparkles color={finalColor} scale={1} size={20} position-y={0.25} />
+          <animated.group
+            ref={sparklesRef}
+            scale={sparklesScale}
+            rotation-y={sparklesRotation}
+            position-y={sparklesY}
+          >
+            <Sparkles color={finalColor} scale={1} size={20} position-y={0} />
+          </animated.group>
         )}
         {blockType === BlockType.VitalCoral && !!moves && (
           <animated.group position={[0, 0.5, 0]} scale={scale}>

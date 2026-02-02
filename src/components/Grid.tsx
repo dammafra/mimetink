@@ -102,6 +102,8 @@ export function Grid() {
                   position={[column - centerX, 0, row - centerZ] as [number, number, number]}
                   delay={delays[row][column]}
                   isExiting={isExiting}
+                  col={column}
+                  row={row}
                   {...cellProps}
                 />
               </Suspense>
