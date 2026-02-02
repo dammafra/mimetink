@@ -16,7 +16,7 @@ export type BlockType = (typeof BlockType)[keyof typeof BlockType]
 export const BLOCK_CONFIG = {
   [BlockType.Sand]: { color: '#deaa66' },
   [BlockType.Start]: { color: 'teal' },
-  [BlockType.End]: { color: 'teal' },
+  [BlockType.End]: { color: '#8D8F7F' },
   [BlockType.VitalCoral]: { color: '#FF6F61' },
   [BlockType.DeadCoral]: { color: '#D3D3D3' },
   [BlockType.ActivatedDeadCoral]: { color: '#FF6F61' },

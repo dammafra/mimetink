@@ -56,14 +56,7 @@ export function CoralBlock({ blockType, delay, color, moves, ...props }: CoralBl
     <BaseBlock color={finalColor} delay={delay} {...props}>
       {blockType === BlockType.VitalCoral && (
         <>
-          <Sparkles
-            color={finalColor}
-            scale={0.8}
-            size={30}
-            count={10}
-            position-y={1}
-            material-depthWrite={false}
-          />
+          <Sparkles color={finalColor} scale={1} size={20} />
           {!!moves && (
             <animated.group position={[0, 0.5, 0]} scale={scale}>
               <Billboard>

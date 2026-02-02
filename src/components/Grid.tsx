@@ -28,6 +28,7 @@ export function Grid() {
   const setGridReady = useGameStore(state => state.setGridReady)
   const restartKey = useGameStore(state => state.restartKey)
   const currentLevelIndex = useGameStore(state => state.currentLevelIndex)
+  const isExiting = useGameStore(state => state.isExiting)
   const currentTutorialStep = useGameStore(state => state.currentTutorialStep)
   const showTutorial = useGameStore(state => state.showTutorial)
 
@@ -43,9 +44,33 @@ export function Grid() {
     return step?.visibleBlocks || null
   }, [showTutorial, currentTutorialStep, currentLevelIndex])
 
+  // Find End block for exit animation
+  const endBlockPosition = useMemo(() => {
+    let pos = { row: 0, col: 0 }
+    level.forEach((row, rIndex) => {
+      row.forEach((cell, cIndex) => {
+        const type = typeof cell === 'object' ? cell.type : cell
+        if (type === BlockType.End) {
+          pos = { row: rIndex, col: cIndex }
+        }
+      })
+    })
+    return pos
+  }, [level])
+
   const delays = useMemo(() => {
+    if (isExiting) {
+      return level.map((row, rIndex) =>
+        row.map((_, cIndex) => {
+          // Manhattan distance from End block
+          const dist =
+            Math.abs(rIndex - endBlockPosition.row) + Math.abs(cIndex - endBlockPosition.col)
+          return dist * 100 // Wave propagation speed
+        }),
+      )
+    }
     return level.map(row => row.map((_, col) => col * 150))
-  }, [level, restartKey])
+  }, [level, restartKey, isExiting, endBlockPosition])
 
   useEffect(() => {
     const maxDelay = cols * 150
@@ -74,6 +99,7 @@ export function Grid() {
                   blockType={type}
                   position={[column - centerX, 0, row - centerZ] as [number, number, number]}
                   delay={delays[row][column]}
+                  isExiting={isExiting}
                   {...cellProps}
                 />
               </Suspense>

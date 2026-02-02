@@ -1,4 +1,4 @@
-import { Float, useTexture } from '@react-three/drei'
+import { Float, Sparkles, useTexture } from '@react-three/drei'
 import { useGameStore } from '@stores'
 import { useEffect, type JSX } from 'react'
 import { MathUtils, SRGBColorSpace } from 'three'
@@ -19,12 +19,15 @@ export function CollectibleBlock(
   return (
     <SandBlock {...props}>
       {!collected && (
-        <Float rotationIntensity={0} speed={10}>
-          <mesh rotation-x={MathUtils.degToRad(-35)} position-y={0.4} scale={0.5}>
-            <planeGeometry />
-            <meshMatcapMaterial map={sprite} transparent depthTest={false} depthWrite={false} />
-          </mesh>
-        </Float>
+        <>
+          <Sparkles scale={1} size={20} />
+          <Float rotationIntensity={0} speed={10}>
+            <mesh rotation-x={MathUtils.degToRad(-35)} position-y={0.4} scale={0.5}>
+              <planeGeometry />
+              <meshMatcapMaterial map={sprite} transparent depthTest={false} depthWrite={false} />
+            </mesh>
+          </Float>
+        </>
       )}
     </SandBlock>
   )

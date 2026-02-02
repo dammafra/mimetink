@@ -1,4 +1,5 @@
 import { SpriteAnimator } from '@components/helpers'
+import { randomInt } from '@utils'
 import { type JSX } from 'react'
 import { MathUtils } from 'three'
 import { BLOCK_CONFIG, BlockType } from '../../constants/game'
@@ -17,7 +18,7 @@ export function EnemyBlock({
         rotation={[MathUtils.degToRad(-35), 0, 0]}
         position-y={0.5}
         position-z={-0.1}
-        fps={5}
+        fps={randomInt(5, 8)}
         paths={[
           '/sprites/crab/01.png',
           '/sprites/crab/02.png',

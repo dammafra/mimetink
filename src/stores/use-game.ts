@@ -11,6 +11,7 @@ interface GameState {
   isLevelCompleted: boolean
   restartKey: number
   isGridReady: boolean
+  isExiting: boolean
   showCompletionOverlay: boolean
   showFailureOverlay: boolean
   currentMoves: number
@@ -53,6 +54,7 @@ export const useGameStore = create<GameState>((set, get) => ({
   isLevelCompleted: checkLevelCompletion(levels[startLevelIndex].grid),
   restartKey: 0,
   isGridReady: false,
+  isExiting: false,
   showCompletionOverlay: false,
   showFailureOverlay: false,
   currentMoves: 0,
@@ -68,6 +70,7 @@ export const useGameStore = create<GameState>((set, get) => ({
       status: GameStatus.INTRO,
       isGridReady: false,
       showCompletionOverlay: false,
+      isExiting: false,
       showFailureOverlay: false,
       isCollected: false,
       currentMoves: 0,
@@ -106,6 +109,7 @@ export const useGameStore = create<GameState>((set, get) => ({
       restartKey: get().restartKey + 1,
       playerColor: 'orange',
       isGridReady: false,
+      isExiting: false,
       showCompletionOverlay: false,
       showFailureOverlay: false,
       currentMoves: 0,
@@ -132,6 +136,7 @@ export const useGameStore = create<GameState>((set, get) => ({
       restartKey: get().restartKey + 1,
       playerColor: 'orange',
       isGridReady: false,
+      isExiting: false,
       showCompletionOverlay: false,
       showFailureOverlay: false,
       currentMoves: 0,
@@ -203,9 +208,22 @@ export const useGameStore = create<GameState>((set, get) => ({
     // Interaction 3: Reaching the End block
     if (blockType === BlockType.End) {
       set({ status: GameStatus.COMPLETED })
+
+      // Wait for player exit animation to complete (~1500ms)
+      const playerExitDuration = 1500
+
       setTimeout(() => {
-        set({ showCompletionOverlay: true })
-      }, 1000)
+        set({ isExiting: true })
+
+        const { gridDimensions } = get()
+        // Calculate max delay for level exit animation
+        const maxDist = gridDimensions.rows + gridDimensions.cols
+        const levelExitTime = maxDist * 100 + 1000
+
+        setTimeout(() => {
+          get().nextLevel()
+        }, levelExitTime)
+      }, playerExitDuration)
     }
 
     // Interaction 4: MimeticBlock/DeadCoral camouflage check

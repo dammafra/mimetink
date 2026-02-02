@@ -8,9 +8,10 @@ import { BaseBlock } from './BaseBlock'
 
 type EndBlockProps = JSX.IntrinsicElements['group'] & {
   delay?: number
+  isExiting?: boolean
 }
 
-export function EndBlock({ delay, ...props }: EndBlockProps) {
+export function EndBlock({ delay, isExiting, ...props }: EndBlockProps) {
   const isLevelCompleted = useGameStore(state => state.isLevelCompleted)
   const sprite = useTexture('/sprites/cave.png')
 
@@ -26,7 +27,7 @@ export function EndBlock({ delay, ...props }: EndBlockProps) {
 
   return (
     <group {...props}>
-      <BaseBlock color={BLOCK_CONFIG[BlockType.End].color} delay={delay}>
+      <BaseBlock color={BLOCK_CONFIG[BlockType.End].color} delay={delay} isExiting={isExiting}>
         <mesh
           rotation={[MathUtils.degToRad(-35), 0, MathUtils.degToRad(-10)]}
           position-y={0.6}

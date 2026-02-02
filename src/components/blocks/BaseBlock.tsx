@@ -6,12 +6,19 @@ import { type ColorRepresentation } from 'three'
 type BaseBlockProps = JSX.IntrinsicElements['group'] & {
   color: ColorRepresentation
   delay?: number
+  isExiting?: boolean
 }
 
-export function BaseBlock({ color, children, delay = 0, ...props }: BaseBlockProps) {
+export function BaseBlock({
+  color,
+  children,
+  delay = 0,
+  isExiting = false,
+  ...props
+}: BaseBlockProps) {
   const { scale } = useSpring({
     from: { scale: 0 },
-    to: { scale: 1 },
+    to: { scale: isExiting ? 0 : 1 },
     delay,
     config: { mass: 1, tension: 280, friction: 20 },
   })
