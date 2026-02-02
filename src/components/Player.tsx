@@ -91,7 +91,14 @@ export function Player() {
   const prevPos = useRef({ col: playerLogic.col, row: playerLogic.row })
 
   useFrame((_, delta) => {
-    if (!ref.current || status === GameStatus.READY || !isGridReady || showTutorial) return
+    if (
+      !ref.current ||
+      status === GameStatus.READY ||
+      status === GameStatus.FAILED ||
+      !isGridReady ||
+      showTutorial
+    )
+      return
 
     const position = ref.current.position
 

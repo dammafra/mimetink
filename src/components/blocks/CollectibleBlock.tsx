@@ -20,8 +20,8 @@ export function CollectibleBlock(
     <SandBlock {...props}>
       {!collected && (
         <>
-          <Sparkles scale={1} size={20} />
-          <Float rotationIntensity={0} speed={10}>
+          <Sparkles scale={0.5} size={30} count={5} position-y={0.5} />
+          <Float rotationIntensity={0} floatIntensity={0.8} speed={10}>
             <mesh rotation-x={MathUtils.degToRad(-35)} position-y={0.4} scale={0.5}>
               <planeGeometry />
               <meshMatcapMaterial map={sprite} transparent depthTest={false} depthWrite={false} />

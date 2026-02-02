@@ -132,21 +132,19 @@ export function HUD() {
 
       {/* Level Failed Overlay */}
       {showFailureOverlay && (
-        <div className="fixed inset-0 z-1000 flex items-center justify-center backdrop-blur-sm transition-all duration-700 animate-in fade-in">
-          <div className="animate-in zoom-in-50 rounded-2xl border border-white/20 bg-white/15 p-12 text-center shadow-2xl backdrop-blur-xl">
-            <h2 className="mb-2 bg-gradient-to-r from-red-400 to-orange-500 bg-clip-text text-5xl font-black tracking-widest text-transparent">
-              LEVEL FAILED
-            </h2>
-            <p className="mb-6 text-lg opacity-80 text-white">You were spotted!</p>
+        <div className="fixed flex-col inset-0 z-1000 flex items-center justify-center backdrop-blur-sm transition-all duration-700 animate-in fade-in bg-black/60">
+          <h2 className="mb-2 bg-linear-to-r from-red-400 to-orange-500 bg-clip-text text-5xl font-black tracking-widest text-transparent">
+            FAILED
+          </h2>
+          <p className="mb-6 text-lg opacity-80 text-white">You were spotted!</p>
 
-            <div className="flex gap-4 justify-center">
-              <button
-                onClick={restartLevel}
-                className="cursor-pointer rounded-2xl bg-white/15 px-8 py-3 text-lg font-bold text-white border border-white/20 transition-all duration-300 hover:bg-white/30 hover:scale-105 active:bg-white/30 active:scale-105"
-              >
-                RETRY
-              </button>
-            </div>
+          <div className="flex gap-4 justify-center">
+            <button
+              onClick={restartLevel}
+              className="cursor-pointer rounded-2xl bg-white/15 px-8 py-3 text-lg font-bold text-white border border-white/20 transition-all duration-300 hover:bg-white/30 hover:scale-105 active:bg-white/30 active:scale-105"
+            >
+              RETRY
+            </button>
           </div>
         </div>
       )}
