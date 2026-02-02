@@ -1,7 +1,7 @@
 import { CameraControls, CameraControlsImpl } from '@react-three/drei'
 import { PCFShadowMap } from 'three'
 
-import { Canvas, Helpers, SoundBoard } from '@components/helpers'
+import { Canvas, Helpers } from '@components/helpers'
 import { GameStatus } from '@config'
 import { useDebug } from '@hooks'
 import { useGameStore } from '@stores'
@@ -51,7 +51,6 @@ export function Experience() {
       <Caustics />
       <World />
 
-      <SoundBoard />
       <Helpers />
     </Canvas>
   )
